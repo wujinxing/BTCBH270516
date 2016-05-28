@@ -1,0 +1,70 @@
+<?php
+/*
+ * Documento   : lock
+ * Creado      : 17-jul-2014
+ * Autor       : ..... .....
+ * Descripcion : 
+ */
+
+$idUsuario = $this->idd;
+$data = $this->data;
+
+$ff = $this->ffinal;
+$fechaTermino = new DateTime($ff);                               
+$ff = $fechaTermino->format('d/m/Y h:i A');
+$usuario = $this->usuario;
+
+?>
+<style>    
+    #login{
+        background: #EDEDED !important;
+    }
+</style>
+<form id="fromchange_pass" name="fromchange_pass" class="lockscreen animated flipInY"  onsubmit="return false;">
+    <img src="<?php echo $rutaLayout['_img']; ?>logo.png" alt="" width="250" height="60" />
+    <div class="logo"></div>
+    <div>
+         <?php     
+            if ($data['foto'] == '' || $data['foto'] == null) {
+                if ($data["sexo"] === 'H'): /*Hombre*/
+                    $imagen = $rutaLayout["_img"] . 'avatars/male.png';
+                else: /*Mujer*/
+                     $imagen = $rutaLayout["_img"] . 'avatars/female.png';
+                endif;                                               
+            } else {
+                $imagen = BASE_URL . 'public/img/fotos/' . $data['foto'];
+            }           
+        ?>
+        <img src="<?php echo $imagen; ?>" alt="" width="120" height="120" />
+        <div>
+            <h1><i class="fa fa-user fa-3x text-muted air air-top-right hidden-mobile" style="z-index: 0"></i>
+                <?php echo $data['nombrecompleto']; ?> <small>
+                <i class="fa fa-lock text-muted"></i> &nbsp;<?php echo LABEL_INGRESECLAVE;?></small></h1>
+<!--            <p class="text-muted">
+                el correo
+            </p>-->
+            <div class="input-group">                
+                <input type="hidden" name="txtIDUser" id="txtIDUser" value="<?php echo $idUsuario ?>">
+                <input type="hidden" name="txtUser" id="txtUser" value="<?php echo $usuario ?>">
+                <input class="form-control" type="password" placeholder="Contraseña" id="txtNewClave" name="txtNewClave">
+                <div class="input-group-btn" style="z-index: 1">
+                    <button id="btnEntrar" class="btn btn-primary" type="submit" >
+                        <i class="fa fa-save"></i> <?php echo LABEL_ENVIAR; ?>
+                    </button>
+                </div>
+            </div>
+            <span class="badge"><?php echo LABEL_VALIDOAL.$ff; ?></span>
+            <p class="no-margin margin-top-5">
+            </p>
+        </div>
+    </div>
+    <p class="font-xs margin-top-5">
+        <?php echo COPY; ?>
+    </p>
+</form>
+<script>
+    setTimeout(function(){
+        configurarUsuariosScript.validaChangePass();
+    },1000);
+    function noneEvtMenu(){};
+</script>

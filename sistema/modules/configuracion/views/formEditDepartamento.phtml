@@ -1,0 +1,98 @@
+<?php /*
+* ---------------------------------------
+* --------- CREATED BY CREATOR ----------
+* fecha: 17-02-2015 02:02:08 
+* Descripcion : formEditDepartamento.phtml
+* ---------------------------------------
+*/
+
+/*prefijo: UBIG debe ser alias en tabla men_menuprincipal*/
+$actualizar = Session::getPermiso("UBIGACT");
+
+$data = departamentoController::findDepartamento();
+
+?>
+<form id="<?php echo UBIG; ?>formEditDepartamento" name="<?php echo UBIG; ?>formEditDepartamento" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"  aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title"><?php echo UBIG_08; ?></h4>
+            </div>
+            <div class="modal-body smart-form">                              
+                <section>
+                    <div class="row">
+                       <label class="label col col-2"><?php echo UBIG_01; ?></label>
+                        <div class="col col-10">
+                            <label class="select"> 
+                                <?php         
+                                    $pais = departamentoController::listarPais();
+                                    echo Functions::selectHtml(array(
+                                        'data'=>$pais,
+                                        'atributes'=>array(
+                                            'id'=>UBIG.'lst_pais',
+                                            'name'=>UBIG.'lst_pais'
+                                        ),
+                                        'etiqueta'=>'descripcion',
+                                        'value'=>'id',
+                                        'defaultEtiqueta'=>$data['id_pais'],  
+                                        'encript'=> true,           
+                                        'enabled' => true,
+                                        'txtSelect'=>false
+                                    ));
+                                ?><i></i>
+                            </label>
+                        </div>                         
+                    </div>
+                </section> 
+                <section>
+                    <div class="row">
+                        <label class="label col col-2"><?php echo UBIG_02; ?></label>
+                        <div class="col col-10">
+                            <label class="input">
+                                <i class="icon-append fa fa-keyboard-o"></i>
+                                <input type="text" id="<?php echo UBIG; ?>txt_descripcion" name="<?php echo UBIG; ?>txt_descripcion" value="<?php echo $data['departamento'] ?>">
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-question-circle txt-color-teal"></i> <?php echo UBIG_02M; ?></b>
+                            </label>
+                        </div>
+                    </div>
+                </section> 
+            </div>
+            <div class="modal-footer">
+                <div class="foot-obligar"></div>
+                <?php if($actualizar["permiso"]):?>
+                <button id="<?php echo UBIG; ?>btnEdDepartamento" type="submit" class="<?php echo $actualizar["theme"]; ?>">
+                    <i class="<?php echo $actualizar["icono"]; ?>"></i> <?php echo $actualizar["accion"]; ?>
+                </button>
+                <?php endif; ?>
+                <button type="button" class="<?php echo THEME_CLOSE; ?>">
+                    <i class="<?php echo ICON_CLOSE; ?>"></i> <?php echo BTN_CLOSE; ?>
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</form>
+<!-- si no tiene permiso se anula submit desde cualquier input -->
+<?php if(!$actualizar["permiso"]): ?>
+<script>
+    simpleScript.noSubmit("#<?php echo UBIG; ?>formEditDepartamento");
+</script>
+<?php endif; ?>
+<script>
+$("#<?php echo UBIG; ?>formEditDepartamento").validate({
+    rules : {
+        <?php echo UBIG; ?>txt_descripcion : {
+            required : true                        
+        }
+    },   
+    errorPlacement : function(error, element) {
+        error.insertAfter(element.parent());
+    },
+
+    submitHandler: function(){
+        departamento.postEditDepartamento();
+    }   
+});
+</script>

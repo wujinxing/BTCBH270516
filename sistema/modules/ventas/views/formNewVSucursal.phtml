@@ -1,0 +1,84 @@
+<?php /*
+* ---------------------------------------
+* --------- CREATED BY CREATOR ----------
+* fecha: 05-04-2016 18:04:07 
+* Descripcion : formNewVSucursal.phtml
+* ---------------------------------------
+*/
+
+/*prefijo: SUCUR debe ser alias en tabla men_menuprincipal*/
+$grabar = Session::getPermiso("SUCURGR");
+?>
+<form id="<?php echo SUCUR; ?>formNewVSucursal" name="<?php echo SUCUR; ?>formNewVSucursal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"  aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title"><?php echo SUCUR_02; ?></h4>
+            </div>
+            <div class="modal-body smart-form"> 
+                <section>
+                    <div class="row">
+                        <label class="label col col-2"><?php echo SUCUR_04; ?></label>
+                        <div class="col col-10">
+                            <label class="input"> 
+                                <i class="icon-append fa fa-keyboard-o"></i>
+                                <input type="text" id="<?php echo SUCUR; ?>txt_nombre" name="<?php echo SUCUR; ?>txt_nombre">
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-keyboard-o txt-color-teal"></i> <?php echo SUCUR_04M; ?></b>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <div class="row">
+                        <label class="label col col-2"><?php echo SUCUR_05; ?></label>
+                        <div class="col col-4">
+                            <label class="input"> 
+                                <i class="icon-append fa fa-keyboard-o"></i>
+                                <input type="text" id="<?php echo SUCUR; ?>txt_sigla" name="<?php echo SUCUR; ?>txt_sigla">
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-keyboard-o txt-color-teal"></i> <?php echo SUCUR_05M; ?></b>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="modal-footer">
+                <div class="foot-obligar"></div>
+                <?php if($grabar["permiso"]):?>
+                <button id="<?php echo SUCUR; ?>btnGrVSucursal" type="submit" class="<?php echo $grabar["theme"]; ?>">
+                    <i class="<?php echo $grabar["icono"]; ?>"></i> <?php echo $grabar["accion"]; ?>
+                </button>
+                <?php endif; ?>
+                <button type="button" class="<?php echo THEME_CLOSE; ?>">
+                    <i class="<?php echo ICON_CLOSE; ?>"></i> <?php echo BTN_CLOSE; ?>
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</form>
+<!-- si no tiene permiso se anula submit desde cualquier input -->
+<?php if(!$grabar["permiso"]): ?>
+<script>
+    simpleScript.noSubmit("#<?php echo SUCUR; ?>formNewVSucursal");
+</script>
+<?php endif; ?>
+<script>
+/*configurar validacion de formulario -- este codigo es de ejemplo*/
+$("#<?php echo SUCUR; ?>formNewVSucursal").validate({
+    rules : {
+        <?php echo SUCUR; ?>txt_nombre : {
+            required : true,            
+            minlength: 2
+        }
+    },
+    errorPlacement : function(error, element) {
+        error.insertAfter(element.parent());
+    },
+
+    submitHandler: function(){
+        vSucursal.postNewVSucursal();
+    }   
+});
+</script>

@@ -1,0 +1,274 @@
+<?php
+$editar = Session::getPermiso('PERFACT');
+$quitar = Session::getPermiso('PERFDE');
+
+$data = Obj::run()->perfilController->findMiPerfil();
+?>
+<form id="<?php echo PERF; ?>indexPerfil" name="<?php echo PERF; ?>indexPerfil" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"  aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title"><?php  echo PERF_1; ?></h4>
+            </div>
+            <div class="modal-body smart-form">
+                
+                <ul class="nav nav-tabs bordered">
+                    <li class="active">
+                        <a id="tab1" href="#s1" data-toggle="tab"><?php echo PERF_2; ?></a>                        
+                    </li>
+                    <li>
+                        <a id="tab2" href="#s2" data-toggle="tab"><?php echo PERF_3; ?></a>
+                    </li>
+                    <?php if(!empty($data['codigo_pic'])): ?> 
+                    <li>
+                        <a id="tab3" href="#s3" data-toggle="tab"><?php echo PERF_4; ?></a>
+                    </li>
+                    <?php endif; ?>
+                </ul>
+                 <div class="tab-content padding-10"> 
+                     <!-- 1er Tab-->
+                     <div class="tab-pane fade in active" id="s1" >
+                        <section>
+                            <div class="row">
+                                <label class="label col col-3"><?php echo LABEL_RV3; ?></label>
+                                <div class="col col-8">
+                                    <label class="input"> 
+                                        <i class="icon-append fa fa-user"></i>
+                                        <input type="text" id="<?php echo PERF; ?>txt_nombres" name="<?php echo PERF; ?>txt_nombres" value="<?php echo $data['nombrecompleto']?>">
+                                        <b class="tooltip tooltip-top-right"><i class="fa fa-keyboard-o txt-color-teal"></i> <?php echo LABEL_RV6; ?></b>
+                                    </label>
+                                </div>
+                            </div>
+                        </section>                        
+                        <section>
+                            <div class="row">
+                                <label class="label col col-3"><?php echo LABEL_RV10; ?></label>
+                                <div class="col col-8">
+                                    <label class="input"> 
+                                        <i class="icon-append fa fa-envelope"></i>
+                                        <input type="text" id="<?php echo PERF; ?>txt_email" name="<?php echo PERF; ?>txt_email" value="<?php echo $data['email']?>" >
+                                        <b class="tooltip tooltip-top-right"><i class="fa fa-question-circle txt-color-teal"></i> <?php echo LABEL_RV30; ?></b>
+                                    </label>
+                                </div>
+                            </div>
+                        </section>
+                        <section>
+                            <div class="row">
+                                <label class="label col col-3"><?php echo LABEL_RV9; ?></label>
+                                <div class="col col-8">
+                                    <label class="input"> 
+                                        <i class="icon-append fa fa-map-marker"></i>
+                                        <input type="text" id="<?php echo PERF; ?>txt_direccion" name="<?php echo PERF; ?>txt_direccion" value="<?php echo $data['direccion']?>">
+                                        <b class="tooltip tooltip-top-right"><i class="fa fa-keyboard-o txt-color-teal"></i> <?php echo LABEL_RV11; ?></b>
+                                    </label>
+                                </div>
+                            </div>
+                        </section>                
+                        <section>
+                            <div class="row">
+                                <label class="label col col-3"><?php echo LABEL_RV14; ?></label>
+                                <div class="col col-8">
+                                    <label class="input"> 
+                                        <i class="icon-append fa fa-phone"></i>
+                                        <input type="text" id="<?php echo PERF; ?>txt_telefonos" name="<?php echo PERF; ?>txt_telefonos" value="<?php echo $data['telefono']?>">
+                                        <b class="tooltip tooltip-top-right"><i class="fa fa-keyboard-o txt-color-teal"></i> <?php echo LABEL_RV15; ?></b>
+                                    </label>
+                                </div>
+                            </div>
+                        </section>
+                        <section>
+                            <div class="row">
+                                <label class="label col col-3"><?php echo LABEL_RV23; ?></label>
+                                <div class="col col-6">
+                                    <label class="input"> 
+                                        <i class="icon-append fa fa-gift "></i>
+                                        <input type="text" id="<?php echo PERF; ?>txt_fechaNac" name="<?php echo PERF; ?>txt_fechaNac" value="<?php echo Functions::cambiaf_a_normal($data['fecha_cumple']) ?>">
+                                        <b class="tooltip tooltip-top-right"><i class="fa fa-question-circle  txt-color-teal"></i> <?php echo LABEL_RV24; ?></b>
+                                    </label>
+                                </div>
+                            </div>
+                        </section>
+                        <section>
+                            <div class="row">
+                                <label class="label col col-3"><?php echo LABEL_RV44; ?></label>
+                                <div class="col col-8">
+                                    <label class="input"> 
+                                        <i class="icon-append fa fa-user"></i>
+                                        <input class="disabledAtributo" type="text" id="<?php echo PERF; ?>txt_usuario" name="<?php echo PERF; ?>txt_usuario" value="<?php echo $data['usuario']?>" readonly >
+                                        <b class="tooltip tooltip-top-right"><i class="fa fa-question-circle txt-color-teal"></i> <?php echo LABEL_RV44M; ?></b>
+                                    </label>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                    <!-- 2do Tab-->
+                    <div class="tab-pane fade " id="s2" >                        
+                        <section>
+                            <div class="row">
+                                <label class="label col col-3"><?php echo GEAN_19; ?></label>
+                                    <div class="col col-8">
+                                       <label class="select"> 
+                                          <?php
+                                              $idiomas = idiomasController::listarIdiomas();                                   
+                                              echo Functions::selectHtml(array(
+                                                  'data'=>$idiomas,
+                                                  'atributes'=>array(
+                                                      'id'=>PERF.'lst_idiomas',
+                                                      'name'=>PERF.'lst_idiomas'                                           
+                                                  ),
+                                                  'etiqueta'=>'descripcion',
+                                                  'value'=>'id',
+                                                  'defaultEtiqueta'=>$data['id_idioma'],
+                                                  'txtSelect'=>false,
+                                                  'encript'=>true
+                                              ));
+                                          ?>   
+                                        </label>
+                                  </div>
+                                </div>
+                        </section>                        
+                         <section>
+                            <div class="row">
+                                <label class="label col col-3"><?php echo LABEL_ROLUSER; ?></label>
+                                    <div class="col col-8">
+                                       <label class="select"> 
+                                          <?php
+                                              $rolesUsuario = perfilController::listarRolesUsuario();                                   
+                                              echo Functions::selectHtml(array(
+                                                  'data'=>$rolesUsuario,
+                                                  'atributes'=>array(
+                                                      'id'=>PERF.'lst_rol',
+                                                      'name'=>PERF.'lst_rol'                                           
+                                                  ),
+                                                  'etiqueta'=>'rol',
+                                                  'value'=>'id_rol',
+                                                  'defaultEtiqueta'=>$data['rol_defecto'],
+                                                  'txtSelect'=>false,
+                                                  'encript'=>true
+                                              ));
+                                          ?>   
+                                        </label>
+                                  </div>
+                                </div>
+                        </section>
+                        <section >
+                            <div class="row">
+                                <label class="label col col-3"><?php echo LABEL_NOTIFICACION; ?></label>
+                                <div class="col col-3">
+                                    <label class="checkbox" >
+                                        <input type="checkbox" <?php echo ($data['notificacion'] == 'S')?'checked':'' ?> 
+                                               name="<?php echo PERF; ?>chk_notificacion" id="<?php echo PERF; ?>chk_notificacion" value="S" />
+                                        <i></i>
+                                        <?php echo CK_ACTIVO; ?>
+                                    </label>
+                                </div>                                                   
+                            </div>
+                        </section>
+                    </div>
+                    <?php if(!empty($data['codigo_pic'])): ?> 
+                    <!-- 3er Tab-->
+                    <div class="tab-pane fade " id="s3" >                        
+                        
+                        <section>
+                            <div class="row">
+                                <label class="label col col-3"><?php echo LABEL_RV31; ?></label>
+                                <div class="col col-8">
+                                    <label class="input"> 
+                                        <i class="icon-append fa fa-code"></i>
+                                        <input class="disabledAtributo" type="text" id="<?php echo PERF; ?>txt_idFB" name="<?php echo PERF; ?>txt_idFB" value="<?php echo $data['codigo_pic']?>" readonly >
+                                        <b class="tooltip tooltip-top-right"><i class="fa fa-question-circle txt-color-teal"></i> <?php echo LABEL_RV31M; ?></b>
+                                    </label>
+                                </div>
+                            </div>
+                        </section>
+                        <section>
+                            <div class="row">
+                                <label class="label col col-3"><?php echo LABEL_RV43; ?></label>
+                                <div class="col col-8">
+                                    <label class="input"> 
+                                        <i class="icon-append fa fa-envelope"></i>
+                                        <input class="disabledAtributo" type="text" id="<?php echo PERF; ?>txt_emailFB" name="<?php echo PERF; ?>txt_emailFB" value="<?php echo $data['emailFB']?>" readonly >
+                                        <b class="tooltip tooltip-top-right"><i class="fa fa-question-circle txt-color-teal"></i> <?php echo LABEL_RV43M; ?></b>
+                                    </label>
+                                </div>
+                            </div>
+                        </section>
+                        <section>
+                            <div class="row">
+                                <label class="label col col-3"><?php echo LABEL_RV32; ?></label>
+                                <div class="col col-8">
+                                    <label class="input"> 
+                                        <a href="<?php echo $data['link']; ?>" target="_blank" ><?php echo LABEL_IRENLACE; ?></a>
+                                    </label>
+                                </div>
+                            </div>
+                        </section>
+                        <?php if ($quitar['permiso']): ?>
+                        <button id="<?php echo PERF; ?>btnQper" type="button" class=" <?php echo $quitar['theme']; ?> padding-5" onclick="perfil.postEliminarFB();">
+                            <i class="<?php echo $quitar['icono']; ?>"></i> <?php echo LABEL_ELIMINASINCRONIZACION; ?>
+                        </button>
+                         <?php endif; ?>
+                        
+                    </div>
+                   <?php endif; ?> 
+                 </div>                                                                
+            </div>
+            <div class="modal-footer">
+                <?php if ($editar['permiso']): ?>
+                <button id="<?php echo PERF; ?>btnEper" type="submit" class="btn txt-color-white bg-color-blueDark">
+                        <i class="fa fa-save"></i> <?php echo $editar['accion']; ?>
+                    </button>
+                <?php endif; ?>
+                <button type="button" class="btn btn-default xClose">
+                    <i class="fa fa-ban"></i> <?php echo BTN_CLOSE; ?>
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</form>
+<!-- si no riene permiso se anula submit desde cualquier input -->
+<?php if (!$editar['permiso']): ?>
+    <script>
+        simpleScript.noSubmit('#<?php echo PERF; ?>indexPerfil');
+    </script>
+<?php endif; ?>
+<script>
+    
+    simpleScript.setEvent.date({
+        element: '#<?php echo PERF; ?>txt_fechaNac' 
+    });  
+    simpleScript.chosen({'id':'#<?php echo PERF; ?>lst_idiomas'});
+    simpleScript.chosen({'id':'#<?php echo PERF; ?>lst_rol'});
+    
+    $('#<?php echo PERF; ?>indexPerfil').validate({
+        rules: {
+            <?php echo PERF; ?>txt_nombres: {
+                required: true
+            },
+            <?php echo PERF; ?>txt_apepaterno: {
+                required: true
+            },
+            <?php echo PERF; ?>txt_materno: {
+                required: true
+            },
+            <?php echo PERF; ?>txt_email: {
+                required: true,
+                email: true
+            }       
+        },
+        errorPlacement: function(error, element) {
+            error.insertAfter(element.parent());
+        },
+        submitHandler: function() {
+            perfil.postPerfil();
+        }
+    });
+    /*para hacer evento invisible*/
+simpleScript.removeAttr.click({
+    container: '#<?php echo PERF; ?>indexPerfil',
+    typeElement: 'button'
+});
+</script>

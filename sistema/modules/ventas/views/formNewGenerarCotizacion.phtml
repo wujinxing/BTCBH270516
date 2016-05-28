@@ -1,0 +1,351 @@
+<?php 
+/*prefijo: VCOTI debe ser alias en tabla men_menuprincipal*/
+$grabar = Session::getPermiso('VCOTIGR');
+$agregar = Session::getPermiso('VCOTIAG');
+$buscar = Session::getPermiso('VCOTIBS');
+$nuevo = Session::getPermiso('VCOTINEW');
+
+echo Functions::widgetOpen(array(
+    'id' => VCOTI.'_NEW',
+    'title' => VCOTI_2,
+    'padding' => true,
+    'overflow'=> 'none'
+));
+
+$dataHtml = Obj::run()->plantillaDocController->getPlantillaDocumento('COTIZAOBS');                              
+//$obs = str_replace('\\','',$dataHtml['cuerpo'] );        
+$obs = htmlspecialchars_decode($dataHtml['cuerpo'],ENT_QUOTES);
+$obs = str_replace('{{VENDEDOR}}',Session::get('sys_nombreUsuario'), $obs); 
+$obs = str_replace('{{TELEFONO}}',Session::get('sys_fono'), $obs); 
+
+?>
+<form id="<?php echo VCOTI; ?>formNewGenerarCotizacion" name="<?php echo VCOTI; ?>formNewGenerarCotizacion" novalidate="novalidate" onsubmit="return false;">
+        <div class="modal-body smart-form" >
+                    <section>
+                        <div class="row">
+                                <div class="alert alert-info ">
+                                     <i class="fa fa-info-circle"></i> Paso 1: Por favor, seleccione al cliente para ingresar su cotización: 
+                                </div>
+                        </div>
+                    </section>  
+                   <section >
+                          <div class="row">
+                              <label class="label col col-1" for="prepend"><?php echo VRECL_9; ?></label>
+                              
+                              
+                              <div class="col col-9">
+                                  <label class="input"> 
+                                      <i class="icon-append fa fa-user"></i>
+                                      <input type="hidden" id="<?php echo VCOTI; ?>txt_idpersona" name="<?php echo VCOTI; ?>txt_idpersona">
+                                      <input style="background: #eee;" type="text" id="<?php echo VCOTI; ?>txt_cliente" name="<?php echo VCOTI; ?>txt_cliente" readonly="readonly" value="" >
+                                      <b class="tooltip tooltip-top-right"><i class="fa  fa-question-circle txt-color-teal"></i> <?php echo VGEVE_40; ?></b>
+                                  </label>
+                              </div>
+                              <div class="col col-1" >
+                                  <?php if ($buscar['permiso']): ?>
+                                  <button class="btn txt-color-white bg-color-blueDark" style="padding:5px 10px;" type="button" 
+                                                    onclick="vCliente.getBuscarCliente(this, '<?php echo VCOTI; ?>', '$(\'#<?php echo VCOTI; ?>btnGaddFila\').removeAttr(\'disabled\');' );">
+                                                <i class="<?php echo $buscar['icono'];?>"></i> <?php echo $buscar['accion'];?></button>
+                                    <?php endif; ?>              
+                              </div>                                                              
+                          </div>
+                    </section>                                                           
+                    <section >
+                          <div class="row">                              
+                              <label class="label col col-1"><?php echo VGEVE_4; ?> </label>
+                              <div class="col col-2">
+                                  <label class="input"> 
+                                      <i class="icon-append fa fa-calendar"></i>
+                                      <input type="text" id="<?php echo VCOTI; ?>txt_fecha" name="<?php echo VCOTI; ?>txt_fecha" value="<?php echo date("d/m/Y"); ?>">                                      
+                                  </label>
+                              </div>
+                              <label class="label col col-1"><?php echo VGEVE_5; ?> </label>
+                              <div class="col col-3">
+                                    <label class="select"> 
+                                    <?php                               
+                                       $dataMoneda = vproductoController::getMoneda();                           
+                                        echo Functions::selectHtml(array(
+                                            'data'=>$dataMoneda,
+                                            'atributes'=>array(
+                                                'id'=>VCOTI.'lst_moneda',
+                                                'name'=>VCOTI.'lst_moneda'
+                                            ),
+                                            'etiqueta'=>'descripcion',
+                                            'value'=>'id',
+                                            'defaultEtiqueta'=>1,
+                                            'txtSelect'=>false
+                                        ));
+                                    ?><i></i>
+                                </label> 
+                              </div>
+                               <label class="label col col-1"><?php echo VPROD7; ?> </label>
+                              <div class="col col-2">
+                                  <label class="select"> 
+                                        <?php                               
+                                           $igv = Array (
+                                                    Array ( 'id' => 'S', 'descripcion' => LABEL_S ),
+                                                    Array ( 'id' => 'N', 'descripcion' => LABEL_N )
+                                            );     
+                                            echo Functions::selectHtml(array(
+                                                'data'=>$igv,
+                                                'atributes'=>array(
+                                                    'id'=>VCOTI.'lst_igv',
+                                                    'name'=>VCOTI.'lst_igv'
+                                                ),
+                                                'etiqueta'=>'descripcion',
+                                                'value'=>'id',
+                                                'defaultEtiqueta'=>"S",
+                                                'txtSelect'=>false
+                                            ));
+                                        ?><i></i>
+                                    </label> 
+                              </div>                                                                                          
+                          </div>
+                    </section>                
+                    <section>
+                        <div class="row"> 
+                            <div class="col-lg-12"><hr><br></div>                                                                             
+                            <div class="col-lg-12">
+                                <div class="alert alert-info"><i class="fa fa-info-circle"></i> Paso 2: Dar clic en el botón para agregar productos o servicios, escriba la descripción(en caso sea servicio) y el precio, el cálculo del importe es automático.</div>            
+                            </div> 
+                            <div class="clearfix"></div>
+                            <label class="control-label col-lg-2" for="prepend">
+                                <?php if($agregar['permiso']):?>
+                                <button id="<?php echo VCOTI; ?>btnGaddFila" type="button" class="<?php echo $agregar['theme'];?> padding-10" onclick="vGenerarCotizacion.getFormBuscarProductos(this,'<?php echo VCOTI; ?>');" >
+                                    <i class="fa fa-plus-circle"></i> <?php echo BTN_ADD; ?> Producto / Servicio en la tabla
+                                </button>
+                                <br/><br/>
+                                <?php endif; ?>
+                            </label>
+                            <div class="col-lg-12">
+                                <div id="<?php echo VCOTI; ?>GridDetalle" style="padding: 10px">
+                                    <div class="tabla" style="min-height: 200px; max-height: auto;">
+                                        <table id="<?php echo VCOTI; ?>gridProductos" class="table table-bordered table-striped table-condensed table-hover smart-form has-tickbox">
+                                            <thead>
+                                                 <th style="width:39%"><?php echo VGEVE_9?></th>
+                                                <th style="width:9%"><?php echo VGEVE_10?></th>
+                                                <th style="width:9%"><?php echo VGEVE_11?></th>
+                                                <th style="width:8%"><?php echo VGEVE_12?></th>
+                                                <th style="width:8%"><?php echo VGEVE_22?></th>
+                                                <th style="width:10%"><?php echo VGEVE_13?></th>
+                                                <th style="width:10%"><?php echo VGEVE_14?></th>
+                                                <th style="width:1%">...</th>
+                                            </thead>
+                                            <tbody>
+                                        <?php
+                                        $idx = 1;
+                                        $dataServicio = vproductoController::findServicioOne();
+                                        $idProducto = AesCtr::en($dataServicio['id_producto']);         
+                                        ?>
+                                        <script>vGenerarCotizacionScript.setIndex();</script>
+                                        <tr id="<?php echo VCOTI; ?>tr_<?php echo ($idx); ?>" >
+                                            <td>                                                
+                                                <input type="hidden" id="<?php echo VCOTI.$idx; ?>hhddIdProducto" name="<?php echo VCOTI; ?>hhddIdProducto[]" value="<?php echo $idProducto; ?>">
+                                                <label class="textarea">
+                                                     <textarea class="editable" style="height:120px; resize: vertical;" autocomplete="on" id="<?php echo VCOTI.$idx; ?>txt_descripcion" name="<?php echo VCOTI; ?>txt_descripcion[]" ></textarea>                                              
+                                             </label>                                                                                                
+                                            </td>
+                                            <td ><?php echo $dataServicio['unidadmedida'];?></td>
+                                            <td>
+                                                <label class="input">
+                                                    <input type="text" id="<?php echo VCOTI.$idx; ?>txt_cantidad1" name="<?php echo VCOTI; ?>txt_cantidad1[]" value="1"  style="text-align:right" data-index="<?php echo $idx; ?>">
+                                                </label>                                
+                                            </td>
+                                            <td >
+                                                <label class="input">                                                
+                                                    <input type="text" style="background:#EFEFEF;text-align:right;"  id="<?php echo VCOTI.$idx; ?>txt_cantidad2" name="<?php echo VCOTI; ?>txt_cantidad2[]" value="1" data-index="<?php echo $idx; ?>" readonly>                                                  
+                                                </label> 
+                                            </td>                                            
+                                            <td class="right">
+                                                1.00
+                                            </td>                                                                                        
+                                            <td class="right">
+                                                <label class="input"><input type="text" id="<?php echo VCOTI.$idx; ?>txt_precio" name="<?php echo VCOTI; ?>txt_precio[]" value="0.00" data-value="0.00" data-index="<?php echo $idx; ?>" style="text-align:right" type="text"></label>
+                                            </td>                                                                                                                                                                      
+                                            <td class="right">0.00</td>
+                                            <td>
+                                                <button type="button" class="btn btn-danger btn-xs" onclick="vGenerarCotizacionScript.removeItem('<?php echo $idx; ?>');"><i class="fa fa-trash-o"></i>
+                                                </button>
+                                            </td>                                            
+                                        </tr>          
+                                        
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="form-group" style="margin-top:5px">
+                                        <div class="col-md-2 pull-right">
+                                            <div class="input">
+                                                <input class="form-control right" type="text" id="<?php echo VCOTI; ?>txt_total" name="<?php echo VCOTI; ?>txt_total" readonly>
+                                            </div>
+                                        </div>
+                                        <label class="control-label col-md-2 pull-right" for="prepend"><?php echo LABEL_T; ?></label>
+                                    </div>
+                                </div>
+                            </div>                            
+                        </div>                        
+                    </section>
+            
+                    <section>
+                        <div class="row">
+                                <div class="alert alert-info ">
+                                     <i class="fa fa-info-circle"></i> Paso 3: Por favor, ingrese los datos del pie de página de la cotización
+                                </div>
+                        </div>
+                    </section>                     
+                    <section>
+                        <div class="row">
+                            <label class="label col col-xs-2" for="prepend"><?php echo LABEL_OBS; ?></label>
+                            <div class="col col-xs-10">
+                                <div class="textarea">
+                                    <textarea class="obs form-control" id="<?php echo VCOTI; ?>txt_obs" name="<?php echo VCOTI; ?>txt_obs"><?php echo nl2br($obs); ?></textarea>
+                                </div>
+                            </div>
+                       </div>
+                    </section>  
+                    
+                    <br><hr><br>                           
+                    <h4 class="text-center">                        
+                        <button id="<?php echo VCOTI; ?>btnGrCotizacion" type="button" class="btn btn-success btn-large padding-10" onclick="javascript:insertarCotizacion();">    
+                            <i class="fa fa-plus-circle fa-lg"></i>
+                            <?php echo VCOTI_4; ?>
+                        </button>
+                     </h4>
+            </div>
+</form>              
+<script>    
+    vGenerarCotizacionScript.calculoTotalFilaUp();    
+    vGenerarCotizacionScript.calculoTotal();      
+    var pagefunction = function() {
+         $('.editable').summernote({
+                        height : 100,
+                        focus : true,                  
+                        lang: 'es-ES',
+                        toolbar: [
+                        ['font', ['bold','italic' ,'underline', 'clear', 'codeview' ]]
+                      ]
+                    });		
+                    
+        $('.obs').summernote({
+                        height : 300,
+                        focus : true,                  
+                        lang: 'es-ES',
+                        toolbar: [
+                        ['font', ['bold','italic' ,'underline', 'clear', 'codeview' ]]
+                      ]
+                    });		
+    };	
+    loadScript("theme/<?php echo DEFAULT_LAYOUT ?>/js/plugin/summernote/summernote.min.js", function(){
+        loadScript("theme/<?php echo DEFAULT_LAYOUT ?>/js/plugin/summernote/lang/summernote-es-ES.min.js", function(){
+            loadScript("theme/<?php echo DEFAULT_LAYOUT ?>/js/plugin/markdown/markdown.min.js", function(){
+                            loadScript("theme/<?php echo DEFAULT_LAYOUT ?>/js/plugin/markdown/bootstrap-markdown.min.js", pagefunction);
+            });
+        });
+    });
+        
+    simpleScript.setEvent.date({
+        element: '#<?php echo VCOTI; ?>txt_fecha' 
+    });       
+    var $validator = $("#<?php echo VCOTI; ?>formNewGenerarCotizacion").validate({
+        rules: {
+                <?php echo VCOTI; ?>txt_cliente: {
+                    required: true
+                },                 
+                <?php echo VCOTI; ?>lst_moneda: {
+                    required: true
+                },                                                                       
+                <?php echo VCOTI; ?>txt_fecha: {
+                    required: true,
+                    date: true
+                }                     
+        } 
+    });
+    
+    function insertarCotizacion(){            
+        var $valid = $("#<?php echo VCOTI; ?>formNewGenerarCotizacion").valid();
+        if (!$valid) {
+            $validator.focusInvalid();
+            return false;
+        }else{
+            var pr = 0;
+            var dd = 0;
+            var r = simpleScript.validaTable({
+                id: '#'+diccionario.tabs.VCOTI+'gridProductos',
+                msn: lang.mensajes.MSG_10
+            });
+
+           
+            $('#'+diccionario.tabs.VCOTI+'gridProductos tbody tr').each(function (index) {
+                    var serv;
+                    $(this).children("td").each(function (index2) {
+                      switch (index2) {
+                          case 0:                              
+                            serv = $(this).find('div.note-editable').html();                           
+                            if (serv !== undefined){
+                                serv = serv.length;
+                                if(serv <= 11 ){   
+                                       dd = dd + 1;                                      
+                                }
+                            }
+                            break;      
+                      }
+                    });
+              });
+              
+           //Validar que precios no sean 0                      
+            $('#'+diccionario.tabs.VCOTI+'gridProductos tbody tr').each(function (index) {
+                    var precio;
+                    $(this).children("td").each(function (index2) {
+                      switch (index2) {
+                          case 6:
+                              precio = $(this).text();                              
+                              if(parseFloat(precio) <= 0 || isNaN(parseFloat(precio)) ){   
+                                   pr = pr + 1;                                      
+                              }
+                              break;      
+                      }
+                  })
+              });
+            if(r === false){
+                return false;
+            } 
+            if (dd > 0){
+                simpleScript.notify.warning({
+                    content: '(1) Debe de ingresar Descripción del Servicio, es importante este dato. Por favor verificar.'
+                }); 
+               return false;
+            }            
+            if (pr > 0){
+                simpleScript.notify.warning({
+                    content: '(2) El precio que ingreso en la tabla, es menor o igual que CERO (0.00), por favor verificar.'
+                }); 
+               return false;
+            }
+            
+            var totalPagado= simpleScript.deleteComa($('#'+diccionario.tabs.VCOTI+'txt_total').val());                  
+            if(parseFloat(totalPagado) <= 0){
+                 simpleScript.notify.warning({
+                     content: '(3) El total a pagar no debe ser Cero'
+                 });
+                 return false;
+            }                            
+           vGenerarCotizacion.postNewVGenerarCotizacion(1);
+        }
+    };
+
+        /*para hacer evento invisible*/
+       simpleScript.removeAttr.click({
+           container: '#<?php echo VCOTI; ?>formNewGenerarCotizacion',
+           typeElement: 'button'
+       });
+       simpleScript.removeAttr.keyup({
+           container: '#<?php echo VCOTI; ?>formNewGenerarCotizacion',
+           typeElement: 'input'
+       });
+
+       simpleScript.setEvent.blur({   
+               element:'.editable',
+               event: function(){      
+                   $('textarea[name="content"]').html($('.editable').summernote('code'));  
+               }
+       });                                         
+</script>

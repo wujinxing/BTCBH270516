@@ -1,0 +1,31 @@
+<?php 
+$nuevo = Session::getPermiso('CROGR');
+
+echo Functions::siteMap();
+echo Functions::widgetOpen(array(
+        'id'=>T1.'roles',
+        'title'=>'Roles',
+        'actions' => array(               
+                array(
+                    'id' => T1 . 'gridRoles_btnRecarga',                    
+                    'permiso'=> 'CROREC',
+                    'click' => 'configurarRoles.getGridRoles();'                    
+                )
+            )
+    ));
+?>
+
+    <div class="widget-body-toolbar"></div>
+    <div class="dataTables_wrapper form-inline" role="grid">
+        <div class="dt-top-row">
+            <div class="DTTT btn-group">
+                <?php if($nuevo['permiso']):?>
+                <button id="CRDCRbtnNew" class="<?php echo $nuevo['theme'];?>" onclick="configurarRoles.getNuevoRol()"><i class="<?php echo $nuevo['icono'];?>"></i> <?php echo BTN_NUEVO;?></button>
+                <?php endif; ?>              
+            </div>
+        </div>
+
+    </div>
+
+    <table id="<?php echo T1;?>gridRoles" class="table table-striped table-hover" style="width:100%"></table>
+<?php echo Functions::widgetClose(); ?>

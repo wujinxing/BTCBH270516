@@ -1,0 +1,62 @@
+<?php 
+$nuevo = Session::getPermiso('CUSNEW');
+$editar = Session::getPermiso('CUSED');
+$eliminar = Session::getPermiso('CUSDE');
+$mail = Session::getPermiso('CUSEE');
+$baja = Session::getPermiso('CUSBJ');
+
+echo Functions::siteMap();
+echo Functions::widgetOpen(array(
+        'id'=>T4.'usuarios',
+        'title'=>M_TITLTE_USU,
+        'actions' => array(               
+                array(
+                    'id' => T4 . 'gridUsuariosx_btnRecarga',                    
+                    'permiso'=> 'CUSREC',
+                    'click' => 'configurarUsuarios.getGridUsuarios();'                    
+                )
+            )
+    )); 
+?>
+
+    <div class="widget-body-toolbar"></div>
+    <div class="dataTables_wrapper form-inline" role="grid">
+        <div class="dt-top-row">
+            <div class="DTTT btn-group">
+                <?php if($nuevo['permiso']): ?>
+                <button id="<?php echo T5; ?>btnNew" type="button" onclick="configurarUsuarios.getNuevoUsuario(this);" class="btn txt-color-white bg-color-blueDark">
+                    <i class="fa fa-file-o"></i> <?php echo BTN_NUEVO; ?>
+                </button>
+                <?php endif; ?>              
+            </div>
+        </div>
+
+    </div>
+    <table id="<?php echo T4; ?>gridUsuariosx" class="table table-striped table-hover table-condensed" style="width:100%"></table>
+    
+     <div class="modal-body smart-form"> 
+        <section>
+            <div class="row">
+                <label class="label col col-1">
+                <?php echo LABEL_LEYENDA; ?>
+                </label>
+                <div class="col col-10 ">
+                    <?php if($editar["permiso"]): ?>
+                        <button type="button" class="<?php echo $editar['theme']; ?> margin-top-5" title="<?php echo $editar['accion']; ?>" ><i class="<?php echo $editar['icono'];?>"></i>  <?php echo $editar['accion']; ?> Anuncio  </button>                    
+                    <?php endif;?>
+                    <?php if($eliminar["permiso"]): ?>
+                        <button type="button" class="<?php echo $eliminar['theme']; ?> margin-top-5" title="<?php echo $eliminar['accion']; ?>" ><i class="<?php echo $eliminar['icono'];?>"></i>  <?php echo $eliminar['accion']; ?>  </button>        
+                    <?php endif;?>
+                   <?php if($mail["permiso"]): ?>
+                        <button type="button" class="<?php echo $mail['theme']; ?> margin-top-5" title="<?php echo $mail['accion']; ?>" ><i class="<?php echo $mail['icono'];?>"></i>  <?php echo $mail['accion']; ?>  </button>                    
+                    <?php endif;?> 
+                    <?php if($baja["permiso"]): ?>
+                        <button type="button" class="<?php echo $baja['theme']; ?> margin-top-5" title="<?php echo $baja['accion']; ?>" ><i class="<?php echo $baja['icono'];?>"></i>  <?php echo $baja['accion']; ?>  </button>                    
+                    <?php endif;?>
+                </div>
+            </div>
+
+        </section>
+    </div>
+    
+<?php echo Functions::widgetClose(); ?>

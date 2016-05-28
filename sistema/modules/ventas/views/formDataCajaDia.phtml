@@ -1,0 +1,241 @@
+<?php 
+/*
+* ---------------------------------------
+* --------- CREATED BY CREATOR ----------
+* fecha: 21-08-2014 07:08:16 
+* Descripcion : indexCliente.phtml
+* ---------------------------------------
+*/
+$pdf    = Session::getPermiso("VRPT1EP");
+$excel    = Session::getPermiso("VRPT1EX");
+
+cajaCierreController::setCaja(Formulario::getParam("_idCaja"));
+$data = cajaCierreController::findCaja();
+    
+$moneda = $data['moneda'];
+$sigla = $data['sigla'];
+
+echo Functions::widgetOpen(array(
+        "id"=>VRPT1,
+        "title"=>'N° Caja: '.$data['id_caja'],
+        'overflow'=> 'none'
+    )); 
+if($data['estado'] == 'Abierto'){
+    $estado = 'txt-color-teal';   
+}else{
+    $estado = 'txt-color-red';
+}
+?>  
+<form id="<?php echo VRPT1; ?>formDataCajaDia" name="<?php echo VRPT1; ?>formDataCajaDia" onsubmit="return false;">
+        <div class="pull-left padding-10 col-xs-12 col-lg-6" style="border-right: 1px solid #ccc">
+            <div class="modal-body smart-form" > 
+                    <section>
+                        <div class="row"> 
+                            <div class="col-xs-12 col-lg-6"><h3><?php echo CAJAC_6.': '.$moneda; ?></h3></div>                            
+                            <div class="col-xs-12 col-lg-6"><h3><?php echo CAJAC_9.': '.Functions::cambiaf_a_normal($data['fecha_caja']); ?></h3></div>                                                        
+                            <div class="col-xs-12 col-lg-12"><h3 class="<?php echo $estado; ?>"><?php echo CAJAC_27.': '.$data['estado']; ?></h3></div>         
+                        </div>
+                    </section>                  
+                    <section>
+                        <div class="row">                                                                                                                                                                
+                             <label class="label col-xs-12 col-lg-2"><?php echo CAJAC_8; ?></label>
+                            <div class="col-xs-12 col-lg-10">                                
+                                <label class="input"> 
+                                    <i class="icon-append fa fa-industry"></i>                                
+                                    <input style="background: #eee;" type="text" id="<?php echo CAJAC; ?>txt_sucursal" name="<?php echo CAJAC; ?>txt_sucursal" value="<?php echo $data['sucursal'];  ?>" readonly>
+                             </label>
+                            </div>                            
+                            <div class="col-lg-12"><br><hr></div>   
+                        </div>
+                </section>                                                                 
+                <section>
+                        <div class="row">                                                                                                                                                                 
+                            <label class="label col-xs-12 col-lg-2"><?php echo CAJAC_10; ?></label>
+                            <div class="col-xs-12 col-lg-4">
+                                <label class="input"> 
+                                    <i class="icon-append fa fa-money"></i>                                
+                                    <input style="background: #eee;text-align: right" type="text" id="<?php echo CAJAC; ?>txt_tv" name="<?php echo CAJAC; ?>txt_tv" value="<?php echo number_format($data['total_ventas'],2);  ?>" readonly>
+                                    <b class="tooltip tooltip-top-right"><i class="fa fa-question-circle txt-color-teal"></i> <?php echo CAJAC_10M; ?></b>
+                             </label>
+                            </div>                 
+                            <label class="label col-xs-12 col-lg-2">&nbsp;&nbsp;<?php echo CAJAC_12; ?></label>
+                            <div class="col-xs-12 col-lg-4">
+                                <label class="input"> 
+                                    <i class="icon-append fa fa-money"></i>                                
+                                    <input style="background: #eee;text-align: right" type="text" id="<?php echo CAJAC; ?>txt_saldoVentas" name="<?php echo CAJAC; ?>txt_saldoVentas" value="<?php echo number_format($data['saldo_ventas'],2);  ?>" readonly>
+                                    <b class="tooltip tooltip-top-right"><i class="fa fa-question-circle txt-color-teal"></i> <?php echo CAJAC_12M; ?></b>
+                             </label>
+                            </div>                                                          
+                            <div class="col-lg-12"><br><hr></div>   
+                        </div>
+                </section>  
+                
+                <section>
+                        <div class="row">                                                                                                                                                                 
+                            <label class="label col-xs-12 col-lg-2"><?php echo CAJAC_11; ?></label>
+                            <div class="col-xs-12 col-lg-4">
+                                <label class="input"> 
+                                    <i class="icon-append fa fa-money"></i>                                
+                                    <input style="background: #eee;text-align: right" type="text" id="<?php echo CAJAC; ?>txt_cc" name="<?php echo CAJAC; ?>txt_cc" value="<?php echo number_format($data['total_acuenta'],2);  ?>" readonly>
+                                    <b class="tooltip tooltip-top-right"><i class="fa fa-question-circle txt-color-teal"></i> <?php echo CAJAC_11M; ?></b>
+                             </label>
+                            </div>                             
+                            <label class="label col-xs-12 col-lg-2">&nbsp;&nbsp;<?php echo CAJAC_29; ?></label>
+                            <div class="col-xs-12 col-lg-4">
+                                <label class="input"> 
+                                    <i class="icon-append fa fa-money"></i>                                
+                                    <input style="background: #eee;text-align: right" type="text" id="<?php echo CAJAC; ?>txt_otros" name="<?php echo CAJAC; ?>txt_otros" value="<?php echo number_format($data['total_otros'],2);  ?>" readonly>
+                                    <b class="tooltip tooltip-top-right"><i class="fa fa-question-circle txt-color-teal"></i> <?php echo CAJAC_29M; ?></b>
+                                    
+                             </label>
+                            </div>  
+                        </div>
+                </section>  
+                <section>
+                        <div class="row">                                                                                                                                                                 
+                            <label class="label col-xs-12 col-lg-2"><?php echo CAJAC_32; ?></label>
+                            <div class="col-xs-12 col-lg-4">
+                                <label class="input"> 
+                                    <i class="icon-append fa fa-money"></i>                                
+                                    <input style="background: #eee;text-align: right; font-weight: bold;" type="text" id="<?php echo CAJAC; ?>txt_tpagos" name="<?php echo CAJAC; ?>txt_tpagos" value="<?php echo number_format($data['total_acuenta']+$data['total_otros'],2);  ?>" readonly>
+                                    <b class="tooltip tooltip-top-right"><i class="fa fa-question-circle txt-color-teal"></i> <?php echo CAJAC_32M; ?></b>
+                             </label>
+                            </div>                                                          
+                            <label class="label col-xs-12 col-lg-2">&nbsp;&nbsp;<?php echo CAJAC_13; ?></label>
+                            <div class="col-xs-12 col-lg-4">
+                                <label class="input"> 
+                                    <i class="icon-append fa fa-money"></i>                                
+                                    <input style="background: #eee;text-align: right" type="text" id="<?php echo CAJAC; ?>txt_ingresoDirecto" name="<?php echo CAJAC; ?>txt_ingresoDirecto" value="<?php echo number_format($data['total_ingresoDirecto'],2);  ?>" readonly>
+                                    <b class="tooltip tooltip-top-right"><i class="fa fa-question-circle txt-color-teal"></i> <?php echo CAJAC_13M; ?></b>
+                             </label>
+                            </div>
+                            <div class="col-lg-12"><br><hr></div> 
+                        </div>                    
+                </section> 
+                <section>
+                        <div class="row">                                                                                                                                                                 
+                            <label class="label col-xs-12 col-lg-2"><?php echo CAJAC_33; ?></label>
+                            <div class="col-xs-12 col-lg-4">
+                                <label class="input"> 
+                                    <i class="icon-append fa fa-money"></i>                                
+                                    <input style="background: #eee;text-align: right" type="text" id="<?php echo CAJAC; ?>txt_tefectivo" name="<?php echo CAJAC; ?>txt_tefectivo" value="<?php echo number_format($data['total_acuenta']+$data['total_ingresoDirecto'],2);  ?>" readonly>
+                                    <b class="tooltip tooltip-top-right"><i class="fa fa-question-circle txt-color-teal"></i> <?php echo CAJAC_33M; ?></b>
+                             </label>
+                            </div>                                                          
+                            <label class="label col-xs-12 col-lg-2">&nbsp;&nbsp;<?php echo CAJAC_17; ?></label>
+                            <div class="col-xs-12 col-lg-4">
+                                <label class="input"> 
+                                    <i class="icon-append fa fa-money"></i>                                
+                                    <input style="background: #eee;text-align: right" type="text" id="<?php echo CAJAC; ?>txt_inicial" name="<?php echo CAJAC; ?>txt_inicial" value="<?php echo number_format($data['monto_inicial'],2);  ?>" readonly>
+                                    <b class="tooltip tooltip-top-right"><i class="fa fa-question-circle txt-color-teal"></i> <?php echo CAJAC_17M; ?></b>
+                             </label>
+                            </div>
+                            <div class="col-lg-12"><br><hr></div>   
+                        </div>                                            
+                </section> 
+                <section>
+                        <div class="row">                                                                                                                                                                 
+                            <label class="label col-xs-12 col-lg-2"><?php echo CAJAC_14; ?></label>
+                            <div class="col-xs-12 col-lg-4">
+                                <label class="input"> 
+                                    <i class="icon-append fa fa-money"></i>                                
+                                    <input style="background: #eee;text-align: right; font-weight: bold" type="text" id="<?php echo CAJAC; ?>txt_ingresos" name="<?php echo CAJAC; ?>txt_ingresos" value="<?php echo number_format($data['total_ingresos'],2);  ?>" readonly>
+                                    <b class="tooltip tooltip-top-right"><i class="fa fa-question-circle txt-color-teal"></i> <?php echo CAJAC_14M; ?></b>
+                             </label>
+                            </div>                              
+                            <label class="label col-xs-12 col-lg-2">&nbsp;&nbsp;<?php echo CAJAC_15; ?></label>
+                            <div class="col-xs-12 col-lg-4">
+                                <label class="input"> 
+                                    <i class="icon-append fa fa-money"></i>                                
+                                    <input style="background: #eee;text-align: right; font-weight: bold" type="text" id="<?php echo CAJAC; ?>txt_egresos" name="<?php echo CAJAC; ?>txt_egresos" value="<?php echo number_format($data['total_egresos'],2);  ?>" readonly>
+                                    <b class="tooltip tooltip-top-right"><i class="fa fa-question-circle txt-color-teal"></i> <?php echo CAJAC_15M; ?></b>
+                             </label>
+                            </div>  
+                        </div>                        
+                </section> 
+                
+                <section>
+                        <div class="row">                                                                                                                                                                 
+                            <label class="label col-xs-12 col-lg-2"><?php echo CAJAC_16; ?></label>
+                            <div class="col-xs-12 col-lg-4">
+                                <label class="input"> 
+                                    <i class="icon-append fa fa-money"></i>                                
+                                    <input style="background: #eee;text-align: right; font-weight: bold" type="text" id="<?php echo CAJAC; ?>txt_saldoCaja" name="<?php echo CAJAC; ?>txt_saldoCaja" value="<?php echo number_format($data['saldo'],2);  ?>" readonly>
+                                    <b class="tooltip tooltip-top-right"><i class="fa fa-question-circle txt-color-teal"></i> <?php echo CAJAC_16M; ?></b>
+                                </label>
+                            </div>                             
+                        </div>
+                </section>                                                           
+                
+            </div>
+        </div>
+        <div  class="pull-right padding-10 col-xs-12 col-lg-6" >
+            <div class="modal-body smart-form" > 
+                <section>
+                        <div class="row"> 
+                            <div class="col-lg-12"><br><hr><br></div>                                                                             
+                            <div class="col-lg-12">
+                                <div class="alert alert-info"><i class="fa fa-info-circle"></i> <?php echo CAJAC_28; ?></div>            
+                            </div>                              
+                            <div class="col-lg-12">
+                                <table id="<?php echo CAJAC; ?>gridMetodoPago" class="table table-bordered table-striped table-condensed table-hover smart-form has-tickbox">
+                                <thead>
+                                    <th style="width:40%"><?php echo CAJAC_19?></th>
+                                    <th style="width:60%; text-align: right;"><?php echo CAJAC_20?></th>                                  
+                                </thead>
+                                <tbody>
+                                    <?php 
+                                        $dataMP = Obj::run()->cajaCierreController->findMetodoPagoVentasAll(); 
+                                        $rows = sizeof($dataMP);
+                                        foreach ($dataMP as $r):                            
+                                            $css= 'background: #eee;';
+                                            $readonly = 'readonly';
+                                            ?>  
+                                        <tr id="<?php echo VRPT1; ?>tr_mp_<?php echo ($idx); ?>" >
+                                            <td>
+                                                <label class="input">
+                                                    <input style="<?php echo $css; ?>text-align: right;" type="text" id="<?php echo CAJAC.$idx; ?>txt_texto" name="<?php echo CAJAC; ?>txt_texto" value="<?php echo $r['descripcion'];?>" <?php echo $readonly; ?>>
+                                                </label>                                
+                                            </td>                                                                                                                                                                         
+                                            <td class="right">                                                
+                                                <label class="input">
+                                                    <i class="icon-append <?php echo $r['icono'];?>"></i>
+                                                    <input style="<?php echo $css; ?>text-align: right" type="text" id="<?php echo CAJAC.$idx; ?>txt_importe" name="<?php echo CAJAC; ?>txt_importe" value="<?php echo number_format($r['ingresos'],2);?>" <?php echo $readonly; ?> >                                                    
+                                                </label>
+                                            </td>                                                                                                                                                                      
+                                        </tr>  
+                                    
+                                    
+                                     <?php endforeach; ?> 
+                                </tbody>
+                                </table>                                
+                            </div>                                                                                                               
+                        </div>
+                    </section> 
+                <section>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <?php if($pdf["permiso"]):  ?>                                
+                            <button id="<?php echo VRPT1; ?>btnPDF" type="button" style="padding:6px 7px"
+                                    onclick="reporteVentaDia.postPDF(this,'<?php echo Aes::en($data['id_caja']);?>');" 
+                                    class="<?php echo $pdf['theme'];?> btn-sm"  >
+                                  <i class="<?php echo $pdf['icono'];?>"></i> <?php echo $pdf['accion'];?>
+                            </button>                                 
+                            <?php endif;?>
+                            <?php if($excel["permiso"]): ?>
+                            <button id="<?php echo VRPT1; ?>btnExcel" type="button" style="padding:6px 7px"
+                                    onclick="reporteVentaDia.postExcel(this,'<?php echo Aes::en($data['id_caja']);?>');" 
+                                    class="<?php echo $excel['theme'];?> btn-sm"  >
+                                  <i class="<?php echo $excel['icono'];?>"></i> <?php echo $excel['accion'];?>
+                            </button>                              
+                            <?php endif;?>
+                        </div>
+                    </div>
+                </section>
+               
+            </div>
+        </div>
+    </form>
+    <div class="clearfix"></div>    
+<?php echo Functions::widgetClose(); ?>
+ 

@@ -1,0 +1,64 @@
+<?php /*
+* ---------------------------------------
+* --------- CREATED BY CREATOR ----------
+* fecha: 29-03-2016 11:30:00 
+* Descripcion : formViewDocumentos.phtml
+* ---------------------------------------
+*/
+
+/*prefijo: VCOTI debe ser alias en tabla men_menuprincipal*/
+$exportarpdf   = Session::getPermiso('VCOTIEP');
+
+$idCotizacion = (Formulario::getParam("_idCotizacion"));    
+?>
+<form id="<?php echo VCOTI; ?>formViewDocumentos" name="<?php echo VCOTI; ?>formViewDocumentos" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"  aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title"><?php echo VCOTI_3; ?></h4>
+            </div>
+            <div class="modal-body smart-form"> 
+                <section>
+                    <div class="row">
+                        <div class="alert alert-info ">
+                            <i class="fa fa-info-circle"></i> Dar click en los siguientes botones para exportar los documentos.
+                        </div>
+                    </div>
+                </section>
+               <section>
+                    <div class="row">                                                
+                         <div class="col col-12">
+                            <?php if($exportarpdf["permiso"]): ?>
+                            <button type="button" class="<?php echo $exportarpdf['theme']; ?> margin-top-5 padding-10"title="<?php echo $exportarpdf['accion']; ?>"
+                                    onclick="vGenerarCotizacion.postPDFCarta(this,'<?php echo $idCotizacion;?>')" >
+                                  <i class="<?php echo $exportarpdf['icono'];?>"></i>  <?php echo VCOTI_6; ?>  
+                              </button>                                        
+                              <?php endif;?>                           
+                              <?php if($exportarpdf["permiso"]): ?>
+                            <button type="button" class="<?php echo $exportarpdf['theme']; ?> margin-top-5 padding-10"title="<?php echo $exportarpdf['accion']; ?>"
+                                    onclick="vGenerarCotizacion.postPDF(this,'<?php echo $idCotizacion;?>')" >
+                                  <i class="<?php echo $exportarpdf['icono'];?>"></i>  <?php echo VCOTI_5; ?>  
+                              </button>                                        
+                              <?php endif;?>     
+                        </div>
+                    </div>
+                </section>                                 
+            </div>
+            <div class="modal-footer">
+                <div class="foot-obligar"></div>                
+                <button type="button" class="<?php echo THEME_CLOSE; ?>">
+                    <i class="<?php echo ICON_CLOSE; ?>"></i> <?php echo BTN_CLOSE; ?>
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</form>
+<!-- si no tiene permiso se anula submit desde cualquier input -->
+<?php if(!$editar["permiso"]): ?>
+<script>
+    simpleScript.noSubmit("#<?php echo VCOTI; ?>formViewDocumentos");
+</script>
+<?php endif; ?>

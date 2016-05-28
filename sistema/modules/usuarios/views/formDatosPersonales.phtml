@@ -1,0 +1,197 @@
+<?php
+$data = Obj::run()->personaController->getDatosPersonales();
+
+$titulo = Formulario::getParam('_tt');
+
+switch ($data['estado']){ //A:Activo I:Inactivo B: Baja
+    case 'A':
+        $estado= LABEL_ACT;
+        $css = 'bg-color-greenLight txt-color-white';
+        break;
+    case 'I':
+        $estado= LABEL_DESACT; 
+         $css = 'bg-color-orange txt-color-white'; break;
+    case 'B':
+        $estado= LABEL_BAJA; 
+        $css = 'bg-color-red txt-color-white'; break;
+}
+?>
+<form id="<?php echo REPER; ?>formDatosPersonales" name="<?php echo REPER; ?>formDatosPersonales" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"  aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title"><?php echo $titulo;?></h4>
+            </div>
+            <div class="modal-body smart-form scroll-form">
+                <section>
+                    <div class="row">
+                        <label class="label col col-2"><?php echo LABEL_ESTADO; ?></label>
+                        <div class="col col-4">
+                            <label class="input"> 
+                                <i class="icon-append fa fa-star <?php echo $css; ?>"></i>  
+                                <input class="<?php echo $css; ?>" type="text" id="<?php echo REGCL; ?>txt_estado" name="<?php echo REGCL; ?>txt_estado" value="<?php echo $estado; ?>" readonly>
+                            </label>
+                        </div>                   
+                        <label class="label col col-1"><?php echo LABEL_RV28; ?></label>
+                        <div class="col col-5">
+                            <label class="input">
+                                <i class="icon-append fa fa-cogs"></i>
+                                <input type="text" id="<?php echo REGCL; ?>txt_codigo" name="<?php echo REGCL; ?>txt_codigo" value="<?php echo $data['id_persona']; ?>" readonly>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <div class="row">
+                        <label class="label col col-2"><?php echo LABEL_RV3; ?></label>
+                        <div class="col col-10">
+                            <label class="input"> 
+                                <i class="icon-append fa fa-user "></i>
+                                <input type="text" id="<?php echo REGCL; ?>txt_nombres" name="<?php echo REGCL; ?>txt_nombres" value="<?php echo $data['nombrecompleto']; ?>" readonly>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+                 <section>
+                    <div class="row">
+                        <label class="label col col-2"><?php echo LABEL_RV4; ?></label>
+                        <div class="col col-10">
+                            <label class="input"> 
+                                <i class="icon-append fa fa-user "></i>
+                                <input type="text" id="<?php echo REGCL; ?>txt_empresa" name="<?php echo REGCL; ?>txt_empresa" value="<?php echo $data['empresacliente']; ?>" readonly>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <div class="row">
+                        <label class="label col col-2"><?php echo VRECL_7; ?></label>
+                        <div class="col col-4">
+                            <label class="input"> 
+                                <i class="icon-append fa fa-keyboard-o"></i>
+                                <input type="text" id="<?php echo REGCL; ?>txt_ruc" name="<?php echo REGCL; ?>txt_ruc" value="<?php echo $data['ruccliente']; ?>" readonly>
+                            </label>
+                        </div>
+                        <label class="label col col-2"><?php echo VRECL_6; ?></label>
+                        <div class="col col-4">
+                            <label class="input"> 
+                                <i class="icon-append fa fa-keyboard-o"></i>
+                                <input type="text" id="<?php echo REGCL; ?>txt_nrodocumento" name="<?php echo REGCL; ?>txt_nrodocumento" value="<?php echo $data['numerodocumento']; ?>" readonly>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+                <?php if(!empty($data['fecha_cumple'])):?>                                    
+                <section>
+                    <div class="row">
+                        <label class="label col col-2"><?php echo LABEL_RV23; ?></label>
+                        <div class="col col-10">
+                            <label class="input"> 
+                                <i class="icon-append fa fa-gift "></i>
+                                <input type="text" id="<?php echo REPER; ?>txt_fechaNac" name="<?php echo REPER; ?>txt_fechaNac" value="<?php echo Functions::cambiaf_a_normal($data['fecha_cumple']) ?>" readonly>
+                            </label>
+                        </div>
+                    </div>
+                </section>   
+                <?php endif; ?>
+                <section>
+                    <div class="row">
+                        <label class="label col col-2"><?php echo LABEL_RV20; ?></label>
+                        <div class="col col-10">
+                            <label class="input"> 
+                                <i class="icon-append fa fa-map-marker"></i>
+                                <input type="text" id="<?php echo REGCL; ?>txt_ciudad" name="<?php echo REGCL; ?>txt_ciudad" value="<?php echo $data['ciudad'].', '.$data['departamento'].', '.$data['pais']; ?>" readonly> 
+                            </label>
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <div class="row">
+                        <label class="label col col-2"><?php echo LABEL_RV9; ?></label>
+                        <div class="col col-10">
+                            <label class="input"> 
+                                <i class="icon-append fa fa-map-marker"></i>
+                                <input type="text" id="<?php echo REGCL; ?>txt_direccion" name="<?php echo REGCL; ?>txt_direccion" value="<?php echo $data['direccion']; ?>" readonly> 
+                            </label>
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <div class="row">
+                        <label class="label col col-2"><?php echo LABEL_RV10; ?></label>
+                        <div class="col col-10">
+                            <label class="input"> 
+                                <i class="icon-append fa fa-envelope"></i>
+                                <input type="text" id="<?php echo REGCL; ?>txt_mail" name="<?php echo REGCL; ?>txt_mail" value="<?php echo $data['email']!==''?$data['email']:LABEL_NOEMAIL; ?>" readonly>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <div class="row">
+                        <label class="label col col-2"><?php echo LABEL_RV14; ?></label>
+                        <div class="col col-10">
+                            <label class="input"> 
+                                <i class="icon-append fa fa-phone"></i>  
+                                <input type="text" id="<?php echo REGCL; ?>txt_tel" name="<?php echo REGCL; ?>txt_tel" value="<?php echo $data['telefono']; ?>" readonly>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+                <?php if(!empty($data['link'])): ?>                
+                <section>
+                    <div class="row">
+                        <label class="label col col-2"><?php echo LABEL_RV32; ?></label>
+                        <div class="col col-10">
+                            <label class="input"> 
+                                <a href="<?php echo $data['link']; ?>" target="_blank" ><?php echo LABEL_IRENLACE; ?></a>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+                <?php endif; ?>
+    <?php if(Session::get('sys_defaultRol') == APP_COD_SADM || Session::get('sys_defaultRol') == APP_COD_ADM): ?>
+                <?php if(!empty($data['codigo_pic'])): ?>
+                <section>
+                    <div class="row">
+                        <label class="label col col-2"><?php echo LABEL_RV31; ?></label>
+                        <div class="col col-10">
+                            <label class="input"> 
+                                <input type="text" id="<?php echo REGCL; ?>txt_idPic" name="<?php echo REGCL; ?>txt_idPic" value="<?php echo $data['codigo_pic']; ?>" readonly>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+                <?php endif; ?>                                                 
+            <?php endif; ?>   
+                
+                 <?php
+                    $file = 'public/img/fotos/'. $data['foto'];
+                if( file_exists($file) && $data['foto'] != ''): ?>
+                <section> 
+                    <div class="row">
+                        <div class="well col-xs-12">
+                            <center>
+                                  <img class="featurette-image img-rounded img-responsive padding-10 " src="<?php echo $file; ?>" alt="imagen" />
+                            </center>
+                        </div>
+                    </div>
+                </section>
+                <?php endif; ?>
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="<?php echo THEME_CLOSE; ?>">
+                    <i class="<?php echo ICON_CLOSE; ?>"></i> <?php echo BTN_CLOSE; ?> 
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+
+<!-- si no riene permiso se anula submit desde cualquier input -->
+<script>
+    simpleScript.noSubmit('#<?php echo REPER; ?>formDatosPersonales');
+</script>
+</form>

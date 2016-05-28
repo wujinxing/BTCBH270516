@@ -1,0 +1,148 @@
+<?php /*
+* ---------------------------------------
+* --------- CREATED BY CREATOR ----------
+* fecha: 22-11-2014 20:11:18 
+* Descripcion : formNewIngresoDirecto.phtml
+* ---------------------------------------
+*/
+
+/*prefijo: VGEVE debe ser alias en tabla men_menuprincipal*/
+$grabar = Session::getPermiso("VGEVEGR");
+
+if( Session::get('sys_visible') == 'S' ){
+    $idSucursal = 1; // Administrador por defecto 1. Ya al seleccionar el combo se mostrara los demas cajas x sucursal.
+}else{
+    $idSucursal = Session::get('sys_idSucursal'); // Sucursal configurada desde usuarios para el cajero.
+}
+
+?>
+<form id="<?php echo VGEVE; ?>formNewIngresoDirecto" name="<?php echo VGEVE; ?>formNewIngresoDirecto" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"  aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title"><?php echo VGEVE_37; ?></h4>
+            </div>
+            <div class="modal-body smart-form">
+                <?php  if( Session::get('sys_visible') == 'S' ): ?>   
+                    <section >
+                          <div class="row">                              
+                              <label class="label col col-2"><?php echo VGEVE_15; ?>  </label>
+                              <div class="col col-10">
+                                    <label class="select" > 
+                                       <?php
+                                           $dataSucursal = vSucursalController::getSucursalAll('S');
+                                               echo Functions::selectHtml(array(
+                                                   'data'=>$dataSucursal,
+                                                   'atributes'=>array(
+                                                       'id'=>VGEVE.'lst_sucursal',
+                                                       'name'=>VGEVE.'lst_sucursal',  
+                                                        'onchange'=>'cajaApertura.getCaja({
+                                                            idSucursal: $(\'#'.VGEVE.'lst_sucursal\').val(),
+                                                            content: \'#'.VGEVE.'cont-caja2\',
+                                                            idElement: \''.VGEVE.'lst_caja\',
+                                                            nameElement: \''.VGEVE.'lst_caja\'                                                         
+                                                        });'
+                                                   ),  
+                                                   'etiqueta'=>'descripcion',
+                                                   'value'=>'id',
+                                                   'defaultEtiqueta'=>$idSucursal,
+                                                   'txtSelect'=>true,
+                                                   'encript' => true
+                                           ));
+                                    ?><i></i>                                  
+                                    </label>                                                                                           
+                                </div>
+                          </div>
+                    </section>
+                     <?php endif; ?>
+                <section >
+                          <div class="row">                             
+                              <label class="label col col-2"><?php echo VGEVE_33; ?>  </label>
+                              <div class="col col-10">
+                                    <label class="select" id="<?php echo VGEVE; ?>cont-caja2"> 
+                                       <?php
+                                           $dataCaja = cajaAperturaController::getDataCajaAll($idSucursal);
+                                               echo Functions::selectHtml(array(
+                                                   'data'=>$dataCaja,
+                                                   'atributes'=>array(
+                                                       'id'=>VGEVE.'lst_caja',
+                                                       'name'=>VGEVE.'lst_caja',                                            
+                                                   ),  
+                                                   'etiqueta'=> 'descripcion',
+                                                   'value'=>'id_caja',
+                                                   'defaultEtiqueta'=>'',
+                                                   'txtSelect'=>false,
+                                                   'encript' => true
+                                           ));
+                                               ?> <i></i>                                 
+                                    </label>                                                                                           
+                              </div>
+                          </div>
+                    </section>
+               <section>
+                    <div class="row">
+                        <label class="label col col-2"><?php echo VEGRE_5; ?></label>
+                        <div class="col col-10">
+                            <div class="textarea">
+                                <textarea class="form-control" id="<?php echo VGEVE; ?>txt_obs" name="<?php echo VGEVE; ?>txt_obs"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                 <section>
+                    <div class="row">                                        
+                        <label class="label col col-2"><?php echo VGEVE_34; ?></label>
+                        <div class="col col-4">
+                            <label class="input"> 
+                                <i class="icon-append fa fa-money"></i>
+                                <input style="text-align: right; " class="form-control"  type="text" id="<?php echo VGEVE; ?>txt_totalF" name="<?php echo VGEVE; ?>txt_totalF"  >
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-keyboard-o txt-color-teal"></i> <?php echo VGEVE_34M; ?></b>
+                            </label>
+                        </div>                                             
+                    </div>
+                </section> 
+            </div>
+            <div class="modal-footer">
+                <div class="foot-obligar"></div>
+                <?php if($grabar["permiso"]):?>
+                <button id="<?php echo VGEVE; ?>btnGrIngresoDirecto" type="submit" class="<?php echo $grabar["theme"]; ?>">
+                    <i class="<?php echo $grabar["icono"]; ?>"></i> <?php echo $grabar["accion"]; ?>
+                </button>
+                <?php endif; ?>
+                <button type="button" class="<?php echo THEME_CLOSE; ?>">
+                    <i class="<?php echo ICON_CLOSE; ?>"></i> <?php echo BTN_CLOSE; ?>
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</form>
+<!-- si no tiene permiso se anula submit desde cualquier input -->
+<?php if(!$grabar["permiso"]): ?>
+<script>
+    simpleScript.noSubmit("#<?php echo VGEVE; ?>formNewIngresoDirecto");
+</script>
+<?php endif; ?>
+<script>
+   
+/*configurar validacion de formulario -- este codigo es de ejemplo*/
+$("#<?php echo VGEVE; ?>formNewIngresoDirecto").validate({
+    rules : {        
+        <?php echo VGEVE; ?>txt_totalF : {
+            required : true,
+            number: true
+        },<?php echo VGEVE; ?>lst_caja : {
+            required : true
+        } 
+    },   
+    errorPlacement : function(error, element) {
+        error.insertAfter(element.parent());
+    },
+
+    submitHandler: function(){
+        generarVenta.postNewIngresoDirecto();
+    }   
+});
+</script>

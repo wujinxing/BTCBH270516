@@ -1,0 +1,112 @@
+<?php 
+/*
+* ---------------------------------------
+* --------- CREATED BY CREATOR ----------
+* fecha: 04-05-2016 17:11:16 
+* Descripcion : indexReporteGraficoIngresosMes.phtml
+* ---------------------------------------
+*/
+$recuperar    = Session::getPermiso("VRPT6REC");
+?>   
+<?php
+    $obj = array(
+        'id' => VRPT6,
+        'title' => VRPT6_1,
+        'height' => 'auto',
+        'padding' => true,
+        "actions" => array(
+                array(
+                    'id' => VRPT6 . 'btnPDF',                    
+                    'permiso'=> 'VRPT6EP',
+                    'click' => 'reporteGraficoIngresosMes.postPDF();'                    
+                ),
+                array(
+                    "id" => VRPT6 . "gridGrafico_btnRecarga",                    
+                    "permiso"=> "VRPT3REC",
+                    "click" => "reporteGraficoIngresosMes.getGraficoChk();"                  
+                )
+            )
+    );
+    echo Functions::widgetOpen($obj);
+        
+    ?>
+	
+<style>
+    #<?php echo VRPT6; ?>chartdiv {
+	width		: 100%;
+	height		: 500px;
+	font-size	: 11px;  
+}										
+
+.amcharts-export-menu-top-right {
+  top: 10px;
+  right: 0;
+}		
+</style>
+<button id="<?php echo VRPT6; ?>btnDowPDF" type="button" class="hide">Descargar</button>
+<button id="<?php echo VRPT6; ?>btnDowExcel" type="button" class="hide">Descargar</button>
+    <div class="widget-body-toolbar " style="margin:0px; padding:10px ">  
+          <div class="smart-form" style="position: absolute;left:5px;top:15px;width: 70%; padding-top:5px; "> 
+            <label class="label col col-xs-1 pull-left font-xs"><?php echo VRPT3_2; ?></label>
+            <label class="input pull-left col col-xs-2" >
+                 <label class="select"> 
+                                <?php
+                                    $anio = reporteGraficoIngresosMesController::getAnioAll();                                                                                                               
+                                    echo Functions::selectHtml(array(
+                                        'data'=>$anio,
+                                        'atributes'=>array(
+                                            'id'=>VRPT6.'lst_periodo',
+                                            'name'=>VRPT6.'lst_periodo',
+                                            'onchange'=>'reporteGraficoIngresosMes.getGraficoChk();'
+                                        ),
+                                        'etiqueta'=>'anio',
+                                        'value'=>'anio',
+                                        'defaultEtiqueta'=>date("Y"),
+                                        'txtSelect'=>false
+                                    ));
+                                ?><i></i>
+                            </label>
+                
+            </label>
+        <?php  if( Session::get('sys_visible') == 'S' ): ?>  
+        <label class="label col col-xs-1 font-xs">&nbsp;<?php echo VGEVE_15; ?></label>        
+        <div class="col col-xs-2" style="padding-left:20px;">
+            <label class="select"> 
+                <?php
+                    $dataSucursal = vSucursalController::getSucursalSiglaAll();
+                        echo Functions::selectHtml(array(
+                            'data'=>$dataSucursal,
+                            'atributes'=>array(
+                                'id'=>VRPT6.'lst_sucursalGrid',
+                                'name'=>VRPT6.'lst_sucursalGrid',   
+                                'onchange'=>'reporteGraficoIngresosMes.getGraficoChk();'
+                            ),  
+                            'etiqueta'=>'sigla',
+                            'value'=>'id',
+                            'defaultEtiqueta'=>'1',
+                            'txtSelect'=>false                                           
+                    ));
+               ?><i></i>                                  
+             </label>  
+        </div>
+        <?php endif; ?>
+            <div class="col col-xs-2 pull-left" style="padding-left:30px; margin-right: 20px;" >                      
+                <?php if($recuperar["permiso"] ): ?>
+                <button id="<?php echo VRPT6; ?>btnRefresh" type="button" style="padding:6px 7px; margin-top:-3px; " 
+                    onclick="reporteGraficoIngresosMes.getGraficoChk();"
+                     class="<?php echo $recuperar['theme'];?> btn-sm"  >
+                  <i class="<?php echo $recuperar['icono'];?>"></i> <?php echo $recuperar['accion'];?>
+                </button>   
+                <?php endif; ?> 
+           </div>
+          <label class="checkbox col col-xs-3" style="padding-left:30px;" >
+              <input type="checkbox" checked name="<?php echo VRPT6; ?>chk_graf" id="<?php echo VRPT6; ?>chk_graf" value="1" onclick="reporteGraficoIngresosMes.getGraficoChk();"  ></input>
+                    <i></i> Gráfico Barras
+            </label>
+        </div>
+    </div>
+        <div id="<?php echo VRPT6; ?>chartdiv" class="container-graph" style="width: auto; height: 400px;">
+        </div>
+   
+    
+<?php echo Functions::widgetClose(); ?>

@@ -1,0 +1,182 @@
+<?php /*
+* ---------------------------------------
+* --------- CREATED BY CREATOR ----------
+* fecha: 18-11-2014 17:11:41 
+* Descripcion : formNewPagarVenta.phtml
+* ---------------------------------------
+*/
+
+/*prefijo: VSEVE debe ser alias en tabla men_menuprincipal*/
+$grabar = Session::getPermiso("VSEVEPG");    
+$saldo = Formulario::getParam('_saldo');
+
+$data = vseguimientoventaController::findVenta();
+$idSucursal = $data['id_sucursal'];
+
+?>
+<form id="<?php echo VSEVE; ?>formNewPagarVenta" name="<?php echo VSEVE; ?>formNewPagarVenta" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"  aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title"><?php echo VSEVE_2; ?></h4>
+                <span id="<?php echo VSEVE; ?>saldo_pago" class="badge bg-color-red">Saldo: S/ <?php echo number_format($saldo,2); ?></span>
+            </div>
+            <div class="modal-body smart-form"> 
+                                                 
+                <section>
+                    <div class="row">
+                            <label class="label col col-2"><?php echo VGEVE_33; ?>  </label>
+                            <div class="col col-10">
+                                    <label class="select" id="<?php echo VSEVE; ?>cont-caja"> 
+                                       <?php
+                                           $dataCaja = cajaAperturaController::getDataCajaAll($idSucursal);
+                                               echo Functions::selectHtml(array(
+                                                   'data'=>$dataCaja,
+                                                   'atributes'=>array(
+                                                       'id'=>VSEVE.'lst_caja',
+                                                       'name'=>VSEVE.'lst_caja',                                            
+                                                   ),  
+                                                   'etiqueta'=> 'descripcion',
+                                                   'value'=>'id_caja',
+                                                   'defaultEtiqueta'=>'',
+                                                   'txtSelect'=>false,
+                                                   'encript'=>true
+                                           ));
+                                               ?> <i></i>                                 
+                                    </label>                                                                                           
+                              </div>
+                    </div>
+                </section> 
+                <section>
+                    <div class="row">                                
+                        <label class="label col col-2"><?php echo VGEVE_38; ?></label>
+                        <div class="col col-4">
+                             <label class="select"> 
+                                <?php
+                                    $metodoPago = metodoPagoController::findMetodoPagoAll();
+                                    echo Functions::selectHtml(array(
+                                        'data'=>$metodoPago,
+                                        'atributes'=>array(
+                                            'id'=>VSEVE.'lst_metodoPago',
+                                            'name'=>VSEVE.'lst_metodoPago'                                           
+                                        ),
+                                        'etiqueta'=>'descripcion',
+                                        'value'=>'id',
+                                        'defaultEtiqueta'=>'1',
+                                        'encript'=>true
+                                    ));
+                                    ?> <i></i>  
+                              </label>
+                          </div>  
+                        <label class="label col col-2"><?php echo VGEVE_39; ?> </label>
+                        <div class="col col-4">
+                              <label class="input"> 
+                                  <i class="icon-append fa fa-file-text-o"></i>
+                                  <input class="form-control"  type="text" id="<?php echo VSEVE; ?>txt_operacion" name="<?php echo VSEVE; ?>txt_operacion"   >
+                                  <b class="tooltip tooltip-top-right"><i class="fa fa-question-circle txt-color-teal"></i> <?php echo VGEVE_39M; ?></b>
+                              </label>
+                        </div>
+                        </div>
+                </section> 
+                <section>
+                    <div class="row">
+                        <label class="label col col-2"><?php echo VSEVE_4; ?></label>
+                        <div class="col col-4">
+                            <label class="input"> 
+                                <i class="icon-append fa  fa-money"></i>
+                                <input style="text-align: right" type="text" id="<?php echo VSEVE; ?>txt_pago" name="<?php echo VSEVE; ?>txt_pago" value="0.00"></input>
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-question-circle  txt-color-teal"></i> <?php echo VSEVE_4M; ?></b>
+                            </label>
+                        </div>  
+                        <label class="label col col-2"><?php echo VGEVE_8; ?> </label>
+                        <div class="col col-4">
+                              <label class="select"> 
+                                 <?php
+                                     $dataDoc = generarVentaController::getTipoDocumento();                          
+                                      echo Functions::selectHtml(array(
+                                          'data'=>$dataDoc,
+                                          'atributes'=>array(
+                                              'id'=>VSEVE.'lst_tipoDoc',
+                                              'name'=>VSEVE.'lst_tipoDoc'
+                                          ),
+                                          'etiqueta'=>'descripcion',
+                                          'value'=>'id',
+                                          'defaultEtiqueta'=>'0',
+                                          'txtSelect'=>false                                     
+                                     ));
+                              ?> <i></i>                                 
+                              </label>  
+                        </div>                       
+                    </div>
+                </section>                                                                   
+                <section>
+                    <div class="row">
+                        <label class="label col col-2"><?php echo VSEVE_5; ?> </label>
+                        <div class="col col-4">
+                             <label class="input"> 
+                                <i class="icon-append fa fa-file-text"></i>
+                                <input maxlength="10" style="text-align: right" class="form-control"  type="text" id="<?php echo VSEVE; ?>txt_serie" name="<?php echo VSEVE; ?>txt_serie"   >
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-question-circle txt-color-teal"></i> <?php echo VSEVE_5M; ?></b>
+                             </label>
+                         </div>
+                        <label class="label col col-2"><?php echo VSEVE_6; ?> </label>
+                        <div class="col col-4">
+                            <label class="input"> 
+                              <i class="icon-append fa fa-file-text"></i>
+                              <input maxlength="20" style="text-align: right" type="text" id="<?php echo VSEVE; ?>txt_numero" name="<?php echo VSEVE; ?>txt_numero" >                                      
+                              <b class="tooltip tooltip-top-right"><i class="fa fa-question-circle txt-color-teal"></i> <?php echo VSEVE_6M; ?></b>
+                             </label>
+                        </div>
+                    </div>
+                </section>
+                
+            </div>
+            <div class="modal-footer">
+                <div class="foot-obligar"></div>
+                <?php if($grabar["permiso"]):?>
+                <button id="<?php echo VSEVE; ?>btnGrVseguimientoventa" type="submit" class="padding-5 <?php echo $grabar["theme"]; ?>">
+                    <i class="<?php echo $grabar["icono"]; ?>"></i> <?php echo $grabar["accion"]; ?>
+                </button>
+                <?php endif; ?>
+                <button type="button" class="<?php echo THEME_CLOSE; ?>">
+                    <i class="<?php echo ICON_CLOSE; ?>"></i> <?php echo BTN_CLOSE; ?>
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</form>
+<!-- si no tiene permiso se anula submit desde cualquier input -->
+<?php if(!$grabar["permiso"]): ?>
+<script>
+    simpleScript.noSubmit("#<?php echo VSEVE; ?>formNewPagarVenta");
+</script>
+<?php endif; ?>
+<script>
+    
+/*    simpleScript.setEvent.date({
+      element: '#<?php echo VSEVE; ?>txt_fecha'
+    });   */        
+    
+    $("#<?php echo VSEVE; ?>formNewPagarVenta").validate({
+        rules : {
+            <?php echo VSEVE; ?>txt_pago : {
+                required : true,
+                number:true                 
+            },<?php echo VSEVE; ?>lst_caja : {
+                required : true
+            }                    
+        },
+        errorPlacement : function(error, element) {
+            error.insertAfter(element.parent());
+        },
+
+        submitHandler: function(){        
+            /*marca el paso como completado*/
+            vseguimientoventa.postPagoVenta();
+        }                 
+    });       
+
+</script>

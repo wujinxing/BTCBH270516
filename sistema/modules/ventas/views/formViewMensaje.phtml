@@ -1,0 +1,118 @@
+<?php /*
+* ---------------------------------------
+* --------- CREATED BY CREATOR ----------
+* fecha: 02-12-2014 03:12:14 
+* Descripcion : formViewMensaje.phtml
+* ---------------------------------------
+*/
+
+$grabar = $this->grabar;
+$onclick = $this->onclick;
+?>
+<form id="<?php echo T4; ?>formViewMensaje" name="<?php echo T4; ?>formViewMensaje" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"  aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title"><?php echo LABEL_VISTAPREVIA; ?></h4>
+            </div>
+            <div class="modal-body smart-form">     
+                <section>
+                    <div class="row">
+                        <div class="col col-2"><?php echo PMSJ_04.': '; ?></div>
+                        <div class="col col-8">
+                            <b><?php echo $this->asunto; ?></b>
+                        </div>
+                    </div>
+                </section>    
+                <section>
+                    <div class="row">
+                        <div class="col col-2"><?php echo LABEL_RV10.': '; ?></div>
+                        <div class="col col-8">
+                            <b><?php echo $this->email; ?></b>
+                        </div>
+                    </div>
+                </section>  
+                <?php if(!empty($this->adjunto)): ?>                                    
+                <section>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="alert alert-info ">
+                                <h4>Archivos Adjuntos</h4>
+                                <?php echo $this->adjunto; ?>
+                            </div>
+                        </div>
+                    </div>
+                </section>                
+                <?php endif; ?>
+                <section>
+                    <div class="row">                        
+                        <div class="col col-12">
+                            <textarea class="msjView" name="<?php echo T4; ?>txt_mensaje" id="<?php echo T4; ?>txt_mensaje" rows="3"><?php echo $this->mensaje; ?></textarea>                                                              
+                        </div>
+                    </div>
+                </section>   
+                <input type="hidden" name="<?php echo T4; ?>txt_asunto" id="<?php echo T4; ?>txt_asunto" value="<?php echo $this->asunto; ?>" />
+                
+            </div>
+            <div class="modal-footer">
+                <div class="foot-obligar"></div>
+                <?php if($grabar["permiso"]):?>
+                <button id="<?php echo T4; ?>btnGrMensaje" type="submit" class="<?php echo $grabar["theme"]; ?> padding-5">
+                    <i class="<?php echo $grabar["icono"]; ?>"></i> <?php echo $grabar["accion"]; ?>
+                </button>
+                <?php endif; ?>
+                <button type="button" class="<?php echo THEME_CLOSE; ?>">
+                    <i class="<?php echo ICON_CLOSE; ?>"></i> <?php echo BTN_CLOSE; ?>
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</form>
+<!-- si no tiene permiso se anula submit desde cualquier input -->
+<?php if(!$grabar["permiso"]): ?>
+<script>
+    simpleScript.noSubmit("#<?php echo T4; ?>formViewMensaje");
+</script>
+<?php endif; ?>
+<script>        
+/*configurar validacion de formulario -- este codigo es de ejemplo*/
+$("#<?php echo T4; ?>formViewMensaje").validate({
+    rules : {        
+    },    
+    errorPlacement : function(error, element) {
+        error.insertAfter(element.parent());
+    },
+
+    submitHandler: function(){
+        <?php echo $onclick; ?>
+    }   
+});
+simpleScript.setEvent.blur({   
+        element:'.msjView',
+        event: function(){      
+            $('textarea[name="content"]').html($('.msjView').summernote('code'));  
+        }
+});    
+var pagefunction = function() {
+     $('.msjView').summernote({
+                     height : 300,
+                     focus : true,                  
+                     lang: 'es-ES',
+                     toolbar: [
+                      ['font', ['bold','italic' ,'underline', 'clear', 'codeview' ]]
+                   ]
+             });		
+ };	
+
+ loadScript("theme/<?php echo DEFAULT_LAYOUT ?>/js/plugin/summernote/summernote.min.js", function(){
+     loadScript("theme/<?php echo DEFAULT_LAYOUT ?>/js/plugin/summernote/lang/summernote-es-ES.min.js", function(){
+         loadScript("theme/<?php echo DEFAULT_LAYOUT ?>/js/plugin/markdown/markdown.min.js", function(){
+                         loadScript("theme/<?php echo DEFAULT_LAYOUT ?>/js/plugin/markdown/bootstrap-markdown.min.js", pagefunction);
+         });
+     });
+ });    
+
+</script>

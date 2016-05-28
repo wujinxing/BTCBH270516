@@ -1,0 +1,141 @@
+<?php
+/*
+ * Documento   : menu
+ * Creado      : 04-feb-2014, 9:40:21
+ * Autor       : RDCC
+ * Descripcion :
+ */
+$dominioTMP = '';
+$menuPrincipalTMP = '';
+?>
+<?php    
+if (Session::get('sys_menu')):
+    $dominioTMP = '';
+    $permisos = array();
+    foreach (Session::get('sys_menu') as $value) :
+
+        /* acciones de una opcion */
+        $acciones = indexController::getAccionesOpcion($value['id_rolopciones']);
+        
+        $aliasopcion = $value['aliasopcion'];
+
+        /* creando array de permisos */
+
+        foreach ($acciones as $val) {
+        $permisos[] = array(
+                'main' => $aliasopcion,
+                'opcion' => $aliasopcion . $val['aliasaccion'],
+                'accion' => $val['accion'],
+                'icono' => $val['icono'],
+                'theme' => $val['theme'],
+                'permiso' => $val['activo']
+            );
+        }
+
+    endforeach;
+endif;
+/* crear sesion de permisos */
+Session::set('sys_permisos', $permisos);
+
+?>                    
+
+<?php foreach (Session::get('sys_menu') as $menu): 
+        /*tiene que ser del mismo dominio*/
+            /*modulo no debe repetirse*/
+            if($menu['id_dominio'] != $dominioTMP):
+?> 
+    <li>
+        <a href="javascript:;"><i class="<?php echo $menu['icon']?>"></i> <span class="menu-item-parent"><?php echo constant('DOMINIO_'.$menu['id_dominio']); ?></span></a>
+        <ul>
+            <?php
+                /*menu principal del modulo*/
+                foreach (Session::get('sys_menu') as $menuprincipal):
+                    
+                    
+                    if($menuprincipal['id_dominio'] == $menu['id_dominio']):
+                        
+                        /*verificar q no se repitan*/
+                        if($menuprincipal['id_modulo'] !== $menuPrincipalTMP):
+                            
+            ?>
+                    <li>
+                        <a href="javascript:;"><?php echo constant('MODULO_'.$menuprincipal['id_modulo']);?></a>
+                        <ul>
+                            <?php
+                                /*las opciones de menu principal*/
+                                foreach (Session::get('sys_menu') as $opciones):
+                                    if($opciones['id_dominio'] == $menu['id_dominio'] && $opciones['id_modulo'] == $menuprincipal['id_modulo']):
+                                        
+                                        $enlaceMenu =constant('DOMINIO_'.$menu['id_dominio']).' \ '.constant('MODULO_'.$menuprincipal['id_modulo']).' \ '.constant('MENU_'.$opciones['id_menuprincipal']);
+                                        Session::set($opciones['id_menuprincipal'], $enlaceMenu);
+                                        
+                            ?>
+                                    <li style="margin-left: -28px;">
+                                            <a href="javascript:;" class="cortar" data-sitemap="<?php echo $enlaceMenu; ?>" title="<?php echo constant('MENU_'.$opciones['id_menuprincipal']); ?>" onclick="<?php echo $opciones['url']; ?>"><?php echo constant('MENU_'.$opciones['id_menuprincipal']); ?></a>
+                                    </li>
+                            <?php
+                                    endif;
+                                endforeach;
+                            ?>
+                        </ul>
+                    </li>
+            <?php
+                        endif;
+                        $menuPrincipalTMP = $menuprincipal['id_modulo'];
+                    endif;
+                endforeach;
+            ?>
+        </ul>
+    </li>
+<?php 
+        endif;
+        $dominioTMP = $menu['id_dominio'];
+endforeach;
+
+ /*
+    * Verifico si es SUPER ADMINISTRADOR (001) o ADMINISTRADOR (002)
+    * esto servira para los reportes, si es super o adm tendra acceso a toda la informacion
+ */
+    Session::set('sys_all','N');
+    if(Session::get('sys_defaultRol') == APP_COD_SADM || Session::get('sys_defaultRol') == APP_COD_ADMIN ){
+        Session::set('sys_all','S');
+    }    
+    
+    Session::set('sys_visible','N');
+    if(Session::get('sys_defaultRol') == APP_COD_SADM || Session::get('sys_defaultRol') == APP_COD_ADMIN ){
+        Session::set('sys_visible','S');
+    }         
+
+?>
+<script>
+    function noneEvtMenu(){
+        if($('#nav_modulos').length > 0){                    
+            <?php
+              switch (Session::get('sys_defaultRol')):                                
+                    case APP_COD_SADM:
+            ?>                           
+                /* Ejecutar js */
+                               
+            <?php  break; 
+                    case APP_COD_ADMIN:
+            ?>                                                               
+                /* Ejecutar js */
+               
+            <?php  break; 
+                    case APP_COD_VENDEDOR:
+            ?>   
+                /* Ejecutar js */
+            
+             <?php  break; 
+                    case APP_COD_CAJERO:
+            ?>   
+                /* Ejecutar js */
+                
+            <?php 
+               endswitch;
+            ?>
+            setup_widgets_desktop();       
+        }
+    }
+
+</script>

@@ -1,0 +1,88 @@
+<?php echo Functions::siteMap(); ?>
+<div id="clonex" style="position: absolute;z-index: 9999999;font: 15px 'trebuchet MS', 'lucida sans';text-shadow: 0 1px 0 rgba(255,255,255,.5);">
+    <div style="position: absolute;width: 300px;display: none"></div>
+</div>
+<article class="col-lg-6">
+    <!--INICIO DOMINIOS-->
+<?php 
+    $obj = array(
+        'id'=>T3.'dominios',
+        'title'=>M_TITLTE_DOM,
+        'height'=>'200px',
+        'padding'=>true,
+        'actions'=>array(
+            array(
+                'id'=>T5.'btnNew',
+                'label'=>BTN_NUEVO,
+                'click'=>'configurarMenu.getNuevoDominio()'
+            )
+        )
+    );
+    echo Functions::widgetOpen($obj); 
+    
+?>
+
+    <div id="cont-listadominios">
+    </div>
+    
+<?php echo Functions::widgetClose(); ?>
+    <!--FIN DE DOMINIOS-->
+</article>    
+
+<article class="col-lg-6">
+     <!--INICIO MODULOS-->
+<?php 
+    $obj = array(
+        'id'=>T3.'modulos',
+        'title'=>M_TITLTE_MOD,
+        'height'=>'228px',
+        'actions'=>array(
+            array(
+                'id'=>T5.'btnNew',
+                'label'=>BTN_NUEVO,
+                'click'=>'configurarMenu.getNuevoModulo()'
+            )
+        )
+    );
+    echo Functions::widgetOpen($obj); 
+
+?>
+    <label style="margin-left: 15px;"><?php echo M_LB_DOM; ?> <span id="name-dominio" class="label label-default"></span></label>
+    <div id="cont-listaModulos" class="contMenus">
+    </div>
+<?php echo Functions::widgetClose(); ?>
+    <!--FIN MODULOS-->
+    
+</article>
+ 
+
+<article class="col-lg-6">    
+ <!--INICIO MENU PRINCIPAL-->
+<?php
+    $obj = array(
+        'id'=>T3.'menuprincipal',
+        'title'=>M_TITLTE_MEP,
+        'height'=>'228px',
+        'actions'=>array(
+            array(
+                'id'=>T5.'btnNew',
+                'label'=>BTN_NUEVO,
+                'click'=>'configurarMenu.getNuevoMenuPrincipal()'
+            )
+        )
+    );
+    echo Functions::widgetOpen($obj); 
+
+?>
+    <label style="margin-left: 15px;"><?php echo M_LB_MOD; ?> <span id="name-modulo" class="label label-default"></span></label>
+    <div id="cont-listaMenuPrincipal" class="contMenus">
+    </div>
+<?php echo Functions::widgetClose(); ?>
+    <!--FIN MENU PRINCIPAL-->
+</article>    
+      
+<div class="clearfix">
+</div>
+<script>
+    configurarMenu.getListaDominios();
+</script>

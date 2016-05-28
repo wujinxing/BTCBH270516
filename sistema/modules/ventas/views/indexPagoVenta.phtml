@@ -1,0 +1,91 @@
+<?php
+
+/*
+ * Documento   : Listado de Pagos de una Venta
+ * Creado      : 07-04-2016
+ * Autor       : ..... .....
+ * Descripcion : 
+ */
+
+$nuevo  = Session::getPermiso("VSEVENEW");
+$recargar   = Session::getPermiso('VSEVEREC');
+$quitar = Session::getPermiso('VSEVEAN');
+
+$idVenta = Formulario::getParam('_idVenta');
+$codigo = Aes::de($idVenta);
+
+$data = vseguimientoventaController::findVenta();
+
+$disabled = ($data['estado'] !== 'E')?'disabled':'';
+if( Session::get('sys_visible') == 'N' ){
+    $validarCaja = cajaAperturaController::getValidarCaja()['existe'];    
+}else{
+    $validarCaja = 1;
+}
+
+?>
+<form id="<?php echo VSEVE; ?>formIndexPagoVenta" name="<?php echo VSEVE; ?>formIndexPagoVenta" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" onsubmit="return false;">
+    <div class="modal-dialog" style="width:50%; ">
+        <div class="modal-content" >
+            <div class="modal-header">
+                <button type="button" class="close"  aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title">N° Venta: <?php echo $codigo.' | '.$data['moneda'].' '.number_format($data['monto_importe'],2);?></h4>
+                Saldo: <span id="<?php echo VSEVE; ?>saldo_pago" class="badge bg-color-red"><?php echo $data['moneda'].' '.number_format($data['monto_saldo'],2); ?></span>
+            </div>
+            
+            <div class="modal-body smart-form scroll-form" style="padding:10px;"  >
+                 <div class="widget-body-toolbar">                     
+                 </div>
+                <div class="dataTables_wrapper form-inline" role="grid">
+                    <div class="dt-top-row">
+                        <div class="DTTT btn-group">
+                            <!-- verificar permisos -->
+                            <input type="hidden" id="<?php echo VSEVE; ?>txt_saldo" name="<?php echo VSEVE; ?>txt_saldo" value="<?php echo $data['monto_saldo']; ?>" />
+                            
+                            <?php if($nuevo["permiso"] ): ?>
+                                <?php if($validarCaja > 0 ): ?>
+                                <button id="<?php echo VSEVE; ?>btnNewPagoVenta" type="button" onclick="vseguimientoventa.getFormPagarVenta(this,'<?php echo $idVenta ?>');" 
+                                    class="<?php echo $nuevo["theme"]; ?> padding-5" <?php echo $disabled; ?> >
+                                    <i class="<?php echo $nuevo["icono"]; ?>"></i> <?php echo $nuevo["accion"]; ?>
+                                </button>    
+                                <?php else: ?> 
+                                    <button id="<?php echo VSEVE; ?>btnNewPagoVenta" type="button" disabled 
+                                        class="<?php echo $nuevo["theme"]; ?> padding-5" >
+                                        <i class="<?php echo $nuevo["icono"]; ?>"></i> <?php echo $nuevo["accion"]; ?>
+                                    </button>   
+                                <?php endif; ?>                              
+                            <?php endif; ?>  
+                            <?php if($recargar["permiso"]): ?>
+                            <button id="<?php echo VSEVE; ?>gridPagoVenta_btnRecarga" type="button" onclick="vseguimientoventa.getGridPagoVenta();" class="<?php echo $recargar["theme"]; ?> padding-5">
+                                <i class="<?php echo $recargar["icono"]; ?>"></i> <?php echo $recargar["accion"]; ?>
+                            </button>
+                            <?php endif; ?>   
+                        </div>
+                    </div>
+                </div>
+                <table id="<?php echo VSEVE; ?>gridPagoVenta" class="table table-striped table-hover table-condensed" style="width:100%;"></table>                          
+             </div>                                                   
+            <div class="modal-body smart-form"  style="padding: 0 0 0 10px;"  >
+                 <section>
+                    <div class="row">
+                        <label class="label col col-2">
+                        <?php echo LABEL_LEYENDA; ?>
+                        </label>
+                        <div class="col col-9 ">                            
+                            <?php if($quitar["permiso"]): ?>
+                            <button type="button" class="<?php echo $quitar['theme']; ?> margin-top-5" title="<?php echo $quitar['accion']; ?>" ><i class="<?php echo $quitar['icono'];?>"></i>  <?php echo $quitar['accion']; ?> </button>                    
+                            <?php endif;?>                           
+                        </div>
+                    </div>
+                </section>    
+            </div>                            
+            <div class="modal-footer">              
+               <button type="button" class="<?php echo THEME_CLOSE; ?>">
+                    <i class="<?php echo ICON_CLOSE; ?>"></i> <?php echo BTN_CLOSE; ?> 
+                </button>
+            </div>            
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</form>

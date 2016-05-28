@@ -1,0 +1,109 @@
+<?php /*
+* ---------------------------------------
+* --------- CREATED BY CREATOR ----------
+* fecha: 18-05-2016 12:00:00 
+* Descripcion : formCancelarVenta.phtml
+* ---------------------------------------
+*/
+
+/*prefijo: VSEVE debe ser alias en tabla men_menuprincipal*/
+$grabar = Session::getPermiso("VMOVECAN");    
+
+$data = generarVentaController::getFindVenta();
+$idSucursal = $data['id_sucursal'];
+?>
+<form id="<?php echo VMOVE; ?>formCancelarVenta" name="<?php echo VMOVE; ?>formCancelarVenta" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"  aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title"><?php echo VMOVE_02; ?></h4>               
+            </div>
+            <div class="modal-body smart-form"> 
+                                                 
+                <section>
+                    <div class="row">
+                            <label class="label col col-2"><?php echo VGEVE_33; ?>  </label>
+                            <div class="col col-10">
+                                    <label class="select" id="<?php echo VSEVE; ?>cont-caja"> 
+                                       <?php
+                                           $dataCaja = cajaAperturaController::getDataCajaAll($idSucursal);
+                                               echo Functions::selectHtml(array(
+                                                   'data'=>$dataCaja,
+                                                   'atributes'=>array(
+                                                       'id'=>VGEVE.'lst_caja',
+                                                       'name'=>VGEVE.'lst_caja',                                            
+                                                   ),  
+                                                   'etiqueta'=> 'descripcion',
+                                                   'value'=>'id_caja',
+                                                   'defaultEtiqueta'=>'',
+                                                   'txtSelect'=>false,
+                                                   'encript'=>true
+                                           ));
+                                               ?> <i></i>                                 
+                                    </label>                                                                                           
+                              </div>
+                    </div>
+                </section>                 
+                <section>
+                    <div class="row">
+                        <label class="label col col-2"><?php echo VMOVE_03; ?></label>
+                        <div class="col col-4">
+                            <label class="input"> 
+                                <i class="icon-append fa  fa-money"></i>
+                                <input style="text-align: right; background: #eee;" type="text" id="<?php echo VMOVE; ?>txt_pago" name="<?php echo VMOVE; ?>txt_pago" value="<?php echo number_format($data['monto_asignado'],2) ?>" readonly />
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-question-circle  txt-color-teal"></i> <?php echo VMOVE_03M; ?></b>
+                            </label>
+                        </div>    
+                        <div class="col col-xs-6">
+                            <div class="alert alert-info ">
+                              <i class="fa fa-info-circle"></i> Este dinero ingresará como egreso en su caja.
+                          </div>
+                        </div>
+                    </div>
+                </section>                  
+            </div>
+            <div class="modal-footer">
+                <div class="foot-obligar"></div>
+                <?php if($grabar["permiso"]):?>
+                <button id="<?php echo VMOVE; ?>btnInVenta" type="submit" class="padding-5 <?php echo $grabar["theme"]; ?> ">
+                    <i class="<?php echo $grabar["icono"]; ?>"></i> <?php echo $grabar["accion"]; ?>
+                </button>
+                <?php endif; ?>
+                <button type="button" class="<?php echo THEME_CLOSE; ?>">
+                    <i class="<?php echo ICON_CLOSE; ?>"></i> <?php echo BTN_CLOSE; ?>
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</form>
+<!-- si no tiene permiso se anula submit desde cualquier input -->
+<?php if(!$grabar["permiso"]): ?>
+<script>
+    simpleScript.noSubmit("#<?php echo VMOVE; ?>formCancelarVenta");
+</script>
+<?php endif; ?>
+<script>
+        
+    $("#<?php echo VMOVE; ?>formCancelarVenta").validate({
+        rules : {           
+            <?php echo VMOVE; ?>txt_pago : {
+                required : true,
+                number:true                 
+            },<?php echo VMOVE; ?>lst_caja : {
+                required : true
+            }                    
+        },
+        errorPlacement : function(error, element) {
+            error.insertAfter(element.parent());
+        },
+
+        submitHandler: function(){        
+            /*marca el paso como completado*/
+            modificarVenta.postCancelarVenta();
+        }                 
+    });       
+
+</script>

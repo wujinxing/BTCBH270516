@@ -1,0 +1,64 @@
+<?php 
+/*
+* ---------------------------------------
+* --------- CREATED BY CREATOR ----------
+* fecha: 19-11-2014 22:11:59 
+* Descripcion : indexReporteVentaDia.phtml
+* ---------------------------------------
+*/
+$recuperar    = Session::getPermiso("VRPT1REC");
+$obj = array(
+    'id' => VRPT1,
+    'title' => VRPT1_1,
+    'height' => 'auto',
+    'padding' => true
+);
+echo Functions::widgetOpen($obj);
+
+?>
+<button id="<?php echo VRPT1; ?>btnDowPDF" type="button" class="hide">Descargar</button>
+<button id="<?php echo VRPT1; ?>btnDowExcel" type="button" class="hide">Descargar</button>
+    <div class="widget-body-toolbar" style="margin:0px; padding:10px">  
+          <div class="smart-form" style="position: absolute;left:5px;top:20px;width: 65% ">           
+            <label class="label col col-1">&nbsp;<?php echo VGEVE_15; ?></label>        
+            <div class="col col-5" style="padding-left:20px;">
+                <label class="select"> 
+                    <?php
+                        $datCa = reporteVentaDiaController::getDataCajaAll();
+                            echo Functions::selectHtml(array(
+                                'data'=>$datCa,
+                                'atributes'=>array(
+                                    'id'=>VRPT1.'lst_caja',
+                                    'name'=>VRPT1.'lst_caja',   
+                                    'onchange'=>'reporteVentaDia.getDatosContenido($(\'#'.VRPT1.'lst_caja\').val());'
+                                ),  
+                                'etiqueta'=>'descripcion',
+                                'value'=>'id_caja',
+                                'group'=>'sucursal',
+                                'defaultEtiqueta'=>'',
+                                'txtSelect'=>false                                         
+                        ));
+                   ?>                                 
+                 </label>  
+            </div>
+
+            <div class="col col-7" style="padding-left:30px; margin-top: 5px;" >                                 
+              <?php if($recuperar["permiso"] ): ?>
+                <button id="<?php echo VRPT3; ?>btnRefresh" type="button" style="padding:6px 7px; margin-top:-3px; " 
+                    onclick="reporteVentaDia.getDatosContenido($('#<?php echo VRPT1;?>lst_caja').val());"
+                     class="<?php echo $recuperar['theme'];?> btn-sm"  >
+                  <i class="<?php echo $recuperar['icono'];?>"></i> <?php echo $recuperar['accion'];?>
+                </button>   
+                <?php endif; ?> 
+            </div>
+          
+        </div>
+    </div>
+        <div id="<?php echo VRPT1; ?>cont-caja" style="width: auto; height: auto; min-height: 350px;">
+        </div>
+   
+    
+<?php echo Functions::widgetClose(); ?>
+<script>
+simpleScript.chosen({'id':'#<?php echo VRPT1; ?>lst_caja'});   
+</script>

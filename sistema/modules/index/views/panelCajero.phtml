@@ -1,0 +1,125 @@
+<div aria-hidden="false" aria-expanded="true" role="tabpanel" class="ui-tabs-panel ui-widget-content ui-corner-bottom sortable-grid ui-sortable" aria-labelledby="ui-id-1" id="<?php echo PANP ?>_CONTAINER">   
+
+  <article class="col-lg-12">
+    <?php
+        $obj = array(
+            'id' => PANP . 'ppaMenu',
+            'title' => INDEX_MENU,
+            'height' => 'auto',
+            'padding' => true        
+        );
+        echo Functions::widgetOpen($obj);     
+        $bienvenida = str_replace('{{USUARIO}}', Session::get('sys_nombreUsuario'), INDEX_BIENVENIDO); 
+        $tiempo = str_replace('{{TIEMPO}}', number_format(Session::get('sys_tiempoBloqueo')/60000 , 0), INDEX_MSJBLOQUEO);  
+    ?>        
+        <div style="padding:10px;">
+            <h1><?php echo $bienvenida; ?></h1>                    
+        </div>
+        <ul id="listaOpcionRapida" class="list-inline" style="padding:5px;">      
+            <li>                
+                <a class="jarvismetro-tile big-cubes bg-color-blueLight" data-sitemap="<?php echo Session::get('0016') ?>" title="<?php echo MENU_0016; ?>" onclick="vCliente.main(this);"> 
+                    <span class="iconbox"> <i class="fa fa-user-secret fa-4x"></i> 
+                        <span><?php echo MENU_0016; ?></span>
+                    </span> 
+                </a>
+            </li>
+            <li>
+                <a class="jarvismetro-tile big-cubes bg-color-blue" data-sitemap="<?php echo Session::get('0017') ?>" title="<?php echo MENU_0017; ?>"  onclick="vGenerarCotizacion.main(this);"> 
+                    <span class="iconbox"> <i class="fa  fa fa-cart-plus fa-4x"></i> 
+                        <span><?php echo MENU_0017; ?></span> </span> 
+                </a>           
+            </li> 
+            <li>
+                <a class="jarvismetro-tile big-cubes bg-color-greenLight" data-sitemap="<?php echo Session::get('0031') ?>" title="<?php echo MENU_0031; ?>"  onclick="cajaApertura.main(this);"> 
+                    <span class="iconbox"> <i class="fa fa-diamond fa-4x"></i> 
+                        <span><?php echo MENU_0031; ?></span> </span> 
+                </a>           
+            </li> 
+            <li>
+                <a class="jarvismetro-tile big-cubes bg-color-red" data-sitemap="<?php echo Session::get('0032') ?>" title="<?php echo MENU_0032; ?>" onclick="cajaCierre.main(this);"> 
+                    <span class="iconbox"> <i class="fa fa-key fa-4x"></i> 
+                        <span><?php echo MENU_0032; ?></span> 
+                    </span> 
+                </a>
+            </li>
+            <li>
+                <a class="jarvismetro-tile big-cubes bg-color-orange " data-sitemap="<?php echo Session::get('0018') ?>" title="<?php echo MENU_0018; ?>" onclick="generarVenta.main(this);">
+                    <span class="iconbox"> <i class="fa fa-money  fa-4x"></i> 
+                        <span><?php echo MENU_0018; ?></span> 
+                    </span> 
+                </a>
+            </li>
+            <li>
+                <a class="jarvismetro-tile big-cubes bg-color-yellow" data-sitemap="<?php echo Session::get('0019') ?>" title="<?php echo MENU_0019; ?>" onclick="vegresos.main(this);"> 
+                    <span class="iconbox"> <i class="fa fa-bolt fa-4x"></i> 
+                        <span><?php echo MENU_0019; ?></span> 
+                    </span> 
+                </a>
+            </li>
+             <li>
+                <a class="jarvismetro-tile big-cubes bg-color-pinkDark" data-sitemap="<?php echo Session::get('0020') ?>" title="<?php echo MENU_0020; ?>" onclick="vseguimientoventa.main(this);"> 
+                    <span class="iconbox"> <i class="fa fa-paypal fa-4x"></i> 
+                        <span><?php echo MENU_0020; ?></span> 
+                    </span> 
+                </a>
+            </li> 
+            
+           <!-- 2 -->  
+           <li>
+                <a class="jarvismetro-tile big-cubes bg-color-green" data-sitemap="<?php echo Session::get('0035') ?>" title="<?php echo MENU_0035; ?>" onclick="modificarVenta.main(this);"> 
+                    <span class="iconbox"> <i class="fa fa-pencil-square fa-4x"></i> 
+                        <span><?php echo MENU_0035; ?></span> 
+                    </span> 
+                </a>
+            </li>
+            
+           <li>
+                <a class="jarvismetro-tile big-cubes bg-color-greenDark" data-sitemap="<?php echo Session::get('0023') ?>" title="<?php echo MENU_0023; ?>"  onclick="reporteVentaDia.main(this);"> 
+                    <span class="iconbox"> <i class="fa fa-tachometer fa-4x"></i> 
+                        <span><?php echo MENU_0023; ?></span> </span> 
+                </a>           
+            </li>
+            <li>
+                <a class="jarvismetro-tile big-cubes bg-color-blueDark" data-sitemap="<?php echo Session::get('0021') ?>" title="<?php echo MENU_0021; ?>" onclick="vConsultaSaldo.main(this);"> 
+                    <span class="iconbox"> <i class="fa fa-usd fa-4x"></i> 
+                        <span><?php echo MENU_0021; ?></span> 
+                    </span> 
+                </a>
+            </li>
+            <li>
+                <a class="jarvismetro-tile big-cubes bg-color-redLight" data-sitemap="<?php echo Session::get('0034') ?>" title="<?php echo MENU_0034; ?>" onclick="reporteGraficoIngresosMes.main(this);"> 
+                    <span class="iconbox"> <i class="fa fa fa-bar-chart fa-4x"></i> 
+                        <span><?php echo MENU_0034; ?></span> 
+                    </span> 
+                </a>
+            </li>
+            <li>
+                <a class="jarvismetro-tile big-cubes bg-color-blue " data-sitemap="<?php echo Session::get('0025') ?>" title="<?php echo MENU_0025; ?>" onclick="reporteGraficoMes.main(this);"> 
+                    <span class="iconbox"> <i class="fa fa-area-chart fa-4x"></i> 
+                        <span><?php echo MENU_0025; ?></span> 
+                    </span> 
+                </a>
+            </li> 
+            <li>
+                <a class="jarvismetro-tile big-cubes bg-color-teal" data-sitemap="<?php echo Session::get('0022') ?>" title="<?php echo MENU_0022; ?>" onclick="reporteResumenCliente.main(this);"> 
+                    <span class="iconbox"> <i class="fa fa-universal-access fa-4x"></i> 
+                        <span><?php echo MENU_0022; ?></span> 
+                    </span> 
+                </a>
+            </li>
+            <li>
+                <a class="jarvismetro-tile big-cubes bg-color-pink " data-sitemap="<?php echo Session::get('0037') ?>" title="<?php echo MENU_0037; ?>" onclick="reporteBeneficiario.main(this);"> 
+                    <span class="iconbox"> <i class="fa fa fa-child fa-4x"></i> 
+                        <span><?php echo MENU_0037; ?></span> 
+                    </span> 
+                </a>
+            </li>
+        </ul>     
+       <div style="padding:10px;">
+            <div class="alert alert-info"><i class="fa fa-info-circle"></i> <?php echo $tiempo; ?></div>
+        </div>
+    <?php echo Functions::widgetClose(); ?>
+    </article>         
+    <div class="clearfix">
+    </div>
+</div>

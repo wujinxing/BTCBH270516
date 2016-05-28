@@ -1,0 +1,112 @@
+<?php
+/*
+ * Documento   : buscarProducto
+ * Creado      : 05-04-2016
+ * Autor       : ..... .....
+ * Descripcion : 
+ */
+
+$buscar = $this->buscar;
+$ventana = $this->ventana;
+$onclickAdd = $this->onclickAdd;
+?>
+<form id="<?php echo $ventana; ?>formBuscarProductos" name="<?php echo $ventana; ?>formBuscarProductos" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width: 70%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"  aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title"><?php echo VGEVE_31; ?></h4>
+            </div>
+            <div class="modal-body smart-form">
+                <section>
+                    <div class="row">
+                        <label class="label col col-2"><?php echo VGEVE_16; ?></label>
+                        <div class="col col-8">
+                            <label class="input"> 
+                                <input type="text" id="<?php echo $ventana; ?>txt_search" name="<?php echo $ventana; ?>txt_search" placeholder="<?php echo VGEVE_21; ?>" onkeypress="simpleScript.triggerSearch(this,'#<?php echo $ventana; ?>gridProductosFound',2);"></input>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+                <div class="well" style="overflow: auto;height: 300px;overflow-x: hidden">
+                    <table id="<?php echo $ventana; ?>gridProductosFound" class="table table-bordered table-striped table-condensed smart-form table-hover has-tickbox" style="width:100%">
+                        <thead>
+                            <th style="width: 5%;"><?php echo LABEL_NRO?></th>
+                            <th style="width: 3%">
+                                <label class="checkbox">
+                                    <input type="checkbox" id="<?php echo $ventana; ?>chk_all" name="<?php echo $ventana; ?>chk_all" onclick="simpleScript.checkAll(this,'#<?php echo $ventana; ?>gridProductosFound');"><i></i>
+                                </label>
+                            </th>
+                            <th style="width: 60%;" class="center"><?php echo VGEVE_17?></th>
+                            <th style="width: 10%;"class="center"><?php echo VGEVE_18?></th>
+                            <th style="width: 10%;" class="center"><?php echo VGEVE_20?></th>
+                        </thead>
+                        <tbody>
+                            <?php 
+                                $f = 0;
+                                $datap = Obj::run()->vproductoController->getFindProductos(); 
+                                $rows = sizeof($datap);
+                                foreach ($datap as $value):
+                                    $f++;
+                                    $prod = AesCtr::en($value['id_producto']).'~'.$value['descripcion'].'~'.$value['precio'].'~'.$value['unidad_medida'].'~'.$value['cantidad_multiple'];
+                            ?>
+                            <tr>
+                                <td><?php echo $f; ?></td>
+                                <td>
+                                    <label class="checkbox">
+                                        <input type="checkbox" id="<?php echo $f.$ventana; ?>chk_prod" name="<?php echo $ventana; ?>chk_prod[]" value="<?php echo $prod; ?>"><i></i>
+                                    </label>
+                                </td>
+                                <td><?php echo $value['descripcion']; ?></td>
+                                <td><?php echo $value['unidad_medida']; ?></td>                               
+                                <td style="text-align: right"><?php echo number_format($value['precio'],2); ?></td>
+                            </tr>
+                            <?php endforeach; ?> 
+                            <?php 
+                            $diff = 0;
+                            if($rows < 5 && $rows > 0){
+                                $diff = 5 - $rows;
+                                echo Functions::createCell(array('row'=>($diff),'cols'=>5)); 
+                            }elseif($rows == 0){
+                            ?>  
+                            <tr>
+                                <td colspan="6">
+                                    <div class="alert alert-block alert-warning">
+                                        <h4 class="alert-heading"><?php echo LABEL_ADV?></h4>
+                                        <?php echo LABEL_NOREG?>
+                                    </div>
+                                </td>
+                            </tr>
+                            <?php
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="<?php echo $ventana; ?>btnSubSearchPro" type="submit" class="hide">
+                    <i class="fa fa-ban"></i> <?php echo BTN_CLOSE; ?>
+                </button>
+                
+                <button id="<?php echo $ventana; ?>btnAddProd" type="button" class="btn txt-color-white bg-color-blueDark" onclick="<?php echo $onclickAdd; ?>">
+                    <i class="fa fa-plus-circle"></i> <?php echo BTN_ADD; ?>
+                </button>
+                <button type="button" class="btn btn-default xClose">
+                    <i class="fa fa-ban"></i> <?php echo BTN_CLOSE; ?>
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</form>
+<!-- si no riene permiso se anula submit desde cualquier input -->
+<script>
+    simpleScript.noSubmit('#<?php echo $ventana; ?>formBuscarProductos');
+    
+    simpleScript.removeAttr.click({
+        container: '#<?php echo $ventana; ?>formBuscarProductos',
+        typeElement: 'button'
+    });
+</script>

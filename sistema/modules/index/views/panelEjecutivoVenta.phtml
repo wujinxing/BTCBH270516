@@ -1,0 +1,42 @@
+<div aria-hidden="false" aria-expanded="true" role="tabpanel" class="ui-tabs-panel ui-widget-content ui-corner-bottom sortable-grid ui-sortable" aria-labelledby="ui-id-1" id="<?php echo PANP ?>_CONTAINER">   
+
+  <article class="col-lg-12">
+    <?php
+        $obj = array(
+            'id' => PANP . 'ppaMenu',
+            'title' => INDEX_MENU,
+            'height' => 'auto',
+            'padding' => true        
+        );
+        echo Functions::widgetOpen($obj);     
+        $bienvenida = str_replace('{{USUARIO}}', Session::get('sys_nombreUsuario'), INDEX_BIENVENIDO); 
+        $tiempo = str_replace('{{TIEMPO}}', number_format(Session::get('sys_tiempoBloqueo')/60000 , 0), INDEX_MSJBLOQUEO);  
+    ?>        
+        <div style="padding:10px;">
+            <h1><?php echo $bienvenida; ?></h1>        
+        </div>
+        <ul id="listaOpcionRapida" class="list-inline" style="padding:10px;">      
+            
+            <li>                
+                <a class="jarvismetro-tile big-cubes bg-color-blueLight" data-sitemap="<?php echo Session::get('0016') ?>" title="<?php echo MENU_0016; ?>" onclick="vCliente.main(this);"> 
+                    <span class="iconbox"> <i class="fa fa-user-secret fa-4x"></i> 
+                        <span><?php echo MENU_0016; ?></span>
+                    </span> 
+                </a>
+            </li>
+            <li>
+                <a class="jarvismetro-tile big-cubes bg-color-blue" data-sitemap="<?php echo Session::get('0017') ?>" title="<?php echo MENU_0017; ?>"  onclick="vGenerarCotizacion.main(this);"> 
+                    <span class="iconbox"> <i class="fa  fa fa-cart-plus fa-4x"></i> 
+                        <span><?php echo MENU_0017; ?></span> </span> 
+                </a>           
+            </li> 
+          
+        </ul>    
+       <div style="padding:10px;">
+            <div class="alert alert-info"><i class="fa fa-info-circle"></i> <?php echo $tiempo; ?></div>
+        </div>
+    <?php echo Functions::widgetClose(); ?>
+    </article>         
+    <div class="clearfix">
+    </div>
+</div>
