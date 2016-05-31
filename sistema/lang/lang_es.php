@@ -174,7 +174,6 @@ define('LABEL_PASO2', 'Paso 2');
 define('LABEL_PASO3', 'Paso 3');
 define('LABEL_PASO4', 'Paso 4');
 
-
 define('M01','Enero');
 define('M02','Febrero');
 define('M03','Marzo');
@@ -401,16 +400,6 @@ define('PLTDC_05M', 'Ingrese Alias unico para identificar al documento');
 define('PLTDC_06', 'Cuerpo de la Plantilla');
 define('PLTDC_07', 'Clonar Plantilla de Documentos');
 
-/*----------------------Unidad de Medida ----------------------*/
-define('VUNID1','Unidad de Medida');
-define('VUNID2','Nueva Unidad de Medida');
-define('VUNID3','Editar Unidad de Medida');
-define('VUNID4','Descripción');
-define('VUNID4M','Ingrese el nombre de la Unidad de Medida');
-define('VUNID5','Sigla');
-define('VUNID5M','Ingrese la sigla de la Unidad de Medida');
-define('VUNID6','Calcular Area?');
-
 /*----------------------Producto ----------------------*/
 define('VPROD1','Listado de Producto');
 define('VPROD2','Nuevo Producto');
@@ -479,11 +468,6 @@ define('VGEVETAB4','Realizar Pago');
 define('LABEL_VGEVE1','Factura');
 define('LABEL_VGEVE2','Boleta');
 define('LABEL_VGEVE3','Recibo');
-/*----------------------Modificar Venta----------------------*/
-define('VMOVE_01','Modificar Venta');
-define('VMOVE_02','Inhabilitar Venta');
-define('VMOVE_03','Devolución');
-define('VMOVE_03M','Dinero a devolver al cliente');
 
 /*----------------------Registrar Cliente----------------------*/
 define ('VRECL_1','Registro de Clientes');
@@ -576,6 +560,7 @@ define ('VCSCL_2','Todos');
 define ('VCSCL_3','Pagados');
 define ('VCSCL_4','Saldo');
 define ('VCSCL_5','Deuda de Clientes');
+
 /*----------------------Reportes ----------------------*/
 define ('VRPT1_1','Caja del día');
 define ('VRPT1_2','Fecha ');
@@ -621,19 +606,44 @@ define ('MEPAG_05','Icono');
 define ('MEPAG_05M','Ingrese la clase del Icono del método de pago');
 define ('MEPAG_06','Sumar Caja');
 
-/*Cotizacion venta*/
-define ('VCOTI_1','Generar Cotización - Propuesta económica');
-define ('VCOTI_2','Nueva Cotización');
-define ('VCOTI_3','Descargar Documentos');
-define ('VCOTI_4','Click aquí para generar Cotización');
-define ('VCOTI_5','Exportar Cotización');
-define ('VCOTI_6','Exportar Carta de Intención');
-define ('VCOTI_7','Cotización');
-define ('VCOTI_8','Carta de Intención');
-define ('VCOTI_9','Clonar Cotización');
-define ('VCOTI_10','Click aquí para Clonar Cotización');
-define ('VCOTI_11','Migrar Usuario de Cotización');
-define ('VCOTI_12','Usuario');
+/* ---------------------- Laboratorios ----------------- */
+define('RELAB_01','Laboratorios');
+define('RELAB_02','Nuevo Laboratorio');
+define('RELAB_03','Editar Laboratorio');
+define('RELAB_04','Descripción');
+define('RELAB_04M','Ingrese la descripción del laboratorio');
+define('RELAB_05','Sigla');
+define('RELAB_05M','Ingrese la sigla del laboratorio');
+
+/* ---------------------- Presentación ----------------- */
+define('CPRES_01','Presentación del Producto');
+define('CPRES_02','Nueva Presentación');
+define('CPRES_03','Editar Presentación');
+define('CPRES_04','Descripción');
+define('CPRES_04M','Ingrese la descripción de la presentación');
+
+/* ---------------------- Familia ----------------- */
+define('FAM_01','Listado de Familia');
+define('FAM_02','Nueva Familia');
+define('FAM_03','Editar Familia');
+define('FAM_04','Descripción');
+define('FAM_04M','Ingrese la descripción de la Familia');
+
+/* ---------------------- Generico ----------------- */
+define('GENER_01','Listado de Genéricos');
+define('GENER_02','Nuevo Genérico');
+define('GENER_03','Editar Genérico');
+define('GENER_04','Descripción');
+define('GENER_04M','Ingrese la descripción del genérico');
+
+/* ---------------------- Clasificación ----------------- */
+define('CLASF_01','Clasificación');
+define('CLASF_02','Nueva Clasificación');
+define('CLASF_03','Editar Clasificación');
+define('CLASF_04','Descripción');
+define('CLASF_04M','Ingrese la descripción de la clasificación');
+define('CLASF_05','D. Corta');
+define('CLASF_05M','Ingrese una descripción corta de la clasificación');
 
 /* Otros */
 define('ERRBD_01', 'Listado de Errores en la Base de Datos');
@@ -644,7 +654,6 @@ define('ERRBD_05', 'Query');
 define('ERRBD_06', 'Parametros');
 define('ERRBD_07', 'IP');
 define('ERRBD_08', 'Fecha/Hora');
-
 
 /* TRADUCCION DE MENU */   
 define('DOMINIO_01','Seguridad');
@@ -705,4 +714,12 @@ define('MENU_0033','Método de pago');
 define('MENU_0034','Ventas Mensuales por periodo');
 define('MENU_0035','Catalogo Precios');
 define('MENU_0036','Laboratorios');
+define('MENU_0037','Registrar Compra');
+define('MENU_0038','Proveedor');
+define('MENU_0039','Registrar Almacen');
+define('MENU_0040','Nota de Salida');
+define('MENU_0041','Inventario');
+define('MENU_0042','Kardex');
+define('MENU_0043','Producto más vendido');
+define('MENU_0044','Clasificación');
 ?>

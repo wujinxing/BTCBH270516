@@ -64,6 +64,7 @@ lang.generico.ACTUALIZAR = 'Actualizar';
 lang.generico.ACCIONES = 'Acciones';
 lang.generico.ESTADO = 'Estado'
 lang.generico.DESCRIPCION = 'Descripción';
+lang.generico.DESCRIPCIONCORTA = 'D. Corta';
 lang.generico.PERIODO = 'Periodo';
 lang.generico.VENDEDOR = 'Vendedor';
 lang.generico.FECHA = 'Fecha';
@@ -260,3 +261,8 @@ lang.busqueda.MEPAG = "Buscar por Metodo Pago";
 lang.busqueda.VMOVE = "Buscar por Cliente u Orden";
 lang.busqueda.VRPT5 = "Buscar por Cliente";
 
+lang.busqueda.RELAB = "Buscar por Laboratorio";
+lang.busqueda.CPRES = "Buscar por Presentación";
+lang.busqueda.FAM = "Buscar por familia";
+lang.busqueda.GENER = "Buscar por generico";
+lang.busqueda.CLASF = "Buscar por clasificación";

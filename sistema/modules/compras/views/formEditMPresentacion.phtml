@@ -1,0 +1,76 @@
+<?php /*
+* ---------------------------------------
+* --------- CREATED BY CREATOR ----------
+* fecha: 30-05-2016 18:05:19 
+* Descripcion : formEditMPresentacion.phtml
+* ---------------------------------------
+*/
+
+/*prefijo: CPRES debe ser alias en tabla men_menuprincipal*/
+$editar = Session::getPermiso("CPRESACT");
+    
+$data = mPresentacionController::findMPresentacion();
+
+?>
+<form id="<?php echo CPRES; ?>formEditMPresentacion" name="<?php echo CPRES; ?>formEditMPresentacion" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"  aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title"><?php echo RELAB_03; ?></h4>
+            </div>
+            <div class="modal-body smart-form"> 
+                 <section >
+                    <div class="row">
+                        <label class="label col col-2"><?php echo CPRES_04; ?></label>
+                        <div class="col col-10">
+                            <label class="input"> 
+                                <i class="icon-append fa fa-keyboard-o"></i>
+                                <input type="text" id="<?php echo CPRES; ?>txt_descripcion" name="<?php echo CPRES; ?>txt_descripcion" value="<?php echo $data['descripcion'];?>" >
+                                <b class="tooltip tooltip-top-right"><i class="fa  fa-question-circle txt-color-teal"></i> <?php echo CPRES_04M; ?></b>
+                            </label>
+                        </div>                       
+                    </div>
+                </section>
+            </div>
+            <div class="modal-footer">
+                <div class="foot-obligar"></div>
+                <?php if($editar["permiso"]):?>
+                <button id="<?php echo CPRES; ?>btnEdMPresentacion" type="submit" class="<?php echo $editar["theme"]; ?>">
+                    <i class="<?php echo $editar["icono"]; ?>"></i> <?php echo $editar["accion"]; ?>
+                </button>
+                <?php endif; ?>
+                <button type="button" class="<?php echo THEME_CLOSE; ?>">
+                    <i class="<?php echo ICON_CLOSE; ?>"></i> <?php echo BTN_CLOSE; ?>
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</form>
+<!-- si no tiene permiso se anula submit desde cualquier input -->
+<?php if(!$editar["permiso"]): ?>
+<script>
+    simpleScript.noSubmit("#<?php echo CPRES; ?>formEditMPresentacion");
+</script>
+<?php endif; ?>
+<script>
+/*configurar validacion de formulario -- este codigo es de ejemplo*/
+$("#<?php echo CPRES; ?>formEditMPresentacion").validate({
+    rules : {
+        <?php echo CPRES; ?>txt_descripcion : {
+            required : true,            
+            minlength: 3
+        }
+    },
+ 
+    errorPlacement : function(error, element) {
+        error.insertAfter(element.parent());
+    },
+
+    submitHandler: function(){
+        mPresentacion.postEditMPresentacion();
+    }   
+});
+</script>

@@ -1,0 +1,87 @@
+<?php /*
+* ---------------------------------------
+* --------- CREATED BY CREATOR ----------
+* fecha: 30-05-2016 17:05:25 
+* Descripcion : formNewMLaboratorios.phtml
+* ---------------------------------------
+*/
+
+/*prefijo: RELAB debe ser alias en tabla men_menuprincipal*/
+$grabar = Session::getPermiso("RELABGR");
+?>
+<form id="<?php echo RELAB; ?>formNewMLaboratorios" name="<?php echo RELAB; ?>formNewMLaboratorios" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"  aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title"><?php echo RELAB_02; ?></h4>
+            </div>
+            <div class="modal-body smart-form"> 
+                <section >
+                    <div class="row">
+                        <label class="label col col-2"><?php echo RELAB_04; ?></label>
+                        <div class="col col-10">
+                            <label class="input"> 
+                                <i class="icon-append fa fa-keyboard-o"></i>
+                                <input type="text" id="<?php echo RELAB; ?>txt_descripcion" name="<?php echo RELAB; ?>txt_descripcion"  >
+                                <b class="tooltip tooltip-top-right"><i class="fa  fa-question-circle txt-color-teal"></i> <?php echo RELAB_04M; ?></b>
+                            </label>
+                        </div>                       
+                    </div>
+                </section>
+                 <section >
+                    <div class="row">
+                        <label class="label col col-2"><?php echo RELAB_05; ?></label>
+                        <div class="col col-10">
+                            <label class="input"> 
+                                <i class="icon-append fa fa-keyboard-o"></i>
+                                <input type="text" id="<?php echo RELAB; ?>txt_sigla" name="<?php echo RELAB; ?>txt_sigla"  >
+                                <b class="tooltip tooltip-top-right"><i class="fa  fa-question-circle txt-color-teal"></i> <?php echo RELAB_05M; ?></b>
+                            </label>
+                        </div>                       
+                    </div>
+                </section>
+            </div>
+            <div class="modal-footer">
+                <div class="foot-obligar"></div>
+                <?php if($grabar["permiso"]):?>
+                <button id="<?php echo RELAB; ?>btnGrMLaboratorios" type="submit" class="<?php echo $grabar["theme"]; ?>">
+                    <i class="<?php echo $grabar["icono"]; ?>"></i> <?php echo $grabar["accion"]; ?>
+                </button>
+                <?php endif; ?>
+                <button type="button" class="<?php echo THEME_CLOSE; ?>">
+                    <i class="<?php echo ICON_CLOSE; ?>"></i> <?php echo BTN_CLOSE; ?>
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</form>
+<!-- si no tiene permiso se anula submit desde cualquier input -->
+<?php if(!$grabar["permiso"]): ?>
+<script>
+    simpleScript.noSubmit("#<?php echo RELAB; ?>formNewMLaboratorios");
+</script>
+<?php endif; ?>
+<script>
+/*configurar validacion de formulario -- este codigo es de ejemplo*/
+$("#<?php echo RELAB; ?>formNewMLaboratorios").validate({
+    rules : {
+        <?php echo RELAB; ?>txt_descripcion : {
+            required : true,            
+            minlength: 2
+        }, <?php echo RELAB; ?>txt_sigla : {
+            required : true            
+        }
+    },
+
+    errorPlacement : function(error, element) {
+        error.insertAfter(element.parent());
+    },
+
+    submitHandler: function(){
+        mLaboratorios.postNewMLaboratorios();
+    }   
+});
+</script>

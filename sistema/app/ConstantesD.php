@@ -21,26 +21,26 @@ define("PLTDC","PLTDC");             /*tab modulo PLANTILLADOC*/
 define("CLADM","CLADM");             /*tab modulo CAMBIAR CLAVE ADMIN*/
 define("MEPAG","MEPAG");             /*tab modulo METODOPAGO*/
 
-define("VUNID","VUNID");             /*tab modulo VUNIDADMEDIDA*/
 define("VPROD","VPROD");             /*tab modulo VPRODUCTO*/
 define("VRECL","VRECL");             /*tab modulo VCLIENTE*/
-define("VCOTI","VCOTI");             /*tab modulo VCOTI*/
 define("VGEVE","VGEVE");             /*tab modulo Generar Venta*/
 define("VEGRE","VEGRE");             /*tab modulo VEGRESOS*/
 define("VSEVE","VSEVE");             /*tab modulo VSEGUIMIENTOVENTA*/
 define("VCSCL","VCSCL");             /*tab modulo VCONSULTASALDO*/
-define("VCSL1","VCSL1");             /*tab modulo VLISTADOPRECIOS*/
 define("VRPT1","VRPT1");             /*tab modulo REPORTEVENTADIA*/
 define("VRPT2","VRPT2");             /*tab modulo REPORTEVENTAFECHA*/
 define("VRPT3","VRPT3");             /*tab modulo REPORTEGRAFICOMES*/
-define("SUCUR","SUCUR");             /*tab modulo VSUCURSAL*/
-define("VRPT4","VRPT4");             /*tab modulo REPORTEVENDEDOR*/
-define("CAJAA","CAJAA");             /*tab modulo CAJAAPERTURA*/
-define("CAJAC","CAJAC");             /*tab modulo CAJACIERRE*/
-define("VMOVE","VMOVE");             /*tab modulo MODIFICARVENTA*/
 define("VRPT5","VRPT5");             /*tab modulo REPORTERESUMENCLIENTE*/
 define("VRPT6","VRPT6");             /*tab modulo REPORTEGRAFICOINGRESOSMES*/
-define("VRPT7","VRPT7");             /*tab modulo REPORTEBENEFICIARIO*/
+define("SUCUR","SUCUR");             /*tab modulo VSUCURSAL*/
+define("CAJAA","CAJAA");             /*tab modulo CAJAAPERTURA*/
+define("CAJAC","CAJAC");             /*tab modulo CAJACIERRE*/
+
+define("RELAB","RELAB");             /*tab modulo MLABORATORIOS*/
+define("CPRES","CPRES");             /*tab modulo MPRESENTACION*/
+define("FAM","FAM");             /*tab modulo MFAMILIA*/
+define("GENER","GENER");             /*tab modulo MGENERICOS*/
+define("CLASF","CLASF");             /*tab modulo MCLASIFICACION*/
 
 
 ?>

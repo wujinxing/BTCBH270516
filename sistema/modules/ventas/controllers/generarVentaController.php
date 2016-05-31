@@ -11,7 +11,6 @@ class generarVentaController extends Controller{
 
     public function __construct() {
         $this->loadModel(array('modulo'=>'ventas','modelo'=>'generarVenta'));
-        $this->loadController(array('modulo'=>'ventas','controller'=>'generarCotizacion')); 
         $this->loadController(array('modulo'=>'ventas','controller'=>'vproducto')); 
         $this->loadController(array('modulo'=>'ventas','controller'=>'vSucursal'));         
         $this->loadController(array('modulo'=>'configuracion','controller'=>'parametro'));

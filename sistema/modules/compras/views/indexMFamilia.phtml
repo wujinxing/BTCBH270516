@@ -1,0 +1,62 @@
+<?php 
+/*
+* ---------------------------------------
+* --------- CREATED BY CREATOR ----------
+* fecha: 31-05-2016 00:05:31 
+* Descripcion : indexMFamilia.phtml
+* ---------------------------------------
+*/
+$nuevo    = Session::getPermiso("FAMNEW");
+$editar    = Session::getPermiso("FAMED");
+$quitar    = Session::getPermiso("FAMDE");
+    
+echo Functions::siteMap();
+echo Functions::widgetOpen(array(
+        "id"=>FAM,
+        "title"=>FAM_01,
+        "actions" => array(               
+                array(
+                    "id" => FAM . "gridMFamilia_btnRecarga",                    
+                    "permiso"=> "FAMREC",
+                    "click" => "mFamilia.getGridMFamilia();"                  
+                )
+            )
+    )); 
+?>
+
+    <div class="widget-body-toolbar"></div>
+    <div class="dataTables_wrapper form-inline" role="grid">
+        <div class="dt-top-row">
+            <div class="DTTT btn-group">
+                <!-- verificar permisos -->
+                <?php if($nuevo["permiso"]): ?>
+                <button id="<?php echo FAM; ?>btnNewMFamilia" type="button" onclick="mFamilia.getFormNewMFamilia(this);" class="<?php echo $nuevo["theme"]; ?>">
+                    <i class="<?php echo $nuevo["icono"]; ?>"></i> <?php echo $nuevo["accion"]; ?>
+                </button>
+                <?php endif; ?>                  
+            </div>
+        </div>
+
+    </div>    
+    <table id="<?php echo FAM; ?>gridMFamilia" class="table table-striped table-hover table-condensed" style="width:100%"></table>    
+        
+ <div class="modal-body smart-form"> 
+        <section>
+            <div class="row">
+                <label class="label col col-1">
+                <?php echo LABEL_LEYENDA; ?>
+                </label>
+                <div class="col col-10 ">
+                    <?php if($editar["permiso"]): ?>
+                        <button type="button" class="<?php echo $editar["theme"]; ?> margin-top-5" title="<?php echo $editar["accion"]; ?>" ><i class="<?php echo $editar["icono"];?>"></i>  <?php echo $editar["accion"]; ?> </button>                    
+                    <?php endif;?>                                         
+                    <?php if($quitar["permiso"]): ?>
+                        <button type="button" class="<?php echo $quitar["theme"]; ?> margin-top-5" title="<?php echo $quitar["accion"]; ?>" ><i class="<?php echo $quitar["icono"];?>"></i>  <?php echo $quitar["accion"]; ?> </button>                    
+                    <?php endif;?>       
+                </div>
+            </div>
+
+        </section>
+    </div>
+
+<?php echo Functions::widgetClose(); ?>

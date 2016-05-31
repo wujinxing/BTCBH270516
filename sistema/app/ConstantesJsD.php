@@ -22,27 +22,27 @@ var diccionario = {
         PLTDC: '<?php echo PLTDC; ?>',
         CLADM: '<?php echo CLADM; ?>',        
         MEPAG: '<?php echo MEPAG; ?>',
-        
-        VUNID: '<?php echo VUNID; ?>',
+               
         VPROD: '<?php echo VPROD; ?>',        
-        VRECL: '<?php echo VRECL; ?>',
-        VCOTI: '<?php echo VCOTI; ?>',
+        VRECL: '<?php echo VRECL; ?>',        
         VGEVE: '<?php echo VGEVE; ?>',                
         VEGRE: '<?php echo VEGRE; ?>',        
         VSEVE: '<?php echo VSEVE; ?>',        
-        VCSCL: '<?php echo VCSCL; ?>',
-        VCSL1: '<?php echo VCSL1; ?>',
+        VCSCL: '<?php echo VCSCL; ?>',        
         VRPT1: '<?php echo VRPT1; ?>',
         VRPT2: '<?php echo VRPT2; ?>',
-        VRPT3: '<?php echo VRPT3; ?>',
-        SUCUR: '<?php echo SUCUR; ?>',
-        VRPT4: '<?php echo VRPT4; ?>',
-        CAJAA: '<?php echo CAJAA; ?>',
-        CAJAC: '<?php echo CAJAC; ?>',        
-        VMOVE: '<?php echo VMOVE; ?>',
+        VRPT3: '<?php echo VRPT3; ?>',                           
         VRPT5: '<?php echo VRPT5; ?>',
         VRPT6: '<?php echo VRPT6; ?>',        
-        VRPT7: '<?php echo VRPT7; ?>'
+        SUCUR: '<?php echo SUCUR; ?>',
+        CAJAA: '<?php echo CAJAA; ?>',
+        CAJAC: '<?php echo CAJAC; ?>',     
+        
+        RELAB: '<?php echo RELAB; ?>',
+        CPRES: '<?php echo CPRES; ?>',
+        FAM: '<?php echo FAM; ?>',
+        GENER: '<?php echo GENER; ?>',
+        CLASF: '<?php echo CLASF; ?>'  
                
     }
 };
