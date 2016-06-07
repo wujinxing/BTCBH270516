@@ -1,0 +1,62 @@
+<?php 
+/*
+* ---------------------------------------
+* --------- CREATED BY CREATOR ----------
+* fecha: 02-06-2016 19:06:04 
+* Descripcion : indexMCatalogoGeneral.phtml
+* ---------------------------------------
+*/
+$nuevo    = Session::getPermiso("CATGRNEW");
+$editar    = Session::getPermiso("CATGRED");
+$quitar    = Session::getPermiso("CATGRDE");
+    
+echo Functions::siteMap();
+echo Functions::widgetOpen(array(
+        "id"=>CATGR,
+        "title"=>CATGR_01,
+        "actions" => array(               
+                array(
+                    "id" => CATGR . "gridMCatalogoGeneral_btnRecarga",                    
+                    "permiso"=> "CATGRREC",
+                    "click" => "mCatalogoGeneral.getGridMCatalogoGeneral();"                  
+                )
+            )
+    )); 
+?>
+
+    <div class="widget-body-toolbar"></div>
+    <div class="dataTables_wrapper form-inline" role="grid">
+        <div class="dt-top-row">
+            <div class="DTTT btn-group">
+                <!-- verificar permisos -->
+                <?php if($nuevo["permiso"]): ?>
+                <button id="<?php echo CATGR; ?>btnNewMCatalogoGeneral" type="button" onclick="mCatalogoGeneral.getFormNewMCatalogoGeneral(this);" class="<?php echo $nuevo["theme"]; ?>">
+                    <i class="<?php echo $nuevo["icono"]; ?>"></i> <?php echo $nuevo["accion"]; ?>
+                </button>
+                <?php endif; ?>                  
+            </div>
+        </div>
+
+    </div>    
+    <table id="<?php echo CATGR; ?>gridMCatalogoGeneral" class="table table-striped table-hover table-condensed" style="width:100%"></table>    
+        
+ <div class="modal-body smart-form"> 
+        <section>
+            <div class="row">
+                <label class="label col col-1">
+                <?php echo LABEL_LEYENDA; ?>
+                </label>
+                <div class="col col-10 ">
+                    <?php if($editar["permiso"]): ?>
+                        <button type="button" class="<?php echo $editar["theme"]; ?> margin-top-5" title="<?php echo $editar["accion"]; ?>" ><i class="<?php echo $editar["icono"];?>"></i>  <?php echo $editar["accion"]; ?> </button>                    
+                    <?php endif;?>                                         
+                    <?php if($quitar["permiso"]): ?>
+                        <button type="button" class="<?php echo $quitar["theme"]; ?> margin-top-5" title="<?php echo $quitar["accion"]; ?>" ><i class="<?php echo $quitar["icono"];?>"></i>  <?php echo $quitar["accion"]; ?> </button>                    
+                    <?php endif;?>       
+                </div>
+            </div>
+
+        </section>
+    </div>
+
+<?php echo Functions::widgetClose(); ?>

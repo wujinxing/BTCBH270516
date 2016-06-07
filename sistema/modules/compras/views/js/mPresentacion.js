@@ -55,7 +55,8 @@ var mPresentacion_ = function(){
             bPaginate: true,
             iDisplayLength: 10,            
             aoColumns: [
-                {sTitle: lang.generico.NRO, sWidth: "5%", sClass: "center"},
+                {sTitle: lang.generico.NRO, sWidth: "5%", sClass: "center", bSortable: false},
+                {sTitle: lang.generico.ID, sWidth: "10%", sClass: "center"},
                 {sTitle: lang.generico.DESCRIPCION, sWidth: "50%"},
                 {sTitle: lang.generico.ESTADO, sWidth: "10%", sClass: "center"},
                 {sTitle: lang.generico.ACCIONES, sWidth: "8%", sClass: "center", bSortable: false}

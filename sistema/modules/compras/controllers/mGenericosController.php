@@ -127,6 +127,11 @@ class mGenericosController extends Controller{
         return $data;
     }
     
+    public static function findGenericosAll(){
+        $data = Obj::run()->mGenericosModel->findGenericosAll();            
+        return $data;
+    }
+    
     /*envia datos para grabar registro: MGenericos*/
     public function postNewMGenericos(){
         $grabar = Session::getPermiso("GENERGR");

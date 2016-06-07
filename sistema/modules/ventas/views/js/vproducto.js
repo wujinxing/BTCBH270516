@@ -223,6 +223,63 @@ var vproducto_ = function(){
                }
            });
        };         
+       
+       this.publico.getBuscarProducto = function(btn, tab, fn){
+        _private.tab =  tab;
+        _private.fn = fn;
+        simpleAjax.send({
+            element: btn,
+            dataType: "html",
+            root: _private.config.modulo+'getFormBuscarProductos',
+            data: '&_tab='+_private.tab+'&_funcionExterna'+fn,
+            fnCallback: function(data){
+                $("#cont-modal").append(data);  /*los formularios con append*/
+                $("#"+tab+"formBuscarProductos").modal("show");                
+                setTimeout(function(){vproducto.getGridBuscarProducto()},500);
+                $("#"+tab+"formBuscarProductos .scroll-form").css('height','auto');  
+            }
+        });
+    };           
+    
+    this.publico.getGridBuscarProducto = function (){
+        var tab = _private.tab;
+        var fn = _private.fn;
+        var oTable = $("#"+tab+"gridProductosFound").dataTable({
+            bFilter: true,
+            sSearch: true,
+            bProcessing: true,
+            bServerSide: true,
+            bDestroy: true,
+            sPaginationType: "bootstrap_full", //two_button
+            sServerMethod: "POST",
+            bPaginate: true,
+            iDisplayLength: 10,            
+            aoColumns: [                
+                {sTitle: "<input type='checkbox' id='"+tab+"chk_all' onclick='simpleScript.checkAll(this,\"#"+tab+"gridProductosFound\");'>", sWidth: "1%", sClass: "center", bSortable: false},
+                {sTitle: lang.generico.PRODUCTO, sWidth: "70%"},
+                {sTitle: lang.generico.LABORATORIO, sWidth: "30%"}
+            ],
+            aaSorting: [[1, "asc"]],
+            sScrollY: "200px",
+            sAjaxSource: _private.config.modulo+"getBuscarProductos",
+            fnServerParams: function(aoData) {
+                aoData.push({"name": "_tab", "value": tab});
+                aoData.push({"name": "_funcionExterna", "value": fn});
+            },
+            fnDrawCallback: function() {
+                $("#"+tab+"gridProductosFound_filter").find("input").attr("placeholder",'Buscar por Nombre o Empresa').css("width","300px").css("height","28px");
+                simpleScript.enterSearch("#"+tab+"gridProductosFound",oTable);
+                /*para hacer evento invisible*/
+//                simpleScript.removeAttr.click({
+//                    container: "#"+tab+'formBuscarProductos',
+//                    typeElement: "button"
+//                });               
+                $("#"+tab+"gridProductosFound_info").css('margin-left','10px'); 
+                $("#"+tab+"gridProductosFound_wrapper .dataTables_paginate").css('margin-right','10px'); 
+           }
+        });
+        setup_widgets_desktop();
+    };    
         
     
     return this.publico;

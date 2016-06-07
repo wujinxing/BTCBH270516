@@ -130,6 +130,11 @@ class mLaboratoriosController extends Controller{
         return $data;
     }
     
+    public static function findLaboratoriosAll(){
+        $data = Obj::run()->mLaboratoriosModel->findLaboratoriosAll();            
+        return $data;
+    }
+    
     /*envia datos para grabar registro: MLaboratorios*/
     public function postNewMLaboratorios(){
         $grabar = Session::getPermiso("RELABGR");

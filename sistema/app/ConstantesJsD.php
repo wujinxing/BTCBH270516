@@ -42,7 +42,8 @@ var diccionario = {
         CPRES: '<?php echo CPRES; ?>',
         FAM: '<?php echo FAM; ?>',
         GENER: '<?php echo GENER; ?>',
-        CLASF: '<?php echo CLASF; ?>'  
+        CLASF: '<?php echo CLASF; ?>',
+        CATGR: '<?php echo CATGR; ?>'  
                
     }
 };

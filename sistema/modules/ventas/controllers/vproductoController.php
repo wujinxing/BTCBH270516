@@ -101,6 +101,71 @@ class vproductoController extends Controller{
 
     }
     
+    public function getFormBuscarProductos(){ 
+        $tab =  Obj::run()->vproductoModel->_tab;        
+        $buscar = Session::getPermiso($tab.'BS'); 
+        if($buscar['permiso']){   
+            Obj::run()->View->buscar = Session::getPermiso($tab.'BS');                    
+            Obj::run()->View->ventana = $tab;
+            Obj::run()->View->onclickAdd = 'generarVentaScript.addProducto();';  
+            Obj::run()->View->render('formBuscarProducto_');
+        }
+    }              
+    
+    public function getBuscarProductos(){
+        $tab =  Obj::run()->vproductoModel->_tab;
+        $funcion =  Obj::run()->vproductoModel->_funcionExterna;
+        $buscar = Session::getPermiso($tab.'BS');
+                
+        $sEcho          =   $this->post('sEcho');
+        
+        $rResult = Obj::run()->vproductoModel->getBuscarProducto();
+        
+        $num = Obj::run()->vproductoModel->_iDisplayStart;
+        if($num >= 10){
+            $num++;
+        }else{
+            $num = 1;
+        }
+        
+        if(!isset($rResult['error'])){  
+            $iTotal         = isset($rResult[0]['total'])?$rResult[0]['total']:0;
+            
+            $sOutput = '{';
+            $sOutput .= '"sEcho": '.intval($sEcho).', ';
+            $sOutput .= '"iTotalRecords": '.$iTotal.', ';
+            $sOutput .= '"iTotalDisplayRecords": '.$iTotal.', ';
+            $sOutput .= '"aaData": [ ';     
+            
+            foreach ( $rResult as $key=>$aRow ){
+                
+                /*antes de enviar id se encrypta*/
+                $encryptReg = Aes::en($aRow['id_catalogo']);
+                $prod = AesCtr::en($aRow['id_catalogo']).'~'.$aRow['descripcion'].'~'.'1'.'~'.'UND'.'~'.'N';
+                
+                $chk = '<label class=\"checkbox\">';
+                $chk .='<input type=\"checkbox\" id=\"'.++$key.$tab.'chk_prod\" name=\"'.$tab.'chk_prod[]\" value=\"'.$prod.'\"><i></i>';
+                $chk .='</label>';
+                
+                $nombre = addslashes($aRow['descripcion']);
+                
+                /*datos de manera manual*/
+                $sOutput .= '["'.$chk.'","'.$nombre.'" , "'.$aRow['laboratorio'].'" ';
+
+                $sOutput .= '],';
+
+            }
+            $sOutput = substr_replace( $sOutput, "", -1 );
+            $sOutput .= '] }';
+        }else{
+            $sOutput = $rResult['error'];
+        }
+        
+        echo $sOutput;
+
+    }    
+    
+    
     public static function getUnidadMedida(){ 
         $data = Obj::run()->vproductoModel->getUnidadMedida();
         

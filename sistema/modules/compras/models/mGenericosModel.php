@@ -144,6 +144,21 @@ class mGenericosModel extends Model{
         return $data;
     } 
     
+    public function findGenericosAll(){
+       $query = "SELECT
+            `id_generico`,
+            `descripcion`  
+          FROM  `lgk_generico`
+          WHERE estado = :est
+          order by 2; ";
+        
+        $parms = array(
+            ':est' => 'A'
+        );
+        $data = $this->queryAll($query,$parms);
+        return $data;
+    }
+    
 }
 
 ?>

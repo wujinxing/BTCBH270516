@@ -157,6 +157,11 @@ lang.generico.SERIE = 'Serie';
 lang.generico.NUMERO = 'Número';
 lang.generico.METODOPAGO = 'Método Pago';
 lang.generico.NROVENTAS = 'Nro Ventas';
+lang.generico.CONCENTRACION = 'Concent.';
+lang.generico.FRACCION = 'Fracción';
+lang.generico.LABORATORIO = 'Laboratorio';
+lang.generico.RECETAMEDICA = 'Receta Med.';
+lang.generico.PRESENTACION = 'Presentación';
 
 lang.generico.M01 = "Enero";
 lang.generico.M02 = "Febrero";
@@ -266,3 +271,4 @@ lang.busqueda.CPRES = "Buscar por Presentación";
 lang.busqueda.FAM = "Buscar por familia";
 lang.busqueda.GENER = "Buscar por generico";
 lang.busqueda.CLASF = "Buscar por clasificación";
+lang.busqueda.CATGR = "Buscar por producto o laboratorio o Código de Barras";

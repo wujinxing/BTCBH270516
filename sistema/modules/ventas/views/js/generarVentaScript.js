@@ -18,11 +18,11 @@ var generarVentaScript_ = function(){
             msn: lang.mensajes.MSG_9,
             fnCallback: function(){
                 var collection = $('#'+diccionario.tabs.VGEVE+'gridProductosFound').find('tbody').find('tr'),
-                    chk,cad,idProducto,descripcion,precio,um,cmulti,tr='',duplicado,importe=0, idx=0;
-                 
+                    chk,cad,idProducto,descripcion,precio,um,cmulti,tr='',duplicado,importe=0, idx=0;                 
                 /*recorriendo productos seleccionados*/
                 $.each(collection,function(index,value){
-                    chk = $(this).find('td:eq(1)').find('input:checkbox');
+                    chk = $(this).find('td:eq(0)').find('input:checkbox');
+                    
                     if(chk.is(':checked')){
                         cad = chk.val().split('~');
                         idProducto = cad[0];
@@ -30,6 +30,7 @@ var generarVentaScript_ = function(){
                         precio = parseFloat(cad[2]).toFixed(2);
                         um = cad[3];
                         cmulti= cad[4];
+                        
                         duplicado = 0;                                
                         /*validanco duplicidad*/
                         /*if(_private.productoAdd.length > 0){//hay data

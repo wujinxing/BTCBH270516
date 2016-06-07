@@ -149,6 +149,22 @@ class mLaboratoriosModel extends Model{
         $data = array('result'=>1);
         return $data;
     } 
+    
+    public function findLaboratoriosAll(){
+         $query = "SELECT
+                `id_laboratorio`,
+                `descripcion`
+              FROM `lgk_laboratorio`
+              WHERE `estado` = :est
+              order by 2; ";
+        
+        $parms = array(
+            ':est' => 'A'
+        );
+        $data = $this->queryAll($query,$parms);
+        return $data;
+    }
+    
 }
 
 ?>

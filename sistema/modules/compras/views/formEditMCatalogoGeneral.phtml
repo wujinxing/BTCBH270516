@@ -1,0 +1,233 @@
+<?php /*
+* ---------------------------------------
+* --------- CREATED BY CREATOR ----------
+* fecha: 02-06-2016 19:06:04 
+* Descripcion : formEditMCatalogoGeneral.phtml
+* ---------------------------------------
+*/
+
+/*prefijo: CATGR debe ser alias en tabla men_menuprincipal*/
+$editar = Session::getPermiso("CATGRACT");
+    
+$data = mCatalogoGeneralController::findMCatalogoGeneral();
+
+?>
+<form id="<?php echo CATGR; ?>formEditMCatalogoGeneral" name="<?php echo CATGR; ?>formEditMCatalogoGeneral" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"  aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title"><?php echo CATGR_03; ?></h4>
+            </div>
+            <div class="modal-body smart-form"> 
+                <section >
+                    <div class="row">
+                        <label class="label col col-2"><?php echo CATGR_04; ?></label>
+                        <div class="col col-10">
+                            <label class="input"> 
+                                <i class="icon-append fa fa-keyboard-o"></i>
+                                <input type="text" id="<?php echo CATGR; ?>txt_nombre" name="<?php echo CATGR; ?>txt_nombre" value="<?php echo $data['nombre'];?>" >
+                                <b class="tooltip tooltip-top-right"><i class="fa  fa-question-circle txt-color-teal"></i> <?php echo CATGR_04M; ?></b>
+                            </label>
+                        </div>                       
+                    </div>
+                </section>
+                <section >
+                    <div class="row">
+                        <label class="label col col-2"><?php echo CATGR_05; ?></label>
+                        <div class="col col-4">
+                            <label class="input"> 
+                                <i class="icon-append fa fa-keyboard-o"></i>
+                                <input type="text" id="<?php echo CATGR; ?>txt_concentracion" name="<?php echo CATGR; ?>txt_concentracion" value="<?php echo $data['concentracion'];?>">
+                                <b class="tooltip tooltip-top-right"><i class="fa  fa-question-circle txt-color-teal"></i> <?php echo CATGR_05M; ?></b>
+                            </label>
+                        </div>
+                        <label class="label col col-2"><?php echo CATGR_06; ?></label>
+                        <div class="col col-4">
+                            <label class="input"> 
+                                <i class="icon-append fa fa-keyboard-o"></i>
+                                <input maxlength="4" style="text-align: right;" type="text" id="<?php echo CATGR; ?>txt_fraccion" name="<?php echo CATGR; ?>txt_fraccion" value="<?php echo $data['fraccion'];?>"  >
+                                <b class="tooltip tooltip-top-right"><i class="fa  fa-question-circle txt-color-teal"></i> <?php echo CATGR_06M; ?></b>
+                            </label>
+                        </div> 
+                    </div>
+                </section>
+                <section >
+                    <div class="row">
+                        <label class="label col col-2"><?php echo CATGR_13; ?></label>
+                        <div class="col col-xs-7">
+                            <label class="input"> 
+                                <i class="icon-append fa fa-keyboard-o"></i>
+                                <input type="text" id="<?php echo CATGR; ?>txt_codigoBarras" name="<?php echo CATGR; ?>txt_codigoBarras" value="<?php echo $data['codigo_barras'];?>" >
+                                <b class="tooltip tooltip-top-right"><i class="fa  fa-question-circle txt-color-teal"></i> <?php echo CATGR_13M; ?></b>
+                            </label>
+                        </div>                                                              
+                        <div class="col col-3">
+                             <label class="checkbox" >
+                                <input type="checkbox"  <?php echo ($data['receta_medica'] == 'S')?'checked':'' ?>  
+                                       name="<?php echo CATGR; ?>chk_receta" id="<?php echo CATGR; ?>chk_receta" value="S" />
+                                <i></i>
+                                <?php echo CATGR_12; ?>
+                            </label>
+                        </div>                                      
+                    </div>
+
+                </section> 
+                <section>
+                    <div class="row">
+                        <label class="label col col-2"><?php echo CATGR_07; ?></label>
+                        <div class="col col-10">
+                            <label class="select"> 
+                                <?php
+                                    $datapp = mPresentacionController::findPresentacionAll();
+                                    echo Functions::selectHtml(array(
+                                        'data'=>$datapp,
+                                        'atributes'=>array(
+                                            'id'=>CATGR.'lst_presentacion',
+                                            'name'=>CATGR.'lst_presentacion'
+                                        ),
+                                        'etiqueta'=>'descripcion',
+                                        'value'=>'id_presentacion',
+                                        'defaultEtiqueta'=>$data['id_presentacion'],
+                                        'txtSelect'=>false
+                                    ));
+                                ?>
+                            </label>
+                        </div> 
+                    </div>               
+                </section>  
+                <section>
+                    <div class="row">
+                       <label class="label col col-2"><?php echo CATGR_08; ?></label>
+                        <div class="col col-4">
+                            <label class="select"> 
+                                <?php
+                                    $datal = mLaboratoriosController::findLaboratoriosAll();
+                                    echo Functions::selectHtml(array(
+                                        'data'=>$datal,
+                                        'atributes'=>array(
+                                            'id'=>CATGR.'lst_laboratorio',
+                                            'name'=>CATGR.'lst_laboratorio'
+                                        ),
+                                        'etiqueta'=>'descripcion',
+                                        'value'=>'id_laboratorio',
+                                        'defaultEtiqueta'=>$data['id_laboratorio'],
+                                        'txtSelect'=>false
+                                    ));
+                                ?>
+                            </label>
+                        </div>
+                       <label class="label col col-2"><?php echo CATGR_09; ?></label>
+                        <div class="col col-4">
+                            <label class="select"> 
+                                <?php
+                                    $datac = mClasificacionController::findClasificacionAll();
+                                    echo Functions::selectHtml(array(
+                                        'data'=>$datac,
+                                        'atributes'=>array(
+                                            'id'=>CATGR.'lst_clasificacion',
+                                            'name'=>CATGR.'lst_clasificacion'
+                                        ),
+                                        'etiqueta'=>'descripcion',
+                                        'value'=>'id_clasificacion',
+                                        'defaultEtiqueta'=>$data['id_clasificacion'],
+                                        'txtSelect'=>false
+                                    ));
+                                ?>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <div class="row">
+                       <label class="label col col-2"><?php echo CATGR_10; ?></label>
+                        <div class="col col-4">
+                            <label class="select"> 
+                                <?php
+                                    $dataff = mFamiliaController::findFamiliaAll();
+                                    echo Functions::selectHtml(array(
+                                        'data'=>$dataff,
+                                        'atributes'=>array(
+                                            'id'=>CATGR.'lst_familia',
+                                            'name'=>CATGR.'lst_familia'
+                                        ),
+                                        'etiqueta'=>'descripcion',
+                                        'value'=>'id_familia',
+                                        'defaultEtiqueta'=>$data['id_familia'],
+                                        'txtSelect'=>false
+                                    ));
+                                ?>
+                            </label>
+                        </div>
+                       <label class="label col col-2"><?php echo CATGR_11; ?></label>
+                        <div class="col col-4">
+                            <label class="select"> 
+                                <?php
+                                    $datagg = mGenericosController::findGenericosAll();
+                                    echo Functions::selectHtml(array(
+                                        'data'=>$datagg,
+                                        'atributes'=>array(
+                                            'id'=>CATGR.'lst_generico',
+                                            'name'=>CATGR.'lst_generico'
+                                        ),
+                                        'etiqueta'=>'descripcion',
+                                        'value'=>'id_generico',
+                                        'defaultEtiqueta'=>$data['id_generico'],
+                                        'txtSelect'=>false
+                                    ));
+                                ?>
+                            </label>
+                        </div>
+                    </div>
+                </section> 
+            </div>
+            <div class="modal-footer">
+                <div class="foot-obligar"></div>
+                <?php if($editar["permiso"]):?>
+                <button id="<?php echo CATGR; ?>btnEdMCatalogoGeneral" type="submit" class="<?php echo $editar["theme"]; ?>">
+                    <i class="<?php echo $editar["icono"]; ?>"></i> <?php echo $editar["accion"]; ?>
+                </button>
+                <?php endif; ?>
+                <button type="button" class="<?php echo THEME_CLOSE; ?>">
+                    <i class="<?php echo ICON_CLOSE; ?>"></i> <?php echo BTN_CLOSE; ?>
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</form>
+<!-- si no tiene permiso se anula submit desde cualquier input -->
+<?php if(!$editar["permiso"]): ?>
+<script>
+    simpleScript.noSubmit("#<?php echo CATGR; ?>formEditMCatalogoGeneral");
+</script>
+<?php endif; ?>
+<script>
+    $("#<?php echo CATGR; ?>formEditMCatalogoGeneral").removeAttr('tabindex');
+    simpleScript.chosen({'id':'#<?php echo CATGR; ?>lst_presentacion'});  
+    simpleScript.chosen({'id':'#<?php echo CATGR; ?>lst_laboratorio'});  
+    simpleScript.chosen({'id':'#<?php echo CATGR; ?>lst_clasificacion'});  
+    simpleScript.chosen({'id':'#<?php echo CATGR; ?>lst_familia'});  
+    simpleScript.chosen({'id':'#<?php echo CATGR; ?>lst_generico'}); 
+/*configurar validacion de formulario -- este codigo es de ejemplo*/
+$("#<?php echo CATGR; ?>formEditMCatalogoGeneral").validate({
+    rules : {
+        <?php echo CATGR; ?>txt_nombre : {
+            required : true,
+            minlength: 3
+        }, <?php echo CATGR; ?>txt_fraccion : {
+            required : true,
+            number:true
+        }
+    },
+ 
+    errorPlacement : function(error, element) {
+        error.insertAfter(element.parent());
+    },
+
+    submitHandler: function(){
+        mCatalogoGeneral.postEditMCatalogoGeneral();
+    }   
+});
+</script>

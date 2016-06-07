@@ -128,9 +128,14 @@ $igv = parametroController::getParametroOne('IGV');
                             <div class="clearfix"></div>
                             <label class="control-label col-lg-2" for="prepend">
                                 <?php if($agregar['permiso']):?>
-                                <button id="<?php echo VGEVE; ?>btnGaddFila" type="button" class="<?php echo $agregar['theme'];?> padding-10" onclick="generarVenta.getFormBuscarProductos(this,'<?php echo VGEVE; ?>' );">
+                               <!-- <button id="<?php echo VGEVE; ?>btnGaddFila" type="button" class="<?php echo $agregar['theme'];?> padding-10" onclick="generarVenta.getFormBuscarProductos(this,'<?php echo VGEVE; ?>' );">
                                     <i class="fa fa-plus-circle"></i> <?php echo BTN_ADD; ?> Producto / Servicio en la tabla
+                                </button>-->
+                                                                
+                                <button id="<?php echo VGEVE; ?>btnGaddFila" type="button" class="<?php echo $agregar['theme'];?> padding-10" onclick="vproducto.getBuscarProducto(this, '<?php echo VGEVE; ?>', '' );">
+                                    <i class="fa fa-plus-circle"></i> <?php echo BTN_ADD; ?> Producto en la tabla
                                 </button>
+                                 
                                 <br/><br/>
                                 <?php endif; ?>
                             </label>
@@ -149,42 +154,7 @@ $igv = parametroController::getParametroOne('IGV');
                                                 <th style="width:1%">...</th>
                                             </thead>
                                             <tbody>
-                                        <?php
-                                        $idx = 1;
-                                        $dataServicio = vproductoController::findServicioOne();
-                                        $idProducto = AesCtr::en($dataServicio['id_producto']);         
-                                        ?>
-                                        <script>generarVentaScript.setIndex();</script>
-                                        <tr id="<?php echo VGEVE; ?>tr_<?php echo ($idx); ?>" >
-                                            <td>                                                
-                                                <input type="hidden" id="<?php echo VGEVE.$idx; ?>hhddIdProducto" name="<?php echo VGEVE; ?>hhddIdProducto[]" value="<?php echo $idProducto; ?>">
-                                                <label class="textarea">
-                                                     <textarea class="editable" style="height:120px; resize: vertical;" autocomplete="on" id="<?php echo VGEVE.$idx; ?>txt_descripcion" name="<?php echo VGEVE; ?>txt_descripcion[]" ></textarea>                                              
-                                             </label>                                                                                                
-                                            </td>
-                                            <td ><?php echo $dataServicio['unidadmedida'];?></td>
-                                            <td>
-                                                <label class="input">
-                                                    <input type="text" id="<?php echo VGEVE.$idx; ?>txt_cantidad1" name="<?php echo VGEVE; ?>txt_cantidad1[]" value="1"  style="text-align:right" data-index="<?php echo $idx; ?>">
-                                                </label>                                
-                                            </td>
-                                            <td >
-                                                <label class="input">                                                
-                                                    <input type="text" style="background:#EFEFEF;text-align:right;"  id="<?php echo VGEVE.$idx; ?>txt_cantidad2" name="<?php echo VGEVE; ?>txt_cantidad2[]" value="1" data-index="<?php echo $idx; ?>" readonly>                                                  
-                                                </label> 
-                                            </td>                                            
-                                            <td class="right">
-                                                1.00
-                                            </td>                                                                                        
-                                            <td class="right">
-                                                <label class="input"><input type="text" id="<?php echo VGEVE.$idx; ?>txt_precio" name="<?php echo VGEVE; ?>txt_precio[]" value="0.00" data-value="0.00" data-index="<?php echo $idx; ?>" style="text-align:right" type="text"></label>
-                                            </td>                                                                                                                                                                      
-                                            <td class="right">0.00</td>
-                                            <td>
-                                                <button type="button" class="btn btn-danger btn-xs" onclick="generarVentaScript.removeItem('<?php echo $idx; ?>');"><i class="fa fa-trash-o"></i>
-                                                </button>
-                                            </td>                                            
-                                        </tr>          
+                                              
                                         
                                             </tbody>
                                         </table>

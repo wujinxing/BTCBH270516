@@ -128,6 +128,11 @@ class mFamiliaController extends Controller{
         return $data;
     }
     
+    public static function findFamiliaAll(){
+        $data = Obj::run()->mFamiliaModel->findFamiliaAll();            
+        return $data;
+    }    
+    
     /*envia datos para grabar registro: MFamilia*/
     public function postNewMFamilia(){
         $grabar = Session::getPermiso("FAMGR");

@@ -145,6 +145,21 @@ class mFamiliaModel extends Model{
         return $data;
     } 
     
+    public function findFamiliaAll(){
+        $query = "SELECT
+            `id_familia`,
+            `descripcion`  
+          FROM  `lgk_familia`
+          WHERE estado = :est
+          order by 2; ";
+        
+        $parms = array(
+            ':est' => 'A'
+        );
+        $data = $this->queryAll($query,$parms);
+        return $data;
+    }
+    
 }
 
 ?>

@@ -15,6 +15,7 @@ class vproductoModel extends Model{
     private $_precio;
     private $_idUM;
     private $_usuario;
+    public $_tab, $_funcionExterna;
     
     /*para el grid*/
     public  $_iDisplayStart;
@@ -31,6 +32,9 @@ class vproductoModel extends Model{
         $this->_flag        = Formulario::getParam("_flag");
         $this->_idVproducto   = Aes::de(Formulario::getParam("_idVproducto"));    /*se decifra*/
         $this->_usuario     = Session::get("sys_idUsuario");
+        
+        $this->_tab    = Formulario::getParam("_tab");
+        $this->_funcionExterna  = Formulario::getParam("_funcionExterna");
         
         $this->_chkdel  = Formulario::getParam(VPROD.'chk_delete');
         $this->_nombre     = Formulario::getParam(VPROD.'txt_descripcion');
@@ -105,18 +109,21 @@ class vproductoModel extends Model{
     /* Busqueda para Productos / Servicios para cotizacion y Ventas */
     public function getFindProductos(){
         $query = "
-        SELECT
-            p.`id_producto`,
-            p.`descripcion`,
-            p.`precio`,
-            p.`estado`,                       
-            u.`sigla` AS unidad_medida,
-            p.`id_unidadmedida`,
-            u.cantidad_multiple
-          FROM `ven_producto` p
-            INNER JOIN `ven_unidadmedida` u ON u.`id_unidadmedida` = p.`id_unidadmedida`
-          WHERE p.estado = :est
-          order by 2";
+        SELECT 
+            t.id_catalogo, CONCAT(t.nombre,' ' ,t.concentracion,' ',t.presentacion) AS descripcion,
+            t.laboratorio,
+            t.fraccion, t.receta_medica,
+            t.familia, t.generico, t.clasificacion
+        FROM( SELECT
+                c.`id_catalogo`, c.`nombre`, c.`concentracion`, c.`fraccion`, c.`receta_medica`,
+                (SELECT f.`descripcion` FROM `lgk_familia` f WHERE f.`id_familia` = c.`id_familia`) AS familia,
+                (SELECT g.`descripcion` FROM `lgk_generico` g WHERE g.`id_generico` = c.`id_generico`) AS generico,
+                (SELECT l.`sigla` FROM `lgk_laboratorio` l WHERE l.`id_laboratorio` = c.`id_laboratorio`) AS laboratorio,
+                (SELECT p.`descripcion` FROM `lgk_presentacion` p WHERE p.`id_presentacion` = c.`id_presentacion`) AS presentacion,
+                (SELECT cc.`descripcion_corta` FROM `lgk_clasificacion` cc WHERE cc.`id_clasificacion` = c.`id_clasificacion`) AS clasificacion,
+                DATE_FORMAT(c.`fecha_creacion`,'%d/%m/%Y') AS fecha_creacion, c.estado	
+        FROM `lgk_catalogogral` c
+        WHERE c.`estado` = :est) AS t limit 100 ";
         
         $parms = array(
             ':est'=>  'A' 
@@ -124,6 +131,32 @@ class vproductoModel extends Model{
         $data = $this->queryAll($query,$parms);
         return $data;
     }     
+    
+    public function getBuscarProducto(){
+        $aColumns       =   array("","nombre","laboratorio" ); //para la ordenacion y pintado en html
+        /*
+	 * Ordenando, se verifica por que columna se ordenara
+	 */
+        $sOrder = "";
+        for ( $i=0 ; $i<intval( $this->_iSortingCols ) ; $i++ ){
+                if ( $this->post( "bSortable_".intval($this->post("iSortCol_".$i)) ) == "true" ){
+                        $sOrder .= " ".$aColumns[ intval( $this->post("iSortCol_".$i) ) ]." ".
+                                ($this->post("sSortDir_".$i)==="asc" ? "asc" : "desc") .",";
+                }
+        }
+        $sOrder = substr_replace( $sOrder, "", -1 );
+        
+        $query = "call sp_buscarProductoGrid(:iDisplayStart,:iDisplayLength,:sOrder,:sSearch);";
+        
+        $parms = array(
+            ":iDisplayStart" => $this->_iDisplayStart,
+            ":iDisplayLength" => $this->_iDisplayLength,
+            ":sOrder" => $sOrder,
+            ":sSearch" => $this->_sSearch
+        );
+        $data = $this->queryAll($query,$parms);
+        return $data;
+    }           
     
     /*editar registro: Vproducto*/
     public function editVproducto(){

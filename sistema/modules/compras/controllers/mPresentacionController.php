@@ -75,15 +75,23 @@ class mPresentacionController extends Controller{
                     $axion .= '</button>';
                 }
                 if($eliminar['permiso']){
-                    $axion .= '<button type=\"button\" class=\"'.$eliminar['theme'].'\" title=\"'.$eliminar['accion'].'\" onclick=\"mPresentacion.postDeleteMPresentacion(this,\''.$encryptReg.'\')\">';
-                    $axion .= '    <i class=\"'.$eliminar['icono'].'\"></i>';
-                    $axion .= '</button>';
+                    if($aRow['uso'] == 0):
+                        $axion .= '<button type=\"button\" class=\"'.$eliminar['theme'].'\" title=\"'.$eliminar['accion'].'\" onclick=\"mPresentacion.postDeleteMPresentacion(this,\''.$encryptReg.'\')\">';
+                        $axion .= '    <i class=\"'.$eliminar['icono'].'\"></i>';
+                        $axion .= '</button>';                         
+                    else:
+                        $axion .= '<button type=\"button\" class=\"'.$eliminar['theme'].'\" title=\"'.$eliminar['accion'].'\" disabled>';
+                        $axion .= '    <i class=\"'.$eliminar['icono'].'\"></i>';
+                        $axion .= '</button>';
+                    endif;
+                    
                 }
                 
                 $axion .= ' </div>" ';
+                $c0 = '<span  class=\"badge bg-color-orange font10 \">'.$aRow['id_presentacion'].'</span>';
                 $c1 = addslashes($aRow['descripcion']);
                 /*registros a mostrar*/
-                $sOutput .= '["'.($num++).'","'.$c1.'","'.$estado.'",'.$axion.' ';
+                $sOutput .= '["'.($num++).'","'.$c0.'","'.$c1.'","'.$estado.'",'.$axion.' ';
 
                 $sOutput .= '],';
 
@@ -117,6 +125,11 @@ class mPresentacionController extends Controller{
     /*busca data para editar registro: MPresentacion*/
     public static function findMPresentacion(){
         $data = Obj::run()->mPresentacionModel->findMPresentacion();            
+        return $data;
+    }
+    
+    public static function findPresentacionAll(){
+        $data = Obj::run()->mPresentacionModel->findPresentacionAll();            
         return $data;
     }
     

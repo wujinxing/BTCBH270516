@@ -645,6 +645,25 @@ define('CLASF_04M','Ingrese la descripción de la clasificación');
 define('CLASF_05','D. Corta');
 define('CLASF_05M','Ingrese una descripción corta de la clasificación');
 
+/* ---------------------- Catálogo General ----------------- */
+define('CATGR_01','Catálogo General');
+define('CATGR_02','Nuevo Catálogo');
+define('CATGR_03','Editar Catálogo');
+define('CATGR_04','Nombre');
+define('CATGR_04M','Ingrese el nombre del producto');
+define('CATGR_05','Concent.');
+define('CATGR_05M','Ingrese la concentración del medicamento');
+define('CATGR_06','Fracción');
+define('CATGR_06M','Ingrese la fracción que se trabajará el producto, si es por unidad, dejarlo en (1).');
+define('CATGR_07','Presentación');
+define('CATGR_08','Laboratorio');
+define('CATGR_09','Clasificación');
+define('CATGR_10','Familia');
+define('CATGR_11','Genérico');
+define('CATGR_12','Receta Medica');
+define('CATGR_13','Código Barras');
+define('CATGR_13M','Ingrese el código de barras del producto para su busqueda');
+
 /* Otros */
 define('ERRBD_01', 'Listado de Errores en la Base de Datos');
 define('ERRBD_02', 'Vista previa del Error');

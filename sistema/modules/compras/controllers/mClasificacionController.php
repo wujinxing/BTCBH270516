@@ -76,9 +76,9 @@ class mClasificacionController extends Controller{
                 }
                 if($eliminar['permiso']){
                     if($aRow['uso'] == 0):
-                         $axion .= '<button type=\"button\" class=\"'.$eliminar['theme'].'\" title=\"'.$eliminar['accion'].'\" onclick=\"mClasificacion.postDeleteMClasificacion(this,\''.$encryptReg.'\')\">';
-                    $axion .= '    <i class=\"'.$eliminar['icono'].'\"></i>';
-                    $axion .= '</button>';
+                        $axion .= '<button type=\"button\" class=\"'.$eliminar['theme'].'\" title=\"'.$eliminar['accion'].'\" onclick=\"mClasificacion.postDeleteMClasificacion(this,\''.$encryptReg.'\')\">';
+                        $axion .= '    <i class=\"'.$eliminar['icono'].'\"></i>';
+                        $axion .= '</button>';
                     else:
                         $axion .= '<button type=\"button\" class=\"'.$eliminar['theme'].'\" title=\"'.$eliminar['accion'].'\" disabled >';
                         $axion .= '    <i class=\"'.$eliminar['icono'].'\"></i>';
@@ -127,6 +127,11 @@ class mClasificacionController extends Controller{
         return $data;
     }
     
+    public static function findClasificacionAll(){
+        $data = Obj::run()->mClasificacionModel->findClasificacionAll();            
+        return $data;
+    }
+       
     /*envia datos para grabar registro: MClasificacion*/
     public function postNewMClasificacion(){
         $grabar = Session::getPermiso("CLASFGR");

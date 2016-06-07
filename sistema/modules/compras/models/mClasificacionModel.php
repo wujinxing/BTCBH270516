@@ -149,6 +149,21 @@ class mClasificacionModel extends Model{
         $data = array('result'=>1);
         return $data;
     } 
+    
+    public function findClasificacionAll(){
+       $query = "SELECT
+            `id_clasificacion`,
+            `descripcion` 
+          FROM `lgk_clasificacion`
+          WHERE `estado` = :est
+          order by 2; ";
+        
+        $parms = array(
+            ':est' => 'A'
+        );
+        $data = $this->queryAll($query,$parms);
+        return $data;
+    }
         
 }
 

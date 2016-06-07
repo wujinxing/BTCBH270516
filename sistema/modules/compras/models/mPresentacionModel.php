@@ -40,7 +40,7 @@ class mPresentacionModel extends Model{
     
     /*data para el grid: MPresentacion*/
     public function getMPresentacion(){
-        $aColumns       =   array("id_presentacion","descripcion","estado" ); //para la ordenacion y pintado en html
+        $aColumns       =   array("","id_presentacion","descripcion","estado" ); //para la ordenacion y pintado en html
         /*
 	 * Ordenando, se verifica por que columna se ordenara
 	 */
@@ -144,6 +144,17 @@ class mPresentacionModel extends Model{
         $data = array('result'=>1);
         return $data;
     } 
+    
+    public function findPresentacionAll(){
+        $query = "SELECT `id_presentacion`, `descripcion` "
+                . "FROM `lgk_presentacion` "
+                . "WHERE estado = :est order by 2; ";        
+        $parms = array(
+            ':est' => 'A'
+        );
+        $data = $this->queryAll($query,$parms);
+        return $data;
+    }
     
 }
 
