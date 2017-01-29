@@ -28,8 +28,6 @@ class vClienteController extends Controller{
     public function getGridVcliente(){
         $editar   = Session::getPermiso('VRECLED');
         $eliminar = Session::getPermiso('VRECLDE');
-        $enviaremail   = Session::getPermiso('VRECLEE');
-        $exportarpdf   = Session::getPermiso('VRECLEP');        
          
         $sEcho          =   $this->post('sEcho');
         
@@ -81,17 +79,6 @@ class vClienteController extends Controller{
                     $axion .= '    <i class=\"'.$editar['icono'].'\"></i>';
                     $axion .= '</button>';
                 }
-                if($exportarpdf['permiso'] == 1){
-                    if($aRow['estado'] == 'A' ){
-                        $axion .= '<button type=\"button\" class=\"'.$exportarpdf['theme'].'\" title=\"'.VCOTI_6.'\" onclick=\"vCliente.postPDFCarta(this,\''.$encryptReg.'\')\">';
-                        $axion .= '    <i class=\"'.$exportarpdf['icono'].'\"></i>';
-                        $axion .= '</button>';
-                    }else{
-                        $axion .= '<button type=\"button\" class=\"'.$exportarpdf['theme'].'\" title=\"'.VCOTI_6.'\" disabled>';
-                        $axion .= '    <i class=\"'.$exportarpdf['icono'].'\"></i>';
-                        $axion .= '</button>';
-                    }
-                }                    
                 if($eliminar['permiso']){
                     $uso = $aRow['tVentas'];
                     if( $uso === 0):

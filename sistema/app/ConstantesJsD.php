@@ -43,7 +43,8 @@ var diccionario = {
         FAM: '<?php echo FAM; ?>',
         GENER: '<?php echo GENER; ?>',
         CLASF: '<?php echo CLASF; ?>',
-        CATGR: '<?php echo CATGR; ?>'  
+        CATGR: '<?php echo CATGR; ?>',
+        PROVV: '<?php echo PROVV; ?>'  
                
     }
 };

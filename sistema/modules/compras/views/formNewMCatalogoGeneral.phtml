@@ -54,23 +54,14 @@ $grabar = Session::getPermiso("CATGRGR");
                 <section >
                     <div class="row">
                         <label class="label col col-2"><?php echo CATGR_13; ?></label>
-                        <div class="col col-xs-7">
+                        <div class="col col-xs-10">
                             <label class="input"> 
                                 <i class="icon-append fa fa-keyboard-o"></i>
                                 <input type="text" id="<?php echo CATGR; ?>txt_codigoBarras" name="<?php echo CATGR; ?>txt_codigoBarras"  >
                                 <b class="tooltip tooltip-top-right"><i class="fa  fa-question-circle txt-color-teal"></i> <?php echo CATGR_13M; ?></b>
                             </label>
-                        </div>                                                              
-                        <div class="col col-3">
-                             <label class="checkbox" >
-                                <input type="checkbox"   
-                                       name="<?php echo CATGR; ?>chk_receta" id="<?php echo CATGR; ?>chk_receta" value="S" />
-                                <i></i>
-                                <?php echo CATGR_12; ?>
-                            </label>
-                        </div>                                      
+                        </div>                                                                                                                     
                     </div>
-
                 </section> 
                 <section>
                     <div class="row">
@@ -178,6 +169,29 @@ $grabar = Session::getPermiso("CATGRGR");
                             </label>
                         </div>
                     </div>
+                </section> 
+                <section >
+                    <div class="row">  
+                         <label class="label col col-2"><?php echo CATGR_12; ?></label>
+                        <div class="col col-2">
+                             <label class="checkbox" >
+                                <input type="checkbox"   
+                                       name="<?php echo CATGR; ?>chk_receta" id="<?php echo CATGR; ?>chk_receta" value="S" />
+                                <i></i>
+                                <?php echo LABEL_S; ?>
+                            </label>
+                        </div>       
+                        <label class="label col col-2"><?php echo CATGR_14; ?></label>
+                        <div class="col col-3">
+                             <label class="checkbox" >
+                                <input type="checkbox"   
+                                       name="<?php echo CATGR; ?>chk_stock" id="<?php echo CATGR; ?>chk_stock" value="S" />
+                                <i></i>
+                                <?php echo LABEL_S; ?>
+                            </label>
+                        </div>                                      
+                    </div>
+
                 </section> 
             </div>
             <div class="modal-footer">

@@ -41,19 +41,7 @@ $idUbigeo = str_pad($data['id_ubigeo'], 9, "0", STR_PAD_LEFT);
                             </label>
                         </div>          
                     </div>
-                </section>  
-               <section>
-                    <div class="row">
-                        <label class="label col col-2"><?php echo LABEL_RV4; ?></label>
-                        <div class="col col-10">
-                            <label class="input"> 
-                                <i class="icon-append fa fa-user"></i>
-                                <input type="text" id="<?php echo VRECL; ?>txt_empresa" name="<?php echo VRECL; ?>txt_empresa"  value="<?php echo $data['empresacliente']; ?>">
-                                <b class="tooltip tooltip-top-right"><i class="fa fa-question-circle txt-color-teal"></i> <?php echo LABEL_RV7; ?></b>
-                            </label>
-                        </div>
-                    </div>
-                </section>    
+                </section>                 
                 <section>
                     <div class="row">
                         <label class="label col col-2"><?php echo VRECL_4; ?></label>
@@ -66,7 +54,30 @@ $idUbigeo = str_pad($data['id_ubigeo'], 9, "0", STR_PAD_LEFT);
                         </div>
                     </div>
                 </section>
-                          
+                <section>
+                    <div class="row">
+                        <label class="label col col-2"><?php echo LABEL_RV4; ?></label>
+                        <div class="col col-10">
+                            <label class="input"> 
+                                <i class="icon-append fa fa-user"></i>
+                                <input type="text" id="<?php echo VRECL; ?>txt_empresa" name="<?php echo VRECL; ?>txt_empresa"  value="<?php echo $data['empresacliente']; ?>">
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-question-circle txt-color-teal"></i> <?php echo LABEL_RV7; ?></b>
+                            </label>
+                        </div>
+                    </div>
+                </section> 
+                <section>
+                    <div class="row">
+                        <label class="label col col-2"><?php echo LABEL_RV47; ?></label>
+                        <div class="col col-10">
+                            <label class="input"> 
+                                <i class="icon-append fa fa-user"></i>
+                                <input type="text" id="<?php echo VRECL; ?>txt_razonsocial" name="<?php echo VRECL; ?>txt_razonsocial" value="<?php echo $data['empresa_razonsocial']; ?>">
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-question-circle txt-color-teal"></i> <?php echo LABEL_RV47M; ?></b>
+                            </label>
+                        </div>
+                    </div>
+                </section>           
                 <!--
                 <section>
                     <div class="row">
@@ -105,7 +116,7 @@ $idUbigeo = str_pad($data['id_ubigeo'], 9, "0", STR_PAD_LEFT);
                 <section>
                     <div class="row">
                         <label class="label col col-2"><?php echo LABEL_RV18; ?></label>
-                        <div class="col col-10">
+                        <div class="col col-4">
                             <label class="select" id="<?php echo VRECL; ?>cont-departamentos"> 
                                 <?php 
                                     $datad = ubigeoController::getDepartamentosEst(substr($idUbigeo, 0,3));
@@ -129,13 +140,9 @@ $idUbigeo = str_pad($data['id_ubigeo'], 9, "0", STR_PAD_LEFT);
                                     ));
                                 ?>
                             </label>
-                        </div>
-                    </div>
-                </section>            
-                <section>
-                    <div class="row">
-                        <label class="label col col-2"><?php echo LABEL_RV20; ?></label>
-                        <div class="col col-10">
+                        </div>                   
+                        <label class="label col col-1"><?php echo LABEL_RV20; ?></label>
+                        <div class="col col-5">
                             <label class="select" id="<?php echo VRECL; ?>cont-ubigeo"> 
                                 <?php 
                                     $datau = ubigeoController::getUbigeoEst(substr($idUbigeo, 0,5));

@@ -13,6 +13,7 @@ class vClienteModel extends Model{
     public $_idPersona;
     private $_empresa;    
     private $_nombres;
+    private $_razonsocial;
     private $_sexo;
     private $_direccion;
     private $_email;
@@ -43,6 +44,7 @@ class vClienteModel extends Model{
         $this->_usuario     = Session::get("sys_idUsuario");
                       
         $this->_empresa = str_replace('&#039;',"´",mb_strtoupper(Formulario::getParam(VRECL.'txt_empresa'),'UTF-8') );
+        $this->_razonsocial = str_replace('&#039;',"´",mb_strtoupper(Formulario::getParam(VRECL.'txt_razonsocial'),'UTF-8') );        
         $this->_nombres = str_replace('&#039;',"´",Functions::ucname(Formulario::getParam(VRECL.'txt_nombres')));
         $this->_sexo = Formulario::getParam(VRECL.'rd_sexo');
         $this->_direccion = Formulario::getParam(VRECL.'txt_direccion');
@@ -102,9 +104,10 @@ class vClienteModel extends Model{
         }
         $sOrder = substr_replace( $sOrder, "", -1 );
         
-        $query = "call sp_buscarClienteGrid(:iDisplayStart,:iDisplayLength,:sOrder,:sSearch);";
+        $query = "call sp_buscarPersonaGrid(:tipo,:iDisplayStart,:iDisplayLength,:sOrder,:sSearch);";
         
         $parms = array(
+            ':tipo' => 'C', // Cliente
             ":iDisplayStart" => $this->_iDisplayStart,
             ":iDisplayLength" => $this->_iDisplayLength,
             ":sOrder" => $sOrder,
@@ -120,7 +123,7 @@ class vClienteModel extends Model{
                     :flag,
                     :idPersona,
                     :empresa,
-                    :nombres,
+                    :nombres, :razonsocial,
                     :sexo,
                     :direccion,
                     :email,
@@ -136,6 +139,7 @@ class vClienteModel extends Model{
             ':idPersona' => '',
             ':empresa' => $this->_empresa,
             ':nombres' => $this->_nombres,
+            ':razonsocial' => $this->_razonsocial,
             ':sexo' => $this->_sexo,
             ':direccion' => $this->_direccion,
             ':email' => $this->_email,
@@ -153,16 +157,9 @@ class vClienteModel extends Model{
     /*seleccionar registro a editar: Vcliente*/
     public function findVcliente(){
       $query = "SELECT 
-                        p.id_persona,                         
-                        p.empresacliente,
-                        p.numerodocumento,
-                        p.nombrecompleto,
-                        p.id_ubigeo,
-                        p.direccion,
-                        p.email,
-                        p.sexo,
-                        p.telefono,
-                        p.ruccliente                                            
+                        p.id_persona, p.numerodocumento,
+                        p.nombrecompleto, p.empresa_razonsocial, p.empresacliente,
+                        p.id_ubigeo,p.direccion,p.email,p.sexo,p.telefono,p.ruccliente                                            
                     FROM mae_persona p  
                     WHERE p.id_persona = :iddd;";
 
@@ -180,7 +177,7 @@ class vClienteModel extends Model{
                     :flag,
                     :idPersona,
                     :empresa,
-                    :nombres,
+                    :nombres, :razonsocial,
                     :sexo,
                     :direccion,
                     :email,
@@ -196,6 +193,7 @@ class vClienteModel extends Model{
             ':idPersona' => $this->_idPersona,
             ':empresa' => $this->_empresa,
             ':nombres' => $this->_nombres,
+            ':razonsocial' => $this->_razonsocial,
             ':sexo' => $this->_sexo,
             ':direccion' => $this->_direccion,
             ':email' => $this->_email,
@@ -211,17 +209,39 @@ class vClienteModel extends Model{
     }
     
     public function deleteVcliente(){
-      
-        $query = "UPDATE `mae_persona` SET
-                    `estado` = '0'
-                WHERE `id_persona` = :idPersona;";
+        $query = "call sp_ventaClienteMantenimiento(
+                    :flag,
+                    :idPersona,
+                    :empresa,
+                    :nombres, :razonsocial,
+                    :sexo,
+                    :direccion,
+                    :email,
+                    :telefono,
+                    :numeroDoc,
+                    :ubigeo,
+                    :ruc,
+                    :ip,
+                    :usuario
+                );";
         $parms = array(
-            ':idPersona' => $this->_idPersona
+            ':flag' => 3,
+            ':idPersona' => $this->_idPersona,
+            ':empresa' => '',
+            ':nombres' => '',
+            ':razonsocial' => '',
+            ':sexo' => '',
+            ':direccion' => '',
+            ':email' => '',
+            ':telefono' => '',
+            ':numeroDoc' => '',
+            ':ubigeo' => '',
+            ':ruc' => '',
+            ':ip'=> '',
+            ':usuario' => $this->_usuario
         );
-        $this->execute($query,$parms);
-        
-        $data = array('result'=>1);
-        return $data;
+        $data = $this->queryOne($query,$parms);     
+        return $data;                
     }    
     
     public function postDesactivar(){

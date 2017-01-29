@@ -10,8 +10,6 @@ $nuevo    = Session::getPermiso("VRECLNEW");
 $eliminar = Session::getPermiso("VRECLDE");
 $editar = Session::getPermiso("VRECLED");
 $recargar = Session::getPermiso("VRECLREC");
-$enviaremail   = Session::getPermiso('VRECLEE');
-$exportarpdf   = Session::getPermiso('VRECLEP');
 
 echo Functions::siteMap();
 echo Functions::widgetOpen(array(
@@ -52,13 +50,7 @@ echo Functions::widgetOpen(array(
                 <div class="col col-10 ">                      
                     <?php if($editar["permiso"]): ?>
                     <button type="button" class="<?php echo $editar['theme']; ?> margin-top-5" title="<?php echo $editar['accion']; ?>" ><i class="<?php echo $editar['icono'];?>"></i>  <?php echo $editar['accion']; ?> </button>                    
-                    <?php endif;?>
-                    <?php if($exportarpdf["permiso"]): ?>
-                    <button type="button" class="<?php echo $exportarpdf['theme']; ?> margin-top-5" title="<?php echo $exportarpdf['accion']; ?>" ><i class="<?php echo $exportarpdf['icono'];?>"></i>  <?php echo VCOTI_6; ?>  </button>                                        
-                    <?php endif;?>                                                                                 
-                    <?php if($enviaremail["permiso"]): ?>
-                    <button type="button" class="<?php echo $enviaremail['theme']; ?> margin-top-5" title="<?php echo $enviaremail['accion']; ?>" ><i class="<?php echo $enviaremail['icono'];?>"></i>  <?php echo $enviaremail['accion']; ?>  </button>                                        
-                    <?php endif;?>                     
+                    <?php endif;?>                   
                     <?php if($eliminar["permiso"]): ?>
                     <button type="button" class="<?php echo $eliminar['theme']; ?> margin-top-5" title="<?php echo $eliminar['accion']; ?>" ><i class="<?php echo $eliminar['icono'];?>"></i>  <?php echo $eliminar['accion']; ?>  </button>                                        
                     <?php endif;?>                    

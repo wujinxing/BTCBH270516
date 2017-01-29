@@ -17,6 +17,7 @@ class mCatalogoGeneralModel extends Model{
     private $_fraccion, $_codigoBarra, $_recetaMedica;
     private $_idPresentacion, $_idLaboratorio;
     private $_idClasificacion, $_idFamilia, $_idGenerico;
+    private $_controlStock;
     
     /*para el grid*/
     public  $_iDisplayStart;
@@ -44,6 +45,7 @@ class mCatalogoGeneralModel extends Model{
         $this->_idClasificacion= Formulario::getParam(CATGR."lst_clasificacion");
         $this->_idFamilia= Formulario::getParam(CATGR."lst_familia");
         $this->_idGenerico= Formulario::getParam(CATGR."lst_generico");
+        $this->_controlStock = (Formulario::getParam(CATGR."chk_stock")==''?'N':'S');
         
         $this->_iDisplayStart  = Formulario::getParam("iDisplayStart"); 
         $this->_iDisplayLength = Formulario::getParam("iDisplayLength"); 
@@ -53,7 +55,7 @@ class mCatalogoGeneralModel extends Model{
     
     /*data para el grid: MCatalogoGeneral*/
     public function getMCatalogoGeneral(){
-        $aColumns       =   array("id_catalogo","nombre","concentracion","presentacion","laboratorio","fraccion","receta_medica" ); //para la ordenacion y pintado en html
+        $aColumns       =   array("id_catalogo","nombre","concentracion","presentacion","laboratorio","fraccion","receta_medica","estado"); //para la ordenacion y pintado en html
         /*
 	 * Ordenando, se verifica por que columna se ordenara
 	 */
@@ -80,7 +82,7 @@ class mCatalogoGeneralModel extends Model{
     
     /*grabar nuevo registro: MCatalogoGeneral*/
     public function newMCatalogoGeneral(){
-        $query = "call sp_compraCatalogoGralMantenimiento(:flag,:key,:nom,:conc,:frac,:cbarra,:receta,:idPre,:idLab,:idCla,:idFam,:idGen,:usuario);";
+        $query = "call sp_compraCatalogoGralMantenimiento(:flag,:key,:nom,:conc,:frac,:cbarra,:receta,:idPre,:idLab,:idCla,:idFam,:idGen,:cStock,:usuario);";
         $parms = array(
             ':flag' => 1,
             ':key' => '',
@@ -94,6 +96,7 @@ class mCatalogoGeneralModel extends Model{
             ':idCla' => $this->_idClasificacion, 
             ':idFam' => $this->_idFamilia, 
             ':idGen' => $this->_idGenerico, 
+            ':cStock' =>$this->_controlStock,
             ':usuario' => $this->_usuario
         );
         $data = $this->queryOne($query,$parms);
@@ -104,7 +107,7 @@ class mCatalogoGeneralModel extends Model{
     public function findMCatalogoGeneral(){
         $query = "SELECT
             `id_catalogo`,`id_laboratorio`,`nombre`,`concentracion`,`fraccion`,`id_presentacion`,`id_clasificacion`,
-            `id_familia`,`id_generico`,`codigo_barras`,`receta_medica`
+            `id_familia`,`id_generico`,`codigo_barras`,`receta_medica`,`control_stock`
           FROM `lgk_catalogogral` WHERE `id_catalogo` =  :id; ";
         
         $parms = array(
@@ -116,7 +119,7 @@ class mCatalogoGeneralModel extends Model{
     
     /*editar registro: MCatalogoGeneral*/
     public function editMCatalogoGeneral(){
-        $query = "call sp_compraCatalogoGralMantenimiento(:flag,:key,:nom,:conc,:frac,:cbarra,:receta,:idPre,:idLab,:idCla,:idFam,:idGen,:usuario);";
+        $query = "call sp_compraCatalogoGralMantenimiento(:flag,:key,:nom,:conc,:frac,:cbarra,:receta,:idPre,:idLab,:idCla,:idFam,:idGen,:cStock,:usuario);";
         $parms = array(
             ':flag' => 2,
             ':key' => $this->_idMCatalogoGeneral,
@@ -129,7 +132,8 @@ class mCatalogoGeneralModel extends Model{
             ':idLab' => $this->_idLaboratorio, 
             ':idCla' => $this->_idClasificacion, 
             ':idFam' => $this->_idFamilia, 
-            ':idGen' => $this->_idGenerico, 
+            ':idGen' => $this->_idGenerico,
+            ':cStock' =>$this->_controlStock,
             ':usuario' => $this->_usuario
         );
         $data = $this->queryOne($query,$parms);
@@ -138,7 +142,7 @@ class mCatalogoGeneralModel extends Model{
     
     /*eliminar varios registros: MCatalogoGeneral*/
     public function deleteMCatalogoGeneral(){
-       $query = "call sp_compraCatalogoGralMantenimiento(:flag,:key,:nom,:conc,:frac,:cbarra,:receta,:idPre,:idLab,:idCla,:idFam,:idGen,:usuario);";
+       $query = "call sp_compraCatalogoGralMantenimiento(:flag,:key,:nom,:conc,:frac,:cbarra,:receta,:idPre,:idLab,:idCla,:idFam,:idGen,:cStock,:usuario);";
         $parms = array(
             ':flag' => 3,
             ':key' => $this->_idMCatalogoGeneral,
@@ -152,6 +156,7 @@ class mCatalogoGeneralModel extends Model{
             ':idCla' => '',
             ':idFam' => '',
             ':idGen' => '',
+            ':cStock' => '',
             ':usuario' => $this->_usuario
         );
         $data = $this->queryOne($query,$parms);

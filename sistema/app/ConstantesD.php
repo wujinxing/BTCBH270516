@@ -42,5 +42,6 @@ define("FAM","FAM");             /*tab modulo MFAMILIA*/
 define("GENER","GENER");             /*tab modulo MGENERICOS*/
 define("CLASF","CLASF");             /*tab modulo MCLASIFICACION*/
 define("CATGR","CATGR");             /*tab modulo MCATALOGOGENERAL*/
+define("PROVV","PROVV");             /*tab modulo MPROVEEDOR*/
 
 ?>

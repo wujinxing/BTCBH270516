@@ -282,7 +282,7 @@ define('LABEL_RV4','Empresa');
 define('LABEL_RV5','RUC');
 define('LABEL_RV5M','Ingrese el RUC de la persona');
 define('LABEL_RV6','Ingrese nombre y apellidos');
-define('LABEL_RV7','Ingrese el nombre de la empresa o negocio del cliente');
+define('LABEL_RV7','Ingrese el nombre comercial de la empresa o negocio');
 define('LABEL_RV9','Dirección');
 define('LABEL_RV10','E-mail');
 define('LABEL_RV11','Ingresar dirección');
@@ -308,6 +308,8 @@ define('LABEL_RV44','Usuario');
 define('LABEL_RV44M','Este es su Usuario con el cual ingresa al Sistema');
 define('LABEL_RV45','Colaborador?');
 define('LABEL_RV46','Proveedor?');
+define('LABEL_RV47','Razon Social');
+define('LABEL_RV47M','Ingrese la razon social de la empresa');
 
 define('LABEL_A160','Registro de Persona');
 define('LABEL_A161','Nueva Persona');
@@ -663,6 +665,7 @@ define('CATGR_11','Genérico');
 define('CATGR_12','Receta Medica');
 define('CATGR_13','Código Barras');
 define('CATGR_13M','Ingrese el código de barras del producto para su busqueda');
+define('CATGR_14','Control Stock');
 
 /* Otros */
 define('ERRBD_01', 'Listado de Errores en la Base de Datos');
